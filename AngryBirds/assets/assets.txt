@@ -1,0 +1,14 @@
+background.jpg
+button.png
+font/font2.fnt
+font/w_0.png
+font/w_1.png
+libgdx.png
+theme_song_for_game.mp3
+ui/font-list.fnt
+ui/font-subtitle.fnt
+ui/font-window.fnt
+ui/font.fnt
+ui/uiskin.atlas
+ui/uiskin.json
+ui/uiskin.png
