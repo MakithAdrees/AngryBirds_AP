@@ -2,8 +2,8 @@
 
 ## Contributors
 
-- **Arhan Jain** - Roll No: 2023118
-- **Nihal** - Roll No: 2023345
+- **Arhan Jain** - Roll No: 2023118, MakithAdrees
+- **Nihal** - Roll No: 2023345, GolDRoger69
 
 ---
 
@@ -35,4 +35,6 @@ Admin functionality from the original UML has been removed. <br>
 To start the game open the AngryBirds folder in some IDLE, and follow the following path : <br>
 `lwjl3 -> src -> main -> java -> com.angrybirds.game.lwjgl3 -> Lwjgl3Launcher` <br>
 Proceed to launch the game by running the executable file. <br>
+<br>
+`Repository Link :` https://github.com/MakithAdrees/AngryBirds_AP.git <br>
 
