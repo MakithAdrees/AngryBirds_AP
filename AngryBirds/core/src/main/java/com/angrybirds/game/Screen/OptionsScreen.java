@@ -5,16 +5,25 @@ import com.angrybirds.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import static java.lang.foreign.MemorySegment.NULL;
 
 public class OptionsScreen implements Screen {
 
@@ -23,63 +32,92 @@ public class OptionsScreen implements Screen {
     private Viewport gameport;
     private Texture backgroundTexture;
     private Stage stage;
-    private TextButton PlayButton, FeedbackButton, MusicButton, Exitbutton;
+//    private TextButton FeedbackButton, MusicButton, backButton;
+    private Levels lev;
+    private ImageButton PlayButton, faq, musicon, musicoff, back;
     private Music theme;
     private BitmapFont font; // Store the font
-    private Texture buttonTexture; // Store the button texture
+    private Texture buttonTexture, pressTexture; // Store the button texture
 
-    public OptionsScreen(Main game, BitmapFont font, Texture buttonTexture, Texture backgroundTexture, Music theme, OrthographicCamera gamecam, Viewport gameport) {
+    public OptionsScreen(Main game, Texture buttonTexture, Texture pressTexture, Music theme, OrthographicCamera gamecam, Viewport gameport) {
         this.game = game;
-        this.font = font; // Assign the passed font
-        this.buttonTexture = buttonTexture; // Assign the passed button texture
-        this.backgroundTexture = backgroundTexture;
+        this.buttonTexture = buttonTexture;
+        this.pressTexture = pressTexture;
+//        Texture bgs = ;
+
+        backgroundTexture = game.assetManager.get("optionscreenbg.png", Texture.class);
         this.theme = theme;
         this.gamecam = gamecam;
         this.gameport = gameport;
 
         stage = new Stage(gameport);
 
-        // Create button styles using the passed font and button texture
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.up = new TextureRegionDrawable(buttonTexture);
-        buttonStyle.down = new TextureRegionDrawable(buttonTexture);
-        buttonStyle.font = font;
+        Texture bac = game.assetManager.get("quit.png", Texture.class);
+        TextureRegion b = new TextureRegion(bac);
+        TextureRegionDrawable b2 = new TextureRegionDrawable(b);
+        back = new ImageButton(b2);
+        back.setPosition((gameport.getWorldWidth()) - 150, (gameport.getWorldHeight()) - 150);
+        back.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MainScreen(game));  // Go back to MainScreen
+            }
+        });
+        stage.addActor(back);
 
-        // Create the buttons
-        PlayButton = new TextButton("Play", buttonStyle);
-        FeedbackButton = new TextButton("Feedback", buttonStyle);
-        MusicButton = new TextButton("Music On/Off", buttonStyle);
-        Exitbutton = new TextButton("Exit", buttonStyle);
+        Texture play = game.assetManager.get("play.png", Texture.class);
+        TextureRegion t = new TextureRegion(play);
+        TextureRegionDrawable t2 = new TextureRegionDrawable(t);
+        PlayButton = new ImageButton(t2);
+        Texture f = game.assetManager.get("faq.png", Texture.class);
+        TextureRegion f1 = new TextureRegion(f);
+        TextureRegionDrawable f2 = new TextureRegionDrawable(f1);
+        faq = new ImageButton(f2);
+
+        Texture mon = game.assetManager.get("musicon.png", Texture.class);
+        TextureRegion mon1 = new TextureRegion(mon);
+        TextureRegionDrawable mon2 = new TextureRegionDrawable(mon1);
+        musicon = new ImageButton(mon2);
+        Texture mof = game.assetManager.get("musicoff.png",Texture.class);
+        TextureRegion mof1 = new TextureRegion(mof);
+        TextureRegionDrawable mof2 = new TextureRegionDrawable(mof1);
+        musicoff = new ImageButton(mof2);
+//        Exitbutton = new TextButton("Exit", buttonStyle);
 
 
-        // Set button sizes and positions
-        PlayButton.setSize(120, 80);
-        FeedbackButton.setSize(190, 80);
-        MusicButton.setSize(270, 80);
-        Exitbutton.setSize(120, 80);
-
-
-        PlayButton.setPosition((gameport.getWorldWidth() - PlayButton.getWidth()) / 2, (gameport.getWorldHeight() / 2 )+160);
-        FeedbackButton.setPosition((gameport.getWorldWidth() - FeedbackButton.getWidth()) / 2 , (gameport.getWorldHeight() / 2) +60);
-        MusicButton.setPosition(((gameport.getWorldWidth() - MusicButton.getWidth()) / 2) , (gameport.getWorldHeight() / 2 )- 40);
-        Exitbutton.setPosition(((gameport.getWorldWidth() - Exitbutton.getWidth()) / 2 ), (gameport.getWorldHeight() / 2) - 140);
+        PlayButton.setPosition((gameport.getWorldWidth() - PlayButton.getWidth()) / 2, (gameport.getWorldHeight() / 2 )-200);
+        faq.setPosition(gameport.getWorldWidth() -130, 30);
+        musicon.setPosition(30 , gameport.getWorldHeight() - 110);
+        musicoff.setPosition(30, gameport.getWorldHeight() - 110);
+//        Exitbutton.setPosition(((gameport.getWorldWidth() - Exitbutton.getWidth()) / 2 ), (gameport.getWorldHeight() / 2) - 140);
 
         // Add button click listeners
         PlayButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Play button clicked in Options Screen!");
+                game.setScreen(new Levels(game, buttonTexture, pressTexture, theme, gamecam, gameport));
             }
         });
 
-        FeedbackButton.addListener(new ClickListener() {
+        faq.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Feedback button clicked in Options Screen!");
             }
         });
 
-        MusicButton.addListener(new ClickListener() {
+        musicon.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Music button clicked in Options Screen!");
+                if (theme.isPlaying()){
+                    theme.pause();
+                    musicon.remove();
+                    stage.addActor(musicoff);}
+            }
+        });
+        musicoff.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Music button clicked in Options Screen!");
@@ -88,24 +126,22 @@ public class OptionsScreen implements Screen {
                 }
                 else{
                     theme.play();
+                    musicoff.remove();
+                    stage.addActor(musicon);
                 }
             }
         });
 
-        Exitbutton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Exit Button Clicked in Options Screen!");
-                theme.dispose();
-                game.setScreen(new MainScreen(game));
-            }
-        });
+
 
         // Add elements to the stage
         stage.addActor(PlayButton);
-        stage.addActor(FeedbackButton);
-        stage.addActor(MusicButton);
-        stage.addActor(Exitbutton);
+        stage.addActor(faq);
+        if (theme.isPlaying())
+            stage.addActor(musicon);
+        else
+            stage.addActor(musicoff);
+//        stage.addActor(Exitbutton);
 
         // Set input processor to handle button clicks
         Gdx.input.setInputProcessor(stage);
@@ -137,6 +173,9 @@ public class OptionsScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         gameport.update(width, height);
+        gamecam.position.set(gameport.getWorldWidth() / 2, gameport.getWorldHeight() / 2, 0);
+        gamecam.update();
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -152,6 +191,6 @@ public class OptionsScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        theme.dispose();
     }
 }
