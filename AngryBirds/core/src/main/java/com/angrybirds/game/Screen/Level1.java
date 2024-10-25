@@ -264,7 +264,7 @@ public class Level1 implements Screen {
         //game.batch.draw(Red.BirdModel, 150, 300);
 
         game.batch.draw(slingshot.CatapultModel, 180, 130, slingshot.CatapultModel.getWidth() + 20, slingshot.CatapultModel.getHeight() + 20);
-        game.batch.draw(Red.BirdModel, 200, 272, slingshot.CatapultModel.getWidth() - 10, slingshot.CatapultModel.getHeight() - 120);
+        game.batch.draw(Red.BirdModel, 201, 272, slingshot.CatapultModel.getWidth() - 10, slingshot.CatapultModel.getHeight() - 120);
         game.batch.draw(Chuck.BirdModel, 140, 130, slingshot.CatapultModel.getWidth() - 10, slingshot.CatapultModel.getHeight() - 120);
         game.batch.draw(Bomb.BirdModel, 70, 130, slingshot.CatapultModel.getWidth() - 5, slingshot.CatapultModel.getHeight() - 110);
 
