@@ -1,6 +1,8 @@
+Blue.png
 Bomb.png
 Chuck.png
 Red.png
+Terrance.png
 angrybirdsbg.jpg
 back.png
 background.jpg

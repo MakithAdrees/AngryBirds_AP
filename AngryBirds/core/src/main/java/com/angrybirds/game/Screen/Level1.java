@@ -1,6 +1,14 @@
 package com.angrybirds.game.Screen;
 
+import com.angrybirds.game.Birds.Red;
+import com.angrybirds.game.Birds.Chuck;
+import com.angrybirds.game.Birds.Bomb;
+import com.angrybirds.game.Extras.Catapult;
+
+
 import com.angrybirds.game.Main;
+import com.angrybirds.game.Pigs.MoustachePig;
+import com.angrybirds.game.Pigs.NormalPigs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -24,14 +32,28 @@ public class Level1 implements Screen {
     private Viewport gameport;
     private Stage stage;
     private Music theme;
+    private Red Red;
+    private Chuck Chuck;
+    private Bomb Bomb;
+    private Catapult slingshot;
+    private NormalPigs minion;
+    private MoustachePig foreman;
 
     public Level1(Main game, Texture buttonTexture, Texture pressTexture, Music a, OrthographicCamera cam, Viewport port){
         this.game = game;
         this.gamecam = new OrthographicCamera();
         this.gameport = new StretchViewport(1820, 980, gamecam);
 
-        bg = game.assetManager.get("level1screen.png", Texture.class);
+        bg = game.assetManager.get("gameplay_background.jpg", Texture.class);
         theme = game.assetManager.get("gameplaymusic.mp3", Music.class);
+
+        Red = new Red();
+        Chuck = new Chuck();
+        Bomb = new Bomb();
+        slingshot = new Catapult();
+//        minion = new NormalPigs();
+//        foreman = new MoustachePig();
+
 
         stage = new Stage(new StretchViewport(1820, 980));
 
@@ -95,6 +117,7 @@ public class Level1 implements Screen {
         stage.addActor(musicon);
         musicon.setVisible(false);
 
+
         pause.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 if (pausemenu.isVisible()) {
@@ -118,6 +141,7 @@ public class Level1 implements Screen {
 
 
 
+
         musicon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -126,6 +150,7 @@ public class Level1 implements Screen {
                     theme.pause();
                     musicon.remove();
                     stage.addActor(musicoff);}}});
+
         musicoff.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -136,6 +161,7 @@ public class Level1 implements Screen {
                     theme.play();
                     musicoff.remove();
                     stage.addActor(musicon);}}});
+
         resume.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 pausemenu.setVisible(false);
@@ -145,6 +171,7 @@ public class Level1 implements Screen {
                 menu.setVisible(false);
                 musicoff.setVisible(false);
                 musicon.setVisible(false);}});
+
         restart.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 pausemenu.setVisible(false);
@@ -154,9 +181,11 @@ public class Level1 implements Screen {
                 menu.setVisible(false);
                 musicoff.setVisible(false);
                 musicon.setVisible(false);}});
+
         menu.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 game.setScreen(new Levels(game, buttonTexture, pressTexture, a, cam, port));}});
+
         save.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 game.setScreen(new Levels(game, buttonTexture, pressTexture, a, cam, port));}});
@@ -230,6 +259,16 @@ public class Level1 implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         game.batch.draw(bg, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
+
+        //game.batch.draw(Red.BirdModel, 150, 300);
+
+        game.batch.draw(slingshot.CatapultModel, 180, 130, slingshot.CatapultModel.getWidth() + 20, slingshot.CatapultModel.getHeight() + 20);
+        game.batch.draw(Red.BirdModel, 200, 272, slingshot.CatapultModel.getWidth() - 10, slingshot.CatapultModel.getHeight() - 120);
+        game.batch.draw(Chuck.BirdModel, 145, 130, slingshot.CatapultModel.getWidth() - 10, slingshot.CatapultModel.getHeight() - 120);
+        game.batch.draw(Bomb.BirdModel, 75, 130, slingshot.CatapultModel.getWidth() - 5, slingshot.CatapultModel.getHeight() - 110);
+
+
+
         game.batch.end();
 
         stage.act(v);

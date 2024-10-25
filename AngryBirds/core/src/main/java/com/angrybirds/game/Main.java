@@ -26,7 +26,9 @@ public class Main extends Game {
         assetManager.load("replay.png", Texture.class);
         assetManager.load("levelsmenu.png", Texture.class);
 
-        assetManager.load("level1screen.png", Texture.class);
+        assetManager.load("Red.png", Texture.class);
+
+        assetManager.load("gameplay_background.jpg", Texture.class);
         assetManager.load("pausescreen.png", Texture.class);
         assetManager.load("victory.png", Texture.class);
         assetManager.load("optionscreenbg.png", Texture.class);

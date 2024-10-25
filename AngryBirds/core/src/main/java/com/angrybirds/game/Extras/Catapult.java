@@ -6,8 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Catapult {
     public float Velocity;
-    private Texture CatapultModel;
+    public Texture CatapultModel;
     private Music CatapultSound;
+
+    public Catapult(){
+        this.CatapultModel = new Texture("slingshot.png");
+    }
 
     public void Bird_menu() {
         return;}
