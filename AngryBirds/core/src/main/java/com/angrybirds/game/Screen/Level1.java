@@ -50,6 +50,7 @@ public class Level1 implements Screen {
         Red = new Red();
         Chuck = new Chuck();
         Bomb = new Bomb();
+
         slingshot = new Catapult();
 //        minion = new NormalPigs();
 //        foreman = new MoustachePig();
