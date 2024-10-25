@@ -1,6 +1,8 @@
 Blue.png
 Bomb.png
 Chuck.png
+MoustachePig_Healthy.png
+NormalPig_Healthy.png
 Red.png
 Terrance.png
 angrybirdsbg.jpg
@@ -21,6 +23,7 @@ font/w_0.png
 font/w_1.png
 gameplay_background.jpg
 gameplaymusic.mp3
+glass_horizontal_stick.png
 icon.png
 level1.png
 level1screen.png
@@ -46,6 +49,7 @@ replay.png
 save.png
 signup.png
 slingshot.png
+stone_horizontal_stick.png
 structure.png
 ui/font-list.fnt
 ui/font-subtitle.fnt
@@ -55,3 +59,4 @@ ui/uiskin.atlas
 ui/uiskin.json
 ui/uiskin.png
 victory.png
+wood_vertical_stick.png

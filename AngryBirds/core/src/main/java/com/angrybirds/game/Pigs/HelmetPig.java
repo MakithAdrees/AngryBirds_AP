@@ -3,7 +3,7 @@ package com.angrybirds.game.Pigs;
 import com.badlogic.gdx.graphics.Texture;
 
 public class HelmetPig extends Pig {
-    private Texture Healthy, Hurt;
+    public Texture Healthy, Hurt;
 
     public HelmetPig(){
         this.Healthy = new Texture("HelmetPig_Healthy.png");

@@ -4,6 +4,10 @@ import com.angrybirds.game.Birds.Red;
 import com.angrybirds.game.Birds.Chuck;
 import com.angrybirds.game.Birds.Bomb;
 import com.angrybirds.game.Extras.Catapult;
+import com.angrybirds.game.Blocks.Glass;
+import com.angrybirds.game.Blocks.Wood;
+import com.angrybirds.game.Blocks.Stone;
+
 
 
 import com.angrybirds.game.Main;
@@ -38,6 +42,9 @@ public class Level1 implements Screen {
     private Catapult slingshot;
     private NormalPigs minion;
     private MoustachePig foreman;
+    private Glass glass;
+    private Wood wood;
+    private Stone stone;
 
     public Level1(Main game, Texture buttonTexture, Texture pressTexture, Music a, OrthographicCamera cam, Viewport port){
         this.game = game;
@@ -52,8 +59,12 @@ public class Level1 implements Screen {
         Bomb = new Bomb();
 
         slingshot = new Catapult();
-//        minion = new NormalPigs();
-//        foreman = new MoustachePig();
+        minion = new NormalPigs();
+        foreman = new MoustachePig();
+
+        glass = new Glass();
+        stone = new Stone();
+        wood = new Wood();
 
 
         stage = new Stage(new StretchViewport(1820, 980));
@@ -267,6 +278,20 @@ public class Level1 implements Screen {
         game.batch.draw(Red.BirdModel, 201, 272, slingshot.CatapultModel.getWidth() - 10, slingshot.CatapultModel.getHeight() - 120);
         game.batch.draw(Chuck.BirdModel, 140, 130, slingshot.CatapultModel.getWidth() - 10, slingshot.CatapultModel.getHeight() - 120);
         game.batch.draw(Bomb.BirdModel, 70, 130, slingshot.CatapultModel.getWidth() - 5, slingshot.CatapultModel.getHeight() - 110);
+
+        game.batch.draw(wood.vertical_stick, 1300, 130, wood.vertical_stick.getWidth() - 90, wood.vertical_stick.getHeight() + 20);
+        game.batch.draw(wood.vertical_stick, 1500, 130, wood.vertical_stick.getWidth() - 90, wood.vertical_stick.getHeight() + 20);
+        game.batch.draw(stone.horizontal_stick,1280,370, stone.horizontal_stick.getWidth() , stone.horizontal_stick.getHeight() - 50);
+
+
+        game.batch.draw(minion.Healthy, 1355, 375, slingshot.CatapultModel.getWidth() - 5, slingshot.CatapultModel.getHeight() - 110);
+
+        game.batch.draw(wood.vertical_stick, 1300, 370 + stone.horizontal_stick.getHeight() - 50, wood.vertical_stick.getWidth() - 90, wood.vertical_stick.getHeight() + 20);
+        game.batch.draw(wood.vertical_stick, 1500, 370 + stone.horizontal_stick.getHeight() - 50, wood.vertical_stick.getWidth() - 90, wood.vertical_stick.getHeight() + 20);
+        game.batch.draw(glass.horizontal_stick,1280,620, glass.horizontal_stick.getWidth() , glass.horizontal_stick.getHeight() - 50);
+
+        game.batch.draw(foreman.Healthy, 1355, 630, slingshot.CatapultModel.getWidth() - 2, slingshot.CatapultModel.getHeight() - 100);
+
 
 
 
