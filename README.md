@@ -2,8 +2,8 @@
 
 ## Contributors
 
-- **Arhan Jain** - Roll No: 2023118, MakithAdrees
-- **Nihal** - Roll No: 2023345, GolDRoger69
+- **Arhan Jain** - Roll No: 2023118
+- **Nihal** - Roll No: 2023345
 
 ---
 
