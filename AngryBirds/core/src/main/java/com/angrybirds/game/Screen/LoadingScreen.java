@@ -18,15 +18,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 //import java.awt.Color;
 
 public class LoadingScreen extends ScreenAdapter {
-    private Stage stage;
-    private ProgressBar progressBar;
+    private final Stage stage;
+    private final ProgressBar progressBar;
     private float loadingTime;
-    private float maxLoadingTime = 2f; // 5 seconds
+    private final float maxLoadingTime = 2f; // 5 seconds
 
-    private Main game;
-    private OrthographicCamera gamecam;
-    private Texture bg;
-    private Viewport gameport;
+    private final Main game;
+    private final OrthographicCamera gamecam;
+    private final Texture bg;
+    private final Viewport gameport;
 
     public LoadingScreen(Main game) {
         this.game = game;
@@ -54,17 +54,15 @@ public class LoadingScreen extends ScreenAdapter {
         game.batch.begin();
         game.batch.draw(bg, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
         game.batch.end();
-        // Update loading time and progress bar
+
         loadingTime += delta;
         progressBar.setValue(Math.min(loadingTime / maxLoadingTime, 1f));
 
-        // Draw the stage (with the progress bar)
         stage.act();
         stage.draw();
 
-        // After 5 seconds, switch to the next screen
         if (loadingTime >= maxLoadingTime) {
-            game.setScreen(new MainScreen(game)); // Replace with your actual next screen
+            game.setScreen(new MainScreen(game, gamecam, gameport));
         }
     }
 
@@ -83,7 +81,6 @@ public class LoadingScreen extends ScreenAdapter {
     }
 
     private ProgressBarStyle createCustomProgressBarStyle() {
-        // Create a brown background rectangle with curved corners
         Pixmap pixmapBackground = new Pixmap(1200, 50, Pixmap.Format.RGBA8888);
         pixmapBackground.setColor(0.55f, 0.27f, 0.07f, 1f);
         pixmapBackground.fillRectangle(0, 0, 1200, 50);
@@ -101,7 +98,6 @@ public class LoadingScreen extends ScreenAdapter {
         Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
         Drawable loaderDrawable = new TextureRegionDrawable(new TextureRegion(loaderTexture));
 
-        // Create and return a ProgressBarStyle using the custom drawables
         ProgressBarStyle progressBarStyle = new ProgressBarStyle();
         progressBarStyle.background = backgroundDrawable;
         progressBarStyle.knobBefore = loaderDrawable;

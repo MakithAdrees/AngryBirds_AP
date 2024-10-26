@@ -27,17 +27,17 @@ import static java.lang.foreign.MemorySegment.NULL;
 
 public class OptionsScreen implements Screen {
 
-    private Main game;
-    private OrthographicCamera gamecam;
-    private Viewport gameport;
-    private Texture backgroundTexture;
-    private Stage stage;
+    private final Main game;
+    private final OrthographicCamera gamecam;
+    private final Viewport gameport;
+    private final Texture backgroundTexture;
+    private final Stage stage;
 //    private TextButton FeedbackButton, MusicButton, backButton;
     private Levels lev;
-    private ImageButton PlayButton, faq, musicon, musicoff, back;
-    private Music theme;
-    private BitmapFont font; // Store the font
-    private Texture buttonTexture, pressTexture; // Store the button texture
+    private final ImageButton PlayButton, faq, musicon, musicoff, back;
+    private final Music theme;
+    private  BitmapFont font;
+    private final Texture buttonTexture, pressTexture;
 
     public OptionsScreen(Main game, Texture buttonTexture, Texture pressTexture, Music theme, OrthographicCamera gamecam, Viewport gameport) {
         this.game = game;
@@ -60,7 +60,7 @@ public class OptionsScreen implements Screen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainScreen(game));  // Go back to MainScreen
+                game.setScreen(new MainScreen(game, gamecam, gameport));
             }
         });
         stage.addActor(back);
@@ -91,7 +91,6 @@ public class OptionsScreen implements Screen {
         musicoff.setPosition(30, gameport.getWorldHeight() - 110);
 //        Exitbutton.setPosition(((gameport.getWorldWidth() - Exitbutton.getWidth()) / 2 ), (gameport.getWorldHeight() / 2) - 140);
 
-        // Add button click listeners
         PlayButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -134,7 +133,6 @@ public class OptionsScreen implements Screen {
 
 
 
-        // Add elements to the stage
         stage.addActor(PlayButton);
         stage.addActor(faq);
         if (theme.isPlaying())
@@ -143,7 +141,6 @@ public class OptionsScreen implements Screen {
             stage.addActor(musicoff);
 //        stage.addActor(Exitbutton);
 
-        // Set input processor to handle button clicks
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -159,13 +156,12 @@ public class OptionsScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Draw the background
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
         game.batch.end();
 
-        // Draw UI elements
+
         stage.act(delta);
         stage.draw();
     }

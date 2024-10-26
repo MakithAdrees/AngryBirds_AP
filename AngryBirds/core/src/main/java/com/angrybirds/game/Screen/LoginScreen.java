@@ -20,20 +20,21 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class LoginScreen implements Screen {
 
-    private Main game;
-    private OrthographicCamera gamecam;
-    private Viewport gameport;
-    private Texture backgroundTexture;
-    private Stage stage;
-    private TextButton LoginButton, backButton;
-    private Music theme;
-    private BitmapFont font; // Store the font
-    private Texture buttonTexture, pressTexture;
+    private final Main game;
+    private final OrthographicCamera gamecam;
+    private final Viewport gameport;
+    private final Texture backgroundTexture;
+    private final Stage stage;
+    private final TextButton LoginButton, backButton;
+    private final Music theme;
+    private final BitmapFont font;
+    private final Texture buttonTexture, pressTexture;
+
 
     public LoginScreen(Main game, BitmapFont font, Texture buttonTexture, Texture pressTexture, Music theme, OrthographicCamera gamecam, Viewport gameport) {
         this.game = game;
-        this.font = font; // Assign the passed font
-        this.buttonTexture = buttonTexture; // Assign the passed button texture
+        this.font = font;
+        this.buttonTexture = buttonTexture;
         this.pressTexture = pressTexture;
         this.backgroundTexture = game.assetManager.get("login.png", Texture.class);
         this.theme = theme;
@@ -66,12 +67,10 @@ public class LoginScreen implements Screen {
         LoginButton.setPosition((gameport.getWorldWidth() - LoginButton.getWidth()) / 2, (gameport.getWorldHeight() / 2 )-350);
         backButton.setPosition((gameport.getWorldWidth()) - 150, (gameport.getWorldHeight()) - 150);
 
-        // Add button click listeners
         LoginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Signup button clicked!");
-                // Handle signup logic here
                 game.setScreen(new OptionsScreen(game, buttonTexture, pressTexture, theme, gamecam, gameport));
 
             }
@@ -80,15 +79,14 @@ public class LoginScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainScreen(game));  // Go back to MainScreen
+                game.setScreen(new MainScreen(game, gamecam, gameport));  // Go back to MainScreen
             }
         });
 
-        // Add elements to the stage
+
         stage.addActor(LoginButton);
         stage.addActor(backButton);
 
-        // Set input processor to handle button clicks
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -103,8 +101,6 @@ public class LoginScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Draw the background
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());

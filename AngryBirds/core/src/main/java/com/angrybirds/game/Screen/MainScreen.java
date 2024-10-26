@@ -22,27 +22,28 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MainScreen implements Screen {
 
-    private OrthographicCamera gamecam;
-    private Texture backgroundTexture;
-    private Main game;
-    private Viewport gameport;
-    private Stage stage;
-    private Skin skin;
-    private TextButton loginButton, signupButton;
-    private ImageButton musicon, musicoff;
-    public Music theme;
-    private Texture buttonTexture, pressTexture;
-    private BitmapFont font;
+    private final OrthographicCamera gamecam;
+    private final Texture backgroundTexture;
+    private final Main game;
+    private final Viewport gameport;
+    private final Stage stage;
+    private final Skin skin;
+    private final TextButton loginButton, signupButton;
+    private final ImageButton musicon, musicoff;
+    public final Music theme;
+    private final Texture buttonTexture, pressTexture;
+    private final BitmapFont font;
 
-    public MainScreen(Main game) {
+    public MainScreen(Main game,OrthographicCamera gamecam, Viewport gameport) {
         this.game = game;
+        this.gamecam = gamecam;
+        this.gameport = gameport;
         backgroundTexture = game.assetManager.get("angrybirdsbg.jpg", Texture.class);
         buttonTexture = game.assetManager.get("button_rectangle_flat.png", Texture.class);
         pressTexture = game.assetManager.get("button_rectangle_gloss.png", Texture.class);
-        gamecam = new OrthographicCamera();
-        gameport = new StretchViewport(1820, 980, gamecam);
+//        gamecam = new OrthographicCamera();
+//        gameport = new StretchViewport(1820, 980, gamecam);
 
-        // Create a stage for UI
         stage = new Stage(new StretchViewport(1820, 980));
 
         theme = game.assetManager.get("bad.mp3", Music.class);
@@ -80,45 +81,38 @@ public class MainScreen implements Screen {
             stage.addActor(musicoff);
         else
             stage.addActor(musicon);
-        // Load the font using the .fnt file
         font = game.assetManager.get("font/font2.fnt", BitmapFont.class);
 
-        // Create a skin for the buttons
+
         skin = new Skin();
         skin.add("font2", font);
 
-        // Create button styles using the loaded font
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         TextButton.TextButtonStyle pressStyle = new TextButton.TextButtonStyle();
-        // Scale the button texture using TextureRegion
+
         TextureRegion buttonRegion = new TextureRegion(buttonTexture);
         TextureRegion pressRegion = new TextureRegion(pressTexture);
         buttonRegion.setRegion(0, 0, buttonTexture.getWidth(), buttonTexture.getHeight());
         pressRegion.setRegion(0, 0, pressTexture.getWidth(), pressTexture.getHeight());
 
-        buttonStyle.up = new TextureRegionDrawable(buttonRegion); // Use scaled button texture
-        buttonStyle.down = new TextureRegionDrawable(pressRegion); // Use scaled button texture for pressed state
+        buttonStyle.up = new TextureRegionDrawable(buttonRegion);
+        buttonStyle.down = new TextureRegionDrawable(pressRegion);
         buttonStyle.font = font;
         buttonStyle.fontColor = Color.BLACK;
 
-        // Create buttons with the style
         loginButton = new TextButton("Login", buttonStyle);
         signupButton = new TextButton("SignUp", buttonStyle);
 
-        // Set button sizes based on the texture size (if needed)
-        loginButton.setSize(300, 100);  // Width, Height
-        signupButton.setSize(300, 100); // Width, Height
+        loginButton.setSize(300, 100);
+        signupButton.setSize(300, 100);
 
-        // Center buttons in the middle of the screen
-        loginButton.setPosition((gameport.getWorldWidth() - loginButton.getWidth()) / 2 - 250, (gameport.getWorldHeight() / 2) - 450);  // Adjust Y position for spacing
-        signupButton.setPosition((gameport.getWorldWidth() - signupButton.getWidth()) / 2 + 250, (gameport.getWorldHeight() / 2) - 450); // Adjust Y position for spacing
+        loginButton.setPosition((gameport.getWorldWidth() - loginButton.getWidth()) / 2 - 250, (gameport.getWorldHeight() / 2) - 450);
+        signupButton.setPosition((gameport.getWorldWidth() - signupButton.getWidth()) / 2 + 250, (gameport.getWorldHeight() / 2) - 450);
 
-        // Add listeners to buttons
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Login button clicked!");
-                // Handle login button logic here
                 game.setScreen(new LoginScreen(game, font, buttonTexture, pressTexture, theme, gamecam, gameport));
             }
         });
@@ -131,11 +125,9 @@ public class MainScreen implements Screen {
             }
         });
 
-        // Add buttons to the stage
         stage.addActor(loginButton);
         stage.addActor(signupButton);
 
-        // Set input processor to handle button clicks
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -149,15 +141,13 @@ public class MainScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Draw the background
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
         game.batch.end();
 
-        // Draw the stage (buttons)
         stage.act(delta);
-        stage.draw(); // Draws the buttons over the background
+        stage.draw();
     }
 
     @Override
