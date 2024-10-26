@@ -29,13 +29,13 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Level1 implements Screen {
-    private Texture bg;
-    private ImageButton pause, resume, restart, menu, save, musicon, musicoff, pausemenu, won, victoryscreen, menu2, restart2, next;
+    final Texture bg;
+    final ImageButton pause, resume, restart, menu, save, musicon, musicoff, pausemenu, won, victoryscreen, menu2, restart2, next;
     private Main game;
-    private OrthographicCamera gamecam;
-    private Viewport gameport;
-    private Stage stage;
-    private Music theme;
+    final OrthographicCamera gamecam;
+    final Viewport gameport;
+    final Stage stage;
+    final Music theme;
     private Red Red;
     private Chuck Chuck;
     private Bomb Bomb;
