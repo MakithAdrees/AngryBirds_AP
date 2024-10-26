@@ -50,7 +50,6 @@ save.png
 signup.png
 slingshot.png
 stone_horizontal_stick.png
-structure.png
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt
