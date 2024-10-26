@@ -186,6 +186,9 @@ public class Level1 implements Screen {
 
         restart.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
+                dispose();
+                theme.dispose();
+                theme.play();
                 pausemenu.setVisible(false);
                 resume.setVisible(false);
                 restart.setVisible(false);
@@ -327,7 +330,7 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
-        bg.dispose();
-        stage.dispose();
+//        bg.dispose();
+//        stage.dispose();
     }
 }
