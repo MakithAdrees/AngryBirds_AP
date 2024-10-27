@@ -21,7 +21,7 @@ public class LoadingScreen extends ScreenAdapter {
     private final Stage stage;
     private final ProgressBar progressBar;
     private float loadingTime;
-    private final float maxLoadingTime = 2f; // 5 seconds
+    private final float maxLoadingTime = 2f;
 
     private final Main game;
     private final OrthographicCamera gamecam;

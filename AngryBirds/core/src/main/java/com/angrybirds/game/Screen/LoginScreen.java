@@ -60,7 +60,6 @@ public class LoginScreen implements Screen {
 
         backButton = new TextButton("", buttStyle);
 
-        // Set button sizes and positions
         LoginButton.setSize(500, 120);
         backButton.setSize(120, 120);
 
@@ -79,7 +78,7 @@ public class LoginScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainScreen(game, gamecam, gameport));  // Go back to MainScreen
+                game.setScreen(new MainScreen(game, gamecam, gameport));
             }
         });
 
@@ -106,7 +105,6 @@ public class LoginScreen implements Screen {
         game.batch.draw(backgroundTexture, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
         game.batch.end();
 
-        // Draw UI elements
         stage.act(delta);
         stage.draw();
     }
