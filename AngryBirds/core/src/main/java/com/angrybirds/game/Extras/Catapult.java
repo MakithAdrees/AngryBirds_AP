@@ -1,24 +1,26 @@
 package com.angrybirds.game.Extras;
 
 import com.angrybirds.game.Birds.Bird;
+import com.angrybirds.game.Main;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.ArrayList;
+
 public class Catapult {
-    public float Velocity;
-    public Texture CatapultModel;
-    private Music CatapultSound;
+    static public float Velocity;
+    static public Texture CatapultModel = new Texture("slingshot.png");
+    static private Music CatapultSound;
 
-    public Catapult(){
-        this.CatapultModel = new Texture("slingshot.png");
-    }
+    static public void Place_Catapult(Main game){
+        game.batch.draw(CatapultModel, 180, 130, CatapultModel.getWidth() + 20, CatapultModel.getHeight() + 20);}
 
-    public void Bird_menu() {
+    static public void Bird_menu(ArrayList<Bird> available_birds) {
         return;}
 
-    public void Bird_Launch(Bird bird){
+    static public void Bird_Launch(Bird bird){
         return;}
 
-    public void Aim(){
+    static public void Aim(){
         return;}
 }
