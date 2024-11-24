@@ -1,23 +1,24 @@
 package com.angrybirds.game.Birds;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Blues extends Bird implements SpecialAbility {
 
     private String Name;
     private int Mass;
-    private float Velocity;
+
     public Texture BirdModel;
     private Music BirdSound;
 
-    public Blues() {
-        this.Name = "Blues";
-        this.Mass = 10;
-        this.Velocity = 10;
-        this.BirdModel = new Texture("Blue.png");
-//        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("BluesSound.mp3"));
-        BirdList.add(this);
+    public Blues(World wrld, Vector2 pos) {
+        super(wrld, pos, new Texture("Red.png"), 10, "Red");
+//        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("RedSound.mp3"));
     }
+
     public void SpecialAbility() {
-        return;}
+        return;
+    }
 }
+

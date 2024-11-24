@@ -3,17 +3,18 @@ package com.angrybirds.game.Pigs;
 import com.badlogic.gdx.graphics.Texture;
 
 public class KingPig extends Pig {
-    public Texture Healthy, Hurt;
 
-    public KingPig(){
-        this.Healthy = new Texture("KingPig_Healthy.png");
-        this.Hurt = new Texture("KingPig_Hurt.png");
-    }
-    public void KingDead() {
-        return;
+    public KingPig() {
+        super(100.0f, 1.0f, new Texture("KingPig_Healthy.png"), new Texture("KingPig_hurt.png"));
     }
 
-    public void Change_Pig_Image(Pig pig) {
-        return;
+    @Override
+    public void PigRIP() {
+        System.out.println("King pig has died!");
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }

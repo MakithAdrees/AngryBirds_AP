@@ -13,6 +13,7 @@ public class Main extends Game {
     public SpriteBatch batch;
     public AssetManager assetManager;
 
+
     @Override
     public void create(){
         batch = new SpriteBatch();
@@ -58,6 +59,9 @@ public class Main extends Game {
 //        assetManager.load("ang.tff", BitmapFont.class);
         assetManager.load("font/w_0.png", Texture.class);
         assetManager.load("font/w_1.png", Texture.class);
+        assetManager.load("glass_horizontal_stick.png", Texture.class);
+        assetManager.load("wood_vertical_stick.png", Texture.class);
+        assetManager.load("stone_horizontal_stick.png", Texture.class);
         assetManager.finishLoading();
 
         setScreen(new LoadingScreen(this));

@@ -1,6 +1,8 @@
 package com.angrybirds.game.Birds;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Bomb extends Bird implements SpecialAbility {
     private String Name;
@@ -9,13 +11,10 @@ public class Bomb extends Bird implements SpecialAbility {
     public Texture BirdModel;
     private Music BirdSound;
 
-    public Bomb() {
-        this.Name = "Bomb";
-        this.Mass = 10;
-        this.Velocity = 10;
+    public Bomb(World wrld, Vector2 pos){
+        super(wrld, pos, new Texture("Bomb.png"),10, "Bomb");
         this.BirdModel = new Texture("Bomb.png");
-//        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("BombSound.mp3"));
-        BirdList.add(this);
+//        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("BombSound.mp3")
     }
     public void SpecialAbility() {
         return;}

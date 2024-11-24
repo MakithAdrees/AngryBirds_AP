@@ -1,22 +1,17 @@
 package com.angrybirds.game.Birds;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Terrance extends Bird implements SpecialAbility {
-    private String Name;
-    private int Mass;
-    private float Velocity;
-    public Texture BirdModel;
-    private Music BirdSound;
 
-    public Terrance() {
-        this.Name = "Terrance";
-        this.Mass = 10;
-        this.Velocity = 10;
-        this.BirdModel = new Texture("Terrance.png");
+    public Terrance(World wrld, Vector2 pos){
+        super(wrld, pos, new Texture("Terrance.png"),10, "Red");
+
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("TerranceSound.mp3"));
-        BirdList.add(this);
     }
+    @Override
     public void SpecialAbility() {
         return;}
 }
