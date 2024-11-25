@@ -12,7 +12,7 @@ import com.badlogic.gdx.audio.Music;
 public class Main extends Game {
     public SpriteBatch batch;
     public AssetManager assetManager;
-
+    public boolean musicOn = true;
 
     @Override
     public void create(){

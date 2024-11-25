@@ -32,8 +32,6 @@ public class OptionsScreen implements Screen {
     private final Viewport gameport;
     private final Texture backgroundTexture;
     private final Stage stage;
-//    private TextButton FeedbackButton, MusicButton, backButton;
-    private Levels lev;
     private final ImageButton PlayButton, faq, musicon, musicoff, back;
     private final Music theme;
 
@@ -43,7 +41,6 @@ public class OptionsScreen implements Screen {
         this.theme = game.assetManager.get("bad.mp3", Music.class);
         this.gamecam = gamecam;
         this.gameport = gameport;
-
         stage = new Stage(gameport);
 
         Texture bac = game.assetManager.get("quit.png", Texture.class);
@@ -54,9 +51,7 @@ public class OptionsScreen implements Screen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                game.setScreen(new MainScreen(game, gamecam, gameport));
-            }
-        });
+                Gdx.app.exit();}});
         stage.addActor(back);
 
         Texture play = game.assetManager.get("play.png", Texture.class);
@@ -89,15 +84,12 @@ public class OptionsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Play button clicked in Options Screen!");
-                game.setScreen(new Levels(game, theme, gamecam, gameport));
-            }
-        });
+                game.setScreen(new Levels(game, theme, gamecam, gameport));}});
 
         faq.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Feedback button clicked in Options Screen!");
-            }
+                System.out.println("Feedback button clicked in Options Screen!");}
         });
 
         musicon.addListener(new ClickListener() {
@@ -107,25 +99,17 @@ public class OptionsScreen implements Screen {
                 if (theme.isPlaying()){
                     theme.pause();
                     musicon.remove();
-                    stage.addActor(musicoff);}
-            }
-        });
+                    stage.addActor(musicoff);
+                    game.musicOn = false;}}});
         musicoff.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Music button clicked in Options Screen!");
-                if (theme.isPlaying()){
-                    theme.pause();
-                }
-                else{
+                if (!theme.isPlaying()){
                     theme.play();
                     musicoff.remove();
                     stage.addActor(musicon);
-                }
-            }
-        });
-
-
+                    game.musicOn = true;}}});
 
         stage.addActor(PlayButton);
         stage.addActor(faq);
@@ -141,10 +125,15 @@ public class OptionsScreen implements Screen {
     @Override
     public void show() {
         if (!theme.isPlaying()) {
+            if (game.musicOn){
             theme.setLooping(true);
             theme.play();
-        }
-    }
+            stage.addActor(musicon);
+            musicoff.remove();}}
+        else{
+            if (!game.musicOn){
+            stage.addActor(musicoff);
+            musicon.remove();}}}
 
     @Override
     public void render(float delta) {

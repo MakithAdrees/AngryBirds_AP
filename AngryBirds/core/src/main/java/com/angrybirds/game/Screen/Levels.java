@@ -17,23 +17,23 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Levels implements Screen {
-    private Texture bg;
-    private ImageButton level1, load, loadtable, musicon, musicoff, back, mylevel;
-    private Main game;
-    private OrthographicCamera gamecam;
-    private Viewport gameport;
-    private Stage stage;
-    private Music theme;
+    final private Texture bg;
+    final private ImageButton level1, load, loadtable, musicon, musicoff, back, mylevel;
+    final private Main game;
+    final private OrthographicCamera gamecam;
+    final private Viewport gameport;
+    final private Stage stage;
+    final private Music theme;
+
 
     public Levels(Main game, Music a, OrthographicCamera cam, Viewport port){
         this.game = game;
         this.gamecam = new OrthographicCamera();
         this.gameport = new StretchViewport(1820, 980, gamecam);
-
         bg = game.assetManager.get("levelmenubg.png", Texture.class);
         theme = game.assetManager.get("levelmusic.mp3", Music.class);
-
         stage = new Stage(new StretchViewport(1820, 980));
+
 
         Texture my = game.assetManager.get("createlevel.png", Texture.class);
         TextureRegion my1 = new TextureRegion(my);
@@ -63,9 +63,7 @@ public class Levels implements Screen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                game.setScreen(new OptionsScreen(game, cam, port));  // Go back to MainScreen
-            }
+                game.setScreen(new OptionsScreen(game, cam, port));}
         });
         stage.addActor(back);
 
@@ -79,6 +77,7 @@ public class Levels implements Screen {
         musicoff = new ImageButton(mof2);
         musicon.setPosition(30 , gameport.getWorldHeight() - 110);
         musicoff.setPosition(30, gameport.getWorldHeight() - 110);
+
         musicon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -86,24 +85,22 @@ public class Levels implements Screen {
                 if (theme.isPlaying()){
                     theme.pause();
                     musicon.remove();
-                    stage.addActor(musicoff);}
-            }
-        });
+                    stage.addActor(musicoff);
+                    game.musicOn = false;}}});
         musicoff.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Music button clicked in Options Screen!");
-                if (theme.isPlaying()){
-                    theme.pause();
-                }
-                else{
+                if (!theme.isPlaying()){
                     theme.play();
                     musicoff.remove();
                     stage.addActor(musicon);
-                }
-            }
-        });
-        stage.addActor(musicon);
+                    game.musicOn = true;}}});
+        if (theme.isPlaying())
+            stage.addActor(musicon);
+        else
+            stage.addActor(musicoff);
+
 
         Texture la1 = game.assetManager.get("save.png", Texture.class);
         TextureRegion la2 = new TextureRegion(la1);
@@ -133,14 +130,20 @@ public class Levels implements Screen {
         stage.addActor(load);
         stage.addActor(loadtable);
         loadtable.setVisible(false);
-    Gdx.input.setInputProcessor(stage);
-    }
+    Gdx.input.setInputProcessor(stage);}
 
     @Override
     public void show() {
-        theme.setLooping(true);
-        theme.play();
-    }
+        if (!theme.isPlaying()) {
+            if (game.musicOn){
+                theme.setLooping(true);
+                theme.play();
+                stage.addActor(musicon);
+                musicoff.remove();}}
+        else{
+            if (!game.musicOn){
+                stage.addActor(musicoff);
+                musicon.remove();}}}
 
     @Override
     public void render(float v) {

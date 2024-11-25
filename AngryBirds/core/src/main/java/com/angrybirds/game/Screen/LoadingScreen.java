@@ -41,15 +41,11 @@ public class LoadingScreen extends ScreenAdapter {
         progressBar = new ProgressBar(0f, 1f, 0.01f, false, progressBarStyle);
         progressBar.setSize(800, 50);
         progressBar.setPosition(Gdx.graphics.getWidth() / 2f-400, Gdx.graphics.getHeight() / 2f-350);
-
-        stage.addActor(progressBar);
-    }
+        stage.addActor(progressBar);}
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        Gdx.gl.glClearColor(1, 0, 0, 1);
-//        gamecam.update();
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         game.batch.draw(bg, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
@@ -62,9 +58,7 @@ public class LoadingScreen extends ScreenAdapter {
         stage.draw();
 
         if (loadingTime >= maxLoadingTime) {
-            game.setScreen(new OptionsScreen(game, gamecam, gameport));
-        }
-    }
+            game.setScreen(new OptionsScreen(game, gamecam, gameport));}}
 
     @Override
     public void resize(int width, int height) {
@@ -77,8 +71,7 @@ public class LoadingScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         bg.dispose();
-        stage.dispose();
-    }
+        stage.dispose();}
 
     private ProgressBarStyle createCustomProgressBarStyle() {
         Pixmap pixmapBackground = new Pixmap(1200, 50, Pixmap.Format.RGBA8888);
@@ -102,6 +95,5 @@ public class LoadingScreen extends ScreenAdapter {
         progressBarStyle.background = backgroundDrawable;
         progressBarStyle.knobBefore = loaderDrawable;
 
-        return progressBarStyle;
-    }
+        return progressBarStyle;}
 }
