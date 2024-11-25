@@ -27,7 +27,7 @@ public class Levels implements Screen {
     final private Music theme;
 
 
-    public Levels(Main game, Music a, OrthographicCamera cam, Viewport port){
+    public Levels(Main game, OrthographicCamera cam, Viewport port){
         this.game = game;
         this.gamecam = new OrthographicCamera();
         this.gameport = new StretchViewport(1820, 980, gamecam);
@@ -73,7 +73,7 @@ public class Levels implements Screen {
         level1.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Level1(game, a, cam, port));}
+                game.setScreen(new Level1(game, cam, port));}
         });
 
         Texture bac = game.assetManager.get("back.png", Texture.class);
@@ -147,7 +147,7 @@ public class Levels implements Screen {
         loadtable.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Level1(game, a, cam, port));}});
+                game.setScreen(new Level1(game, cam, port));}});
         stage.addActor(load);
         stage.addActor(loadtable);
         loadtable.setVisible(false);

@@ -84,7 +84,7 @@ public class OptionsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Play button clicked in Options Screen!");
-                game.setScreen(new Levels(game, theme, gamecam, gameport));}});
+                game.setScreen(new Levels(game, gamecam, gameport));}});
 
         faq.addListener(new ClickListener() {
             @Override

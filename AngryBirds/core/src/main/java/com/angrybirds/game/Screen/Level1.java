@@ -82,16 +82,14 @@ public class Level1 implements Screen, InputProcessor {
 
 
 
-    public Level1(Main game, Music a, OrthographicCamera cam, Viewport port) {
+    public Level1(Main game, OrthographicCamera cam, Viewport port) {
         this.game = game;
         this.gamecam = new OrthographicCamera();
         gamecam.setToOrtho(false, 1820 / 100f, 920 / 100f);
         this.gameport = new StretchViewport(1820, 980, gamecam);
         this.catapult = new Texture("slingshot.png");
-
         this.wld = new World(new Vector2(0, GRAVITY), true);
         this.dbgrndr = new Box2DDebugRenderer();
-
         shapeRenderer = new ShapeRenderer();
 
         bg = game.assetManager.get("gameplay_background.jpg", Texture.class);
@@ -286,13 +284,13 @@ public class Level1 implements Screen, InputProcessor {
 
         menu.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, a, cam, port));
+                game.setScreen(new Levels(game, cam, port));
             }
         });
 
         save.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, a, cam, port));
+                game.setScreen(new Levels(game, cam, port));
             }
         });
 
@@ -350,12 +348,12 @@ public class Level1 implements Screen, InputProcessor {
         });
         menu2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, a, cam, port));
+                game.setScreen(new Levels(game, cam, port));
             }
         });
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, a, cam, port));
+                game.setScreen(new Levels(game, cam, port));
             }
         });
 
@@ -383,14 +381,13 @@ public class Level1 implements Screen, InputProcessor {
 
         groundBody.createFixture(fixtureDef);
         groundShape.dispose();
-
     }
 
 
     @Override
     public void show() {
         theme.setLooping(true);
-        theme.play();
+//        theme.play();
     }
 
 
@@ -544,25 +541,19 @@ public class Level1 implements Screen, InputProcessor {
 
 private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
     Array<Vector2> points = new Array<>();
-    float timeStep = 0.059f;
+    float timeStep = 0.2f;
     float maxTime = 3.0f;
 
     float x = start.x * 100;
     float y = start.y * 100;
-    float vx = velocity.x * 5;
-    float vy = velocity.y * 5;
+    float vx = velocity.x * 3;
+    float vy = velocity.y * 3;
 
     for (float t = 0; t <= maxTime; t += timeStep) {
-        points.add(new Vector2(x, y));
-
-        x += vx * timeStep;
-        y += vy * timeStep;
-
-        vy += (-10) * timeStep;
-    }
-
-    return points;
-}
+        float xPos = x + vx*t;
+        float yPos = y + vy*t + 0.5f*-50*100*t*t;
+        points.add(new Vector2(xPos / 100f, yPos / 100f));}
+    return points;}
 
 
 
