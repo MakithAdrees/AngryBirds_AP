@@ -7,12 +7,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Wood extends Block {
 
-//    public Texture vertical_stick;
-    public Wood(World world, Vector2 position, Vector2 dimension) {
-        super(world, new Texture("wood_vertical_stick.png"), position, dimension);
-//        this.Material_Name = "Wood";
+    public Wood(World world,Texture block_texture, Vector2 position, Vector2 dimension) {
+        super(world,block_texture, position, dimension);
 //        this.Hp = Hp;
-//        this.vertical_stick = new Texture("wood_vertical_stick.png");
-//        this.Breaking_Sound = Gdx.audio.newMusic(Gdx.files.internal("block_breaking.mp3"));
+
     }
 }

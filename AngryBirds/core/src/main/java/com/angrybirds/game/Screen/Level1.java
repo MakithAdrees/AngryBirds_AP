@@ -12,41 +12,32 @@ import com.angrybirds.game.Blocks.Stone;
 import com.angrybirds.game.Main;
 import com.angrybirds.game.Pigs.MoustachePig;
 import com.angrybirds.game.Pigs.NormalPigs;
+import com.angrybirds.game.Pigs.Pig;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.InputProcessor;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.angrybirds.game.Birds.Bird.GRAVITY;
 import static java.lang.Math.abs;
-import static java.lang.Math.cos;
 
 public class Level1 implements Screen, InputProcessor {
     final Texture bg;
@@ -77,6 +68,7 @@ public class Level1 implements Screen, InputProcessor {
 
     ArrayList<Bird> birds = new ArrayList<>();
     ArrayList<Block> blocks_list = new ArrayList<>();
+    ArrayList<Pig> pig_list = new ArrayList<>();
 
     private boolean isDragging = false;
     private Bird selectedBird = null;
@@ -84,10 +76,8 @@ public class Level1 implements Screen, InputProcessor {
     private Vector2 currentMousePosition = new Vector2();
     private Vector2 slingshotPosition = new Vector2(250, 290);
 
-    private Texture glass_texture, wood_texture, stone_texture;
+    private Texture glass_texture, wood_texture, stone_texture, minion_tex, foreman_tex;
     private ShapeRenderer shapeRenderer;
-
-    private Array<Vector2> trajectoryPoints2 = new Array<>();
 
 
 
@@ -98,7 +88,7 @@ public class Level1 implements Screen, InputProcessor {
         this.gameport = new StretchViewport(1820, 980, gamecam);
         this.catapult = new Texture("slingshot.png");
 
-        this.wld = new World(new Vector2(0, -10), true);
+        this.wld = new World(new Vector2(0, -160), true);
         this.dbgrndr = new Box2DDebugRenderer();
 
         shapeRenderer = new ShapeRenderer();
@@ -111,40 +101,41 @@ public class Level1 implements Screen, InputProcessor {
         Chuck = new Chuck(wld, new Vector2(140, 150));
         Bomb = new Bomb(wld, new Vector2(70, 150));
 
-        minion = new NormalPigs();
-        foreman = new MoustachePig();
-        glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
+        minion_tex = game.assetManager.get("NormalPig_Healthy.png", Texture.class);
+        foreman_tex = game.assetManager.get("MoustachePig_Healthy.png", Texture.class);
+        minion = new NormalPigs(wld, new Vector2(1355, 165), minion_tex);
+        foreman = new MoustachePig(wld, new Vector2(1355, 432), foreman_tex);
         wood_texture = game.assetManager.get("wood_vertical_stick.png", Texture.class);
         stone_texture = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
         wd_rg = new TextureRegion(wood_texture);
 
-//        glass = new Glass(wld, new Vector2(1280, 620), new Vector2(Math.abs(glass_texture.getWidth() - 1), Math.abs(glass_texture.getHeight() - 50)));
-//        stone = new Stone(wld, new Vector2(1280, 370), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
-        wood1 = new Wood(wld, new Vector2(1300, 150), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-        wood2 = new Wood(wld, new Vector2(1500, 150), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-//        wood3 = new Wood(wld, new Vector2(1300, 370 + stone_texture.getHeight() - 50), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-//        wood4 = new Wood(wld, new Vector2(1300, 370 + stone_texture.getHeight() - 50), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
+        stone = new Stone(wld, stone_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
+        wood1 = new Wood(wld,wood_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
+        wood2 = new Wood(wld,wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
+
 
         birds.add(Red);
         birds.add(Chuck);
         birds.add(Bomb);
 
-//        blocks_list.add(glass);
-//        blocks_list.add(stone);
+        blocks_list.add(stone);
         blocks_list.add(wood1);
         blocks_list.add(wood2);
-//        blocks_list.add(wood3);
-//        blocks_list.add(wood4);
+
+        pig_list.add(minion);
+        pig_list.add(foreman);
+
 
         for (Bird bird : birds){
             bird.brdBody.setActive(false);
             bird.brdBody.setGravityScale(0);
         }
-//        for (Block blk : blocks_list){
-////            blk.boxbody.setActive(false);
-////            blk.boxbody.setGravityScale(0);
-//        }
-
+        for (Block blk : blocks_list){
+            blk.boxbody.setActive(false);
+        }
+        for (Pig piggie : pig_list){
+            piggie.pig_bdy.setActive(false);
+        }
 
 
         stage = new Stage(new StretchViewport(1820, 980));
@@ -401,6 +392,23 @@ public class Level1 implements Screen, InputProcessor {
     }
 
 
+    public void updateBlockRelationships() {
+        for (Block block1 : blocks_list) {
+            block1.blocksAbove.clear();
+
+            for (Block block2 : blocks_list) {
+                if (block1 != block2) {
+                    // Check if block2 is above block1
+                    if (block2.getPosition().y > block1.getPosition().y &&
+                            Math.abs(block2.getPosition().x - block1.getPosition().x) < block1.dimension.x) {
+                        block1.blocksAbove.add(block2);
+                    }
+                }
+            }
+        }
+    }
+
+
     @Override
     public void render(float delta) {
         wld.step(delta, 6, 2);
@@ -412,56 +420,42 @@ public class Level1 implements Screen, InputProcessor {
         game.batch.begin();
         game.batch.draw(bg, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
 
-//        game.batch.draw(wood_texture, wood1.boxbody.getPosition().x + 10f, wood1.boxbody.getPosition().y - ((wood_texture.getHeight() - 20) * cos(wood1.boxbody.getAngle() * MathUtils.radiansToDegrees)), wood_texture.getWidth() - 90, wood_texture.getHeight() + 20);
-//        game.batch.draw(
-//                wood_texture, // Texture to draw
-//                wood1.boxbody.getPosition().x + 10f,
-//                wood1.boxbody.getPosition().y - (float)(((wood_texture.getHeight() - 20) * cos(wood1.boxbody.getAngle() * MathUtils.radiansToDegrees))),
-//                wood_texture.getWidth() - 90,
-//                wood_texture.getWidth(),
-//                wood_texture.getHeight() + 20,
-//                1, 1,
-//                wood1.boxbody.getAngle() * MathUtils.radiansToDegrees
-//        );
-//        wood1.boxbody.setGravityScale(130);
-        game.batch.draw(
-                wd_rg, // The texture to draw
-                wood1.getPosition().x + 10f,
-                wood1.getPosition().y - 121,
-                wood_texture.getWidth() - (float)(((wood_texture.getWidth() - 90) * cos(wood1.boxbody.getAngle() * MathUtils.radiansToDegrees))) ,
-                wood_texture.getHeight() - (float)(((wood_texture.getHeight() + 20) * cos(wood1.boxbody.getAngle() * MathUtils.radiansToDegrees))),
-                wood_texture.getWidth() - 90,
-                wood_texture.getHeight() + 20,
-                1, 1,
-                wood1.boxbody.getAngle() * MathUtils.radiansToDegrees
-        );
-//        wood2.boxbody.setGravityScale(130);
-//        game.batch.draw(
-//                wd_rg,
-//                wood2.getPosition().x + 10f,
-//                wood2.getPosition().y - 121,
-//                wood_texture.getWidth() / 2f,
-//                wood_texture.getHeight() / 2f,
-//                wood_texture.getWidth() - 90,
-//                wood_texture.getHeight() + 20,
-//                1, 1,
-//                wood2.boxbody.getAngle() * MathUtils.radiansToDegrees
-//        );
+        updateBlockRelationships();
+        Array<Block> b_2_r = new Array<>();
+        Array<Body> body_2_des = new Array<>();
+
+        for (Block blk : blocks_list) {
+            if (!blk.isDestroyed) {
+                blk.render(game.batch);
+                blk.boxbody.setActive(true);
+                blk.boxbody.setGravityScale(130);
+            } else {
+                b_2_r.add(blk);
+                body_2_des.add(blk.boxbody);
+            }
+        }
+
+        for (Block blk : b_2_r) {
+            blocks_list.remove(blk);
+        }
+
+        for (Body body : body_2_des) {
+            wld.destroyBody(body);
+        }
+
+        updateBlockRelationships();
+        game.batch.end();
+
+        game.batch.begin();
+        for (Pig piggie : pig_list) {
+            game.batch.draw(piggie.PigModel, piggie.pig_bdy.getPosition().x - 40, piggie.pig_bdy.getPosition().y - 40,
+                        catapult.getWidth() - 5, catapult.getHeight() - 110);
+
+        }
+        game.batch.end();
 
 
-//        game.batch.draw(wood_texture, wood2.boxbody.getPosition().x + 10f, wood2.boxbody.getPosition().y - 121, wood_texture.getWidth() - 90, wood_texture.getHeight() + 20);
-//        game.batch.draw(stone_texture, stone.boxbody.getPosition().x, stone.boxbody.getPosition().y, stone_texture.getWidth(), stone_texture.getHeight() - 50);
-        game.batch.draw(minion.healthy, 1355, 385, catapult.getWidth() - 5, catapult.getHeight() - 110);
-        game.batch.draw(foreman.healthy, 1355, 640, catapult.getWidth() - 2, catapult.getHeight() - 100);
-//        game.batch.draw(wood_texture, wood3.boxbody.getPosition().x, wood3.boxbody.getPosition().y, wood_texture.getWidth() - 90, wood_texture.getHeight() + 20);
-//        game.batch.draw(wood_texture, wood3.boxbody.getPosition().x, wood3.boxbody.getPosition().y, wood_texture.getWidth() - 90, wood_texture.getHeight() + 20);
-//        game.batch.draw(glass_texture, glass.boxbody.getPosition().x, glass.boxbody.getPosition().y, glass_texture.getWidth() - 1, glass_texture.getHeight() - 50);
-
-//        for (Block blk : blocks_list){
-////            game.batch.draw(blk.Block_Texture, blk.boxbody.getPosition().x , blk.boxbody.getPosition().y,
-////                    blk.dimension.x, blk.dimension.y);
-////
-////        }
+        game.batch.begin();
         game.batch.draw(catapult, 200, 130);
 
         for (Bird bird : birds) {
@@ -608,6 +602,11 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
 
             selectedBird.brdBody.setLinearVelocity(releaseVelocity);
             selectedBird.brdBody.setActive(true);
+
+            for (Pig piggie : pig_list){
+                piggie.pig_bdy.setActive(true);
+                piggie.pig_bdy.setGravityScale(130);
+            }
             selectedBird.launched = true;
 
             isDragging = false;
@@ -671,5 +670,6 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
 
     @Override
     public void dispose() {
+
     }
 }

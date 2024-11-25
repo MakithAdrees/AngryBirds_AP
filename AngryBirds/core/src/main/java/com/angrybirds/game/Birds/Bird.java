@@ -41,7 +41,7 @@ abstract public class Bird {
         brdBody = world.createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(20);
+        shape.setRadius(25);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

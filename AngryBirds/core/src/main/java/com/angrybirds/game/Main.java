@@ -62,6 +62,10 @@ public class Main extends Game {
         assetManager.load("glass_horizontal_stick.png", Texture.class);
         assetManager.load("wood_vertical_stick.png", Texture.class);
         assetManager.load("stone_horizontal_stick.png", Texture.class);
+        assetManager.load("NormalPig_Healthy.png", Texture.class);
+        assetManager.load("MoustachePig_Healthy.png", Texture.class);
+
+
         assetManager.finishLoading();
 
         setScreen(new LoadingScreen(this));

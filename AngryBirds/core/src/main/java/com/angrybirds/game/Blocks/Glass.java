@@ -7,9 +7,8 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Glass extends Block {
 
-
-    public Glass(World world, Vector2 position, Vector2 dimension) {
-        super(world, new Texture("glass_horizontal_stick.png"), position, dimension);
+    public Glass(World world,Texture block_texture, Vector2 position, Vector2 dimension) {
+        super(world, block_texture, position, dimension);
 //        this.Material_Name = "Glass";
 //        this.Hp = Hp;
 //        this.dimension = new Dimension()

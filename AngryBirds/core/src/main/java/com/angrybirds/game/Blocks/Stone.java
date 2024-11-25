@@ -9,8 +9,8 @@ public class Stone extends Block {
 //    public Texture horizontal_stick;
 
 
-    public Stone(World world, Vector2 position, Vector2 dimension) {
-        super(world, new Texture("stone_horizontal_stick.png"), position, dimension);
+    public Stone(World world, Texture block_texture, Vector2 position, Vector2 dimension) {
+        super(world, block_texture, position, dimension);
 //
 //        this.Material_Name = "Stone";
 //        this.Hp = Hp;

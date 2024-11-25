@@ -1,13 +1,14 @@
 package com.angrybirds.game.Pigs;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class KingPig extends Pig {
 
-    public KingPig() {
-        super(100.0f, 1.0f, new Texture("KingPig_Healthy.png"), new Texture("KingPig_hurt.png"));
+    public KingPig(World wrld, Vector2 position, Texture PigModel) {
+        super(wrld, position, PigModel, "King");
     }
-
     @Override
     public void PigRIP() {
         System.out.println("King pig has died!");
