@@ -9,6 +9,7 @@ import com.angrybirds.game.Blocks.Glass;
 import com.angrybirds.game.Blocks.Wood;
 import com.angrybirds.game.Blocks.Stone;
 
+import com.angrybirds.game.Extras.Catapult;
 import com.angrybirds.game.Main;
 import com.angrybirds.game.Pigs.MoustachePig;
 import com.angrybirds.game.Pigs.NormalPigs;
@@ -487,49 +488,51 @@ public class Level1 implements Screen, InputProcessor {
             shapeRenderer.rectLine(slingshotPosition.x + 2, slingshotPosition.y, currentMousePosition.x, currentMousePosition.y, 6);
 
             Vector2 launchVector = slingshotPosition.cpy().sub(currentMousePosition).scl(100);
-            Array<Vector2> trajectoryPoints = calculateTrajectory(slingshotPosition, launchVector);
+            Array<Vector2> trajectoryPoints = Catapult.calculateTrajectory(slingshotPosition, launchVector);
 
             if (trajectoryPoints.size > 0) {
                 float alpha = 0.8f;
                 float alphaStep = alpha / trajectoryPoints.size;
-
                 for (int i = 0; i < trajectoryPoints.size; i++) {
                     Vector2 point = trajectoryPoints.get(i);
                     shapeRenderer.setColor(0.2f, 0.2f, 0.2f, alpha);
-                    shapeRenderer.circle(point.x, point.y, 5);
-                    alpha -= alphaStep;
-                }
-            }
-
-            shapeRenderer.end();
-        }
+                    if (i < trajectoryPoints.size/4)
+                        shapeRenderer.circle(point.x, point.y, 5);
+                    else if (i < trajectoryPoints.size/4*2)
+                        shapeRenderer.circle(point.x, point.y, 4);
+                    else if (i < trajectoryPoints.size/4*3)
+                        shapeRenderer.circle(point.x, point.y, 3);
+                    else
+                        shapeRenderer.circle(point.x, point.y, 2);
+                    alpha -= alphaStep;}}
+            shapeRenderer.end();}
 
         if (selectedBird!= null && selectedBird.launched) {
-            selectedBird.launchTime += delta;
-
+            float tim = delta;
+//            tim = 0.005f;
+//            System.out.println(tim);
+            selectedBird.launchTime += tim;
             //projectile motion
-            float velocityX = selectedBird.brdBody.getLinearVelocity().x * 5;
-            float velocityY = selectedBird.brdBody.getLinearVelocity().y * 5;
+            float scale = 3f, gravity = -5f;
+            float velocityX = selectedBird.brdBody.getLinearVelocity().x * 3;
+            float velocityY = selectedBird.brdBody.getLinearVelocity().y * 3;
 
-            float newX = selectedBird.getPosition().x + velocityX * delta;
-            float newY = selectedBird.getPosition().y + velocityY * delta + 0.5f * GRAVITY * delta * delta;
+            float newX = selectedBird.getPosition().x + velocityX * tim;
+            float newY = selectedBird.getPosition().y + velocityY * tim + 0.5f* -50*100*tim*tim;
 
             selectedBird.setPosition(newX, newY);
             if (newY <= 150) {
                 selectedBird.launched = false;
                 selectedBird.brdBody.setActive(false);
-                selectedBird.setPosition(newX, 150);
-                selectedBird = null;
-            }
+                selectedBird.setPosition(newX, 1.5f);
+                selectedBird = null;}
             else{
-                velocityY += -98 * delta;
-                selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
-            }
+                velocityY += -2000*tim;
+                selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);}}
 
-        }
+
         if (pig_list.isEmpty()){
-            victoryscreen.setVisible(true);
-        }
+            victoryscreen.setVisible(true);}
 
         dbgrndr.render(wld, gamecam.combined);
 
@@ -538,24 +541,6 @@ public class Level1 implements Screen, InputProcessor {
         stage.act(delta);
         stage.draw();
     }
-
-private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
-    Array<Vector2> points = new Array<>();
-    float timeStep = 0.2f;
-    float maxTime = 3.0f;
-
-    float x = start.x * 100;
-    float y = start.y * 100;
-    float vx = velocity.x * 3;
-    float vy = velocity.y * 3;
-
-    for (float t = 0; t <= maxTime; t += timeStep) {
-        float xPos = x + vx*t;
-        float yPos = y + vy*t + 0.5f*-50*100*t*t;
-        points.add(new Vector2(xPos / 100f, yPos / 100f));}
-    return points;}
-
-
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -570,7 +555,6 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
 
                 dragStartPosition.set(slingshotPosition);
                 currentMousePosition.set(dragStartPosition);
-
                 break;
             }
         }
@@ -599,7 +583,7 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
         if (isDragging && selectedBird != null) {
             selectedBird.brdBody.setGravityScale(1);
             Vector3 worldCoordinates = gamecam.unproject(new Vector3(screenX, screenY, 0));
-            Vector2 releaseVelocity = slingshotPosition.cpy().sub(currentMousePosition).scl(100);  // Stretch multiplier
+            Vector2 releaseVelocity = slingshotPosition.cpy().sub(currentMousePosition).scl(3);  // Stretch multiplier
 
             selectedBird.brdBody.setLinearVelocity(releaseVelocity);
             selectedBird.brdBody.setActive(true);
@@ -626,8 +610,7 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
         gameport.update(width, height);
         gamecam.position.set(gameport.getWorldWidth() / 2, gameport.getWorldHeight() / 2, 0);
         gamecam.update();
-        stage.getViewport().update(width, height, true);
-    }
+        stage.getViewport().update(width, height, true);}
 
     @Override
     public boolean keyDown(int i) {

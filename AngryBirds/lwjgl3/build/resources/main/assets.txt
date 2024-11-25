@@ -57,5 +57,6 @@ ui/font.fnt
 ui/uiskin.atlas
 ui/uiskin.json
 ui/uiskin.png
+victor2.png
 victory.png
 wood_vertical_stick.png
