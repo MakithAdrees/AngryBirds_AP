@@ -1,7 +1,7 @@
 package com.angrybirds.game;
 
 import com.angrybirds.game.Screen.LoadingScreen;
-import com.angrybirds.game.Screen.MainScreen;
+import com.angrybirds.game.Screen.OptionsScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

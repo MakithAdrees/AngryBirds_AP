@@ -82,7 +82,7 @@ public class Level1 implements Screen, InputProcessor {
 
 
 
-    public Level1(Main game, Texture buttonTexture, Texture pressTexture, Music a, OrthographicCamera cam, Viewport port) {
+    public Level1(Main game, Music a, OrthographicCamera cam, Viewport port) {
         this.game = game;
         this.gamecam = new OrthographicCamera();
         gamecam.setToOrtho(false, 1820 / 100f, 920 / 100f);
@@ -286,13 +286,13 @@ public class Level1 implements Screen, InputProcessor {
 
         menu.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, buttonTexture, pressTexture, a, cam, port));
+                game.setScreen(new Levels(game, a, cam, port));
             }
         });
 
         save.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, buttonTexture, pressTexture, a, cam, port));
+                game.setScreen(new Levels(game, a, cam, port));
             }
         });
 
@@ -350,12 +350,12 @@ public class Level1 implements Screen, InputProcessor {
         });
         menu2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, buttonTexture, pressTexture, a, cam, port));
+                game.setScreen(new Levels(game, a, cam, port));
             }
         });
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(new Levels(game, buttonTexture, pressTexture, a, cam, port));
+                game.setScreen(new Levels(game, a, cam, port));
             }
         });
 

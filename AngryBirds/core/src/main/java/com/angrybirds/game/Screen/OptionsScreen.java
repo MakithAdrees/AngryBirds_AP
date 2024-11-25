@@ -36,17 +36,11 @@ public class OptionsScreen implements Screen {
     private Levels lev;
     private final ImageButton PlayButton, faq, musicon, musicoff, back;
     private final Music theme;
-    private  BitmapFont font;
-    private final Texture buttonTexture, pressTexture;
 
-    public OptionsScreen(Main game, Texture buttonTexture, Texture pressTexture, Music theme, OrthographicCamera gamecam, Viewport gameport) {
+    public OptionsScreen(Main game, OrthographicCamera gamecam, Viewport gameport) {
         this.game = game;
-        this.buttonTexture = buttonTexture;
-        this.pressTexture = pressTexture;
-//        Texture bgs = ;
-
         backgroundTexture = game.assetManager.get("optionscreenbg.png", Texture.class);
-        this.theme = theme;
+        this.theme = game.assetManager.get("bad.mp3", Music.class);
         this.gamecam = gamecam;
         this.gameport = gameport;
 
@@ -60,7 +54,7 @@ public class OptionsScreen implements Screen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainScreen(game, gamecam, gameport));
+//                game.setScreen(new MainScreen(game, gamecam, gameport));
             }
         });
         stage.addActor(back);
@@ -95,7 +89,7 @@ public class OptionsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Play button clicked in Options Screen!");
-                game.setScreen(new Levels(game, buttonTexture, pressTexture, theme, gamecam, gameport));
+                game.setScreen(new Levels(game, theme, gamecam, gameport));
             }
         });
 

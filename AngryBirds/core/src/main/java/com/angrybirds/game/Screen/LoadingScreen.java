@@ -62,7 +62,7 @@ public class LoadingScreen extends ScreenAdapter {
         stage.draw();
 
         if (loadingTime >= maxLoadingTime) {
-            game.setScreen(new MainScreen(game, gamecam, gameport));
+            game.setScreen(new OptionsScreen(game, gamecam, gameport));
         }
     }
 

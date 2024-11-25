@@ -25,7 +25,7 @@ public class Levels implements Screen {
     private Stage stage;
     private Music theme;
 
-    public Levels(Main game, Texture buttonTexture, Texture pressTexture, Music a, OrthographicCamera cam, Viewport port){
+    public Levels(Main game, Music a, OrthographicCamera cam, Viewport port){
         this.game = game;
         this.gamecam = new OrthographicCamera();
         this.gameport = new StretchViewport(1820, 980, gamecam);
@@ -51,7 +51,7 @@ public class Levels implements Screen {
         level1.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Level1(game, buttonTexture, pressTexture, a, cam, port));
+                game.setScreen(new Level1(game, a, cam, port));
             }
         });
 
@@ -64,7 +64,7 @@ public class Levels implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                game.setScreen(new OptionsScreen(game, buttonTexture, pressTexture, a, cam, port));  // Go back to MainScreen
+                game.setScreen(new OptionsScreen(game, cam, port));  // Go back to MainScreen
             }
         });
         stage.addActor(back);
@@ -129,7 +129,7 @@ public class Levels implements Screen {
         loadtable.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Level1(game, buttonTexture, pressTexture, a, cam, port));}});
+                game.setScreen(new Level1(game, a, cam, port));}});
         stage.addActor(load);
         stage.addActor(loadtable);
         loadtable.setVisible(false);
