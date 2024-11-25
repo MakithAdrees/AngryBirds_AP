@@ -1,7 +1,6 @@
 package com.angrybirds.game;
 
 import com.angrybirds.game.Screen.LoadingScreen;
-import com.angrybirds.game.Screen.OptionsScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -39,6 +38,9 @@ public class Main extends Game {
         assetManager.load("play.png", Texture.class);
         assetManager.load("faq.png", Texture.class);
         assetManager.load("level1.png", Texture.class);
+        assetManager.load("level2.png", Texture.class);
+        assetManager.load("level3.png", Texture.class);
+        assetManager.load("level4.png", Texture.class);
         assetManager.load("musicon.png", Texture.class);
         assetManager.load("musicoff.png", Texture.class);
         assetManager.load("quit.png", Texture.class);

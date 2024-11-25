@@ -18,7 +18,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Levels implements Screen {
     final private Texture bg;
-    final private ImageButton level1, load, loadtable, musicon, musicoff, back, mylevel;
+    final private ImageButton  load, loadtable, musicon, musicoff, back, mylevel;
+    final private ImageButton level1, level2, level3, level4;
     final private Main game;
     final private OrthographicCamera gamecam;
     final private Viewport gameport;
@@ -42,17 +43,37 @@ public class Levels implements Screen {
         mylevel.setPosition(30, 30);
         stage.addActor(mylevel);
 
-        Texture lev = game.assetManager.get("level1.png", Texture.class);
-        TextureRegion l = new TextureRegion(lev);
-        TextureRegionDrawable l2 = new TextureRegionDrawable(l);
-        level1 = new ImageButton(l2);
+        Texture level11 = game.assetManager.get("level1.png", Texture.class);
+        TextureRegion level111 = new TextureRegion(level11);
+        TextureRegionDrawable level1111 = new TextureRegionDrawable(level111);
+        level1 = new ImageButton(level1111);
+        Texture level22 = game.assetManager.get("level2.png", Texture.class);
+        TextureRegion level222 = new TextureRegion(level22);
+        TextureRegionDrawable level2222 = new TextureRegionDrawable(level222);
+        level2 = new ImageButton(level2222);
+        Texture level33 = game.assetManager.get("level3.png", Texture.class);
+        TextureRegion level333 = new TextureRegion(level33);
+        TextureRegionDrawable level3333 = new TextureRegionDrawable(level333);
+        level3 = new ImageButton(level3333);
+        Texture level44 = game.assetManager.get("level4.png", Texture.class);
+        TextureRegion level444 = new TextureRegion(level44);
+        TextureRegionDrawable level4444 = new TextureRegionDrawable(level444);
+        level4 = new ImageButton(level4444);
+
         level1.setPosition(218, (gameport.getWorldHeight() - level1.getHeight())/2);
+        level2.setPosition(582, (gameport.getWorldHeight() - level2.getHeight())/2);
+        level3.setPosition(946, (gameport.getWorldHeight() - level3.getHeight())/2);
+        level4.setPosition(1314, (gameport.getWorldHeight() - level4.getHeight())/2);
+
         stage.addActor(level1);
+        stage.addActor(level2);
+        stage.addActor(level3);
+        stage.addActor(level4);
+
         level1.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Level1(game, a, cam, port));
-            }
+                game.setScreen(new Level1(game, a, cam, port));}
         });
 
         Texture bac = game.assetManager.get("back.png", Texture.class);

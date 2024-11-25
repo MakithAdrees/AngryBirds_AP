@@ -680,6 +680,6 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
 
     @Override
     public void dispose() {
-
+        theme.dispose();
     }
 }
