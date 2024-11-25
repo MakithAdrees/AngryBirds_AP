@@ -37,6 +37,7 @@ import com.badlogic.gdx.InputProcessor;
 
 import java.util.ArrayList;
 
+import static com.angrybirds.game.Birds.Bird.GRAVITY;
 import static java.lang.Math.abs;
 
 public class Level1 implements Screen, InputProcessor {
@@ -88,7 +89,7 @@ public class Level1 implements Screen, InputProcessor {
         this.gameport = new StretchViewport(1820, 980, gamecam);
         this.catapult = new Texture("slingshot.png");
 
-        this.wld = new World(new Vector2(0, -160), true);
+        this.wld = new World(new Vector2(0, GRAVITY), true);
         this.dbgrndr = new Box2DDebugRenderer();
 
         shapeRenderer = new ShapeRenderer();
@@ -107,9 +108,10 @@ public class Level1 implements Screen, InputProcessor {
         foreman = new MoustachePig(wld, new Vector2(1355, 432), foreman_tex);
         wood_texture = game.assetManager.get("wood_vertical_stick.png", Texture.class);
         stone_texture = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
+        glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
         wd_rg = new TextureRegion(wood_texture);
 
-        stone = new Stone(wld, stone_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
+        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
         wood1 = new Wood(wld,wood_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
         wood2 = new Wood(wld,wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
 
@@ -118,7 +120,7 @@ public class Level1 implements Screen, InputProcessor {
         birds.add(Chuck);
         birds.add(Bomb);
 
-        blocks_list.add(stone);
+        blocks_list.add(glass);
         blocks_list.add(wood1);
         blocks_list.add(wood2);
 
@@ -128,14 +130,14 @@ public class Level1 implements Screen, InputProcessor {
 
         for (Bird bird : birds){
             bird.brdBody.setActive(false);
-            bird.brdBody.setGravityScale(0);
+//            bird.brdBody.setGravityScale(0);
         }
-        for (Block blk : blocks_list){
-            blk.boxbody.setActive(false);
-        }
-        for (Pig piggie : pig_list){
-            piggie.pig_bdy.setActive(false);
-        }
+//        for (Block blk : blocks_list){
+//            blk.boxbody.setActive(false);
+//        }
+//        for (Pig piggie : pig_list){
+//            piggie.pig_bdy.setActive(false);
+//        }
 
 
         stage = new Stage(new StretchViewport(1820, 980));
@@ -392,22 +394,6 @@ public class Level1 implements Screen, InputProcessor {
     }
 
 
-    public void updateBlockRelationships() {
-        for (Block block1 : blocks_list) {
-            block1.blocksAbove.clear();
-
-            for (Block block2 : blocks_list) {
-                if (block1 != block2) {
-                    // Check if block2 is above block1
-                    if (block2.getPosition().y > block1.getPosition().y &&
-                            Math.abs(block2.getPosition().x - block1.getPosition().x) < block1.dimension.x) {
-                        block1.blocksAbove.add(block2);
-                    }
-                }
-            }
-        }
-    }
-
 
     @Override
     public void render(float delta) {
@@ -420,9 +406,17 @@ public class Level1 implements Screen, InputProcessor {
         game.batch.begin();
         game.batch.draw(bg, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
 
-        updateBlockRelationships();
         Array<Block> b_2_r = new Array<>();
         Array<Body> body_2_des = new Array<>();
+
+        for (Block block : blocks_list) {
+            block.updateBlockRelationships(blocks_list);
+
+            if (block.needsDestruction) {
+                b_2_r.add(block);
+                body_2_des.add(block.boxbody);
+            }
+        }
 
         for (Block blk : blocks_list) {
             if (!blk.isDestroyed) {
@@ -443,17 +437,30 @@ public class Level1 implements Screen, InputProcessor {
             wld.destroyBody(body);
         }
 
-        updateBlockRelationships();
         game.batch.end();
 
         game.batch.begin();
-        for (Pig piggie : pig_list) {
-            game.batch.draw(piggie.PigModel, piggie.pig_bdy.getPosition().x - 40, piggie.pig_bdy.getPosition().y - 40,
-                        catapult.getWidth() - 5, catapult.getHeight() - 110);
+        Array<Pig> pigs_2_r = new Array<>();
+        Array<Body> pig_body_2_des = new Array<>();
 
+        for (Pig piggie : pig_list) {
+            piggie.update();
+            if (piggie.isDead) {
+                pigs_2_r.add(piggie);
+                pig_body_2_des.add(piggie.pig_bdy);
+            } else {
+                piggie.render(game.batch);
+            }
+        }
+
+        for (Pig piggie : pigs_2_r) {
+            pig_list.remove(piggie);
+        }
+
+        for (Body body : pig_body_2_des) {
+            wld.destroyBody(body);
         }
         game.batch.end();
-
 
         game.batch.begin();
         game.batch.draw(catapult, 200, 130);
@@ -504,24 +511,27 @@ public class Level1 implements Screen, InputProcessor {
             selectedBird.launchTime += delta;
 
             //projectile motion
-            float velocityX = selectedBird.brdBody.getLinearVelocity().x * 6;
-            float velocityY = selectedBird.brdBody.getLinearVelocity().y * 6;
+            float velocityX = selectedBird.brdBody.getLinearVelocity().x * 5;
+            float velocityY = selectedBird.brdBody.getLinearVelocity().y * 5;
 
             float newX = selectedBird.getPosition().x + velocityX * delta;
-            float newY = selectedBird.getPosition().y + velocityY * delta + 0.5f * -130 * delta * delta; // 130 is gravite need to change for better motion
+            float newY = selectedBird.getPosition().y + velocityY * delta + 0.5f * GRAVITY * delta * delta;
 
             selectedBird.setPosition(newX, newY);
-            if (newY <= 135) {
+            if (newY <= 150) {
                 selectedBird.launched = false;
                 selectedBird.brdBody.setActive(false);
                 selectedBird.setPosition(newX, 150);
                 selectedBird = null;
             }
             else{
-                velocityY += -130f * delta;
+                velocityY += -98 * delta;
                 selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
             }
 
+        }
+        if (pig_list.isEmpty()){
+            victoryscreen.setVisible(true);
         }
 
         dbgrndr.render(wld, gamecam.combined);
@@ -537,10 +547,10 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
     float timeStep = 0.059f;
     float maxTime = 3.0f;
 
-    float x = start.x;
-    float y = start.y;
-    float vx = velocity.x;
-    float vy = velocity.y;
+    float x = start.x * 100;
+    float y = start.y * 100;
+    float vx = velocity.x * 5;
+    float vy = velocity.y * 5;
 
     for (float t = 0; t <= maxTime; t += timeStep) {
         points.add(new Vector2(x, y));
@@ -548,7 +558,7 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
         x += vx * timeStep;
         y += vy * timeStep;
 
-        vy += (-130) * timeStep;
+        vy += (-10) * timeStep;
     }
 
     return points;
@@ -603,10 +613,10 @@ private Array<Vector2> calculateTrajectory(Vector2 start, Vector2 velocity) {
             selectedBird.brdBody.setLinearVelocity(releaseVelocity);
             selectedBird.brdBody.setActive(true);
 
-            for (Pig piggie : pig_list){
-                piggie.pig_bdy.setActive(true);
-                piggie.pig_bdy.setGravityScale(130);
-            }
+//            for (Pig piggie : pig_list){
+//                piggie.pig_bdy.setActive(true);
+//                piggie.pig_bdy.setGravityScale(130);
+//            }
             selectedBird.launched = true;
 
             isDragging = false;

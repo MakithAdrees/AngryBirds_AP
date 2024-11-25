@@ -9,13 +9,4 @@ public class NormalPigs extends Pig {
         super(wrld, position, PigModel, "Normie");
     }
 
-    @Override
-    public void PigRIP() {
-        System.out.println("Normal pig has died!");
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }

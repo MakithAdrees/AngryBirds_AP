@@ -57,10 +57,6 @@ abstract public class Bird {
         birdList.add(this);
     }
 
-    public float calculateDamage() {
-        return mass * velocity.len(); // Mass * speed (magnitude of velocity)
-    }
-
     public Vector2 getPosition() {
         return brdBody.getPosition();
     }

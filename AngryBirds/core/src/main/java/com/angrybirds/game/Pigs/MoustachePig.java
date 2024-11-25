@@ -9,14 +9,4 @@ public class MoustachePig extends Pig {
     public MoustachePig(World wrld, Vector2 position, Texture PigModel) {
         super(wrld, position, PigModel, "Foreman");
     }
-
-    @Override
-    public void PigRIP() {
-        System.out.println("Normal pig has died!");
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }

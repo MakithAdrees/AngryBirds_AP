@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import java.util.ArrayList;
 
 abstract public class Block {
-//    protected String Material_Name;
+    //    protected String Material_Name;
     public float Hp;
     public Texture Block_Texture;
     private Music Breaking_Sound;
@@ -26,26 +26,27 @@ abstract public class Block {
     public ArrayList<Block> blocksAbove = new ArrayList<>();
     public boolean needsDestruction = false;
     public World world;
+    private static final float VERTICAL_OVERLAP_THRESHOLD = 0.1f;
 
-    public Block(World world, Texture Block_Texture, Vector2 position, Vector2 dimension ) {
+
+    public Block(World world, Texture Block_Texture, Vector2 position, Vector2 dimension) {
 //        this.Material_Name = Material_Name;
 //        this.Block_Texture = Block_Texture;
         this.dimension = dimension;
         this.world = world;
-//        this.Hp = Hp;
         this.Block_Texture = Block_Texture;
         this.position = position;
 //        this.Breaking_Sound = Breaking_Sound
         createBoxBody(world, position, dimension);
         this.maxHp = calculateMaterialHp();
         this.currentHp = maxHp;
-        setupCollisionListener(world);
+//        setupCollisionListener(world);
     }
 
     private float calculateMaterialHp() {
-        if (this instanceof Wood) return 100;
+        if (this instanceof Wood) return 150;
         if (this instanceof Glass) return 50;
-        if (this instanceof Stone) return 100;
+        if (this instanceof Stone) return 200;
         return 100;
     }
 
@@ -54,41 +55,74 @@ abstract public class Block {
         if (currentHp <= 0) {
             isDestroyed = true;
             needsDestruction = true;
-//            world.destroyBody(boxbody);
             collapsedamage();
         }
     }
 
     private void collapsedamage() {
+        float collapseDamage = 100 ;
+
         for (Block blockAbove : blocksAbove) {
-            blockAbove.takeDamage(100);
+            if (!blockAbove.isDestroyed) {
+                blockAbove.takeDamage(collapseDamage);
+            }
         }
     }
 
-    private void setupCollisionListener(World world) {
-        world.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-                Body bodyA = contact.getFixtureA().getBody();
-                Body bodyB = contact.getFixtureB().getBody();
+    public void updateBlockRelationships(ArrayList<Block> blocks_list) {
+        blocksAbove.clear();
+        Vector2 myPos = getPosition();
 
-                if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
-                    handleBirdBlockCollision((Bird)bodyA.getUserData(), (Block)bodyB.getUserData());
-                } else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
-                    handleBirdBlockCollision((Bird)bodyB.getUserData(), (Block)bodyA.getUserData());
+        float verticalRange = dimension.y * 2;   // Define how far above to check vertically
+        float horizontalRange = dimension.x * 1.5f; // Define how far to check horizontally
+
+        for (Block other : blocks_list) {
+            if (other != this && !other.isDestroyed) {
+                Vector2 otherPos = other.getPosition();
+
+                // Check if the block is within the defined coordinate range
+                if (Math.abs(otherPos.x - myPos.x) <= horizontalRange && // Horizontal range
+                        (otherPos.y > myPos.y && otherPos.y <= myPos.y + verticalRange)) { // Vertical range
+
+                    blocksAbove.add(other); // Add to blocksAbove list
                 }
             }
-
-            @Override
-            public void endContact(Contact contact) {}
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {}
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {}
-        });
+        }
     }
+
+
+
+//
+//    private void collapsedamage() {
+//        for (Block blockAbove : blocksAbove) {
+//            blockAbove.takeDamage(100);
+//        }
+//    }
+//
+//    private void setupCollisionListener(World world) {
+//        world.setContactListener(new ContactListener() {
+//            @Override
+//            public void beginContact(Contact contact) {
+//                Body bodyA = contact.getFixtureA().getBody();
+//                Body bodyB = contact.getFixtureB().getBody();
+//
+//                if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
+//                    handleBirdBlockCollision((Bird)bodyA.getUserData(), (Block)bodyB.getUserData());
+//                } else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
+//                    handleBirdBlockCollision((Bird)bodyB.getUserData(), (Block)bodyA.getUserData());
+//                }
+//            }
+//
+//            @Override
+//            public void endContact(Contact contact) {}
+//
+//            @Override
+//            public void preSolve(Contact contact, Manifold oldManifold) {}
+//
+//            @Override
+//            public void postSolve(Contact contact, ContactImpulse impulse) {}
+//        });
+//    }
     public void handleBirdBlockCollision(Bird bird, Block block) {
         float damage = 100;
         block.takeDamage(damage);
@@ -118,11 +152,9 @@ abstract public class Block {
     }
 
     public void render(SpriteBatch batch) {
-        if (isDestroyed){
-            if(boxbody != null){
-                world.destroyBody(boxbody);
-                this.dispose();
-            }
+        if (isDestroyed || boxbody == null){
+            this.dispose();
+            return;
         }
         float x = boxbody.getPosition().x ;
         float y = boxbody.getPosition().y ;
