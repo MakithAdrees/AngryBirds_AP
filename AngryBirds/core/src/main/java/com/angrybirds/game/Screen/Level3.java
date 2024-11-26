@@ -43,7 +43,7 @@ import static java.lang.Math.abs;
 
 public class Level3 implements Screen, InputProcessor {
     final Texture bg;
-    final ImageButton pause, resume, restart, menu, save, musicon, musicoff, pausemenu, won, victoryscreen, lostscreen, menu2, restart2, next;
+    final ImageButton pause, resume, restart, menu, save, musicon, musicoff, pausemenu, won, victoryscreen, lostscreen, menu2, restart2, next, meun3, restart3;
     private Main game;
     final OrthographicCamera gamecam;
     final Viewport gameport;
@@ -352,8 +352,25 @@ public class Level3 implements Screen, InputProcessor {
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 game.lev3 = true;
-                game.setScreen(new Level4(game, cam, port));
-            }});
+                game.setScreen(new Level4(game, cam, port));}});
+
+        meun3 = new ImageButton(u2);
+        meun3.setPosition((gameport.getWorldWidth()) / 2 + 70, 50);
+        restart3 = new ImageButton(re2);
+        restart3.setPosition((gameport.getWorldWidth()) / 2 - 170, 50);
+        stage.addActor(meun3);
+        meun3.setVisible(false);
+        stage.addActor(restart3);
+        restart3.setVisible(false);
+
+        restart3.addListener(new ClickListener() {
+            public void clicked(InputEvent e, float x, float y) {
+                theme.dispose();
+                game.setScreen(new Level1(game, gamecam, gameport));}});
+        meun3.addListener(new ClickListener() {
+            public void clicked(InputEvent e, float x, float y) {
+                theme.dispose();
+                game.setScreen(new Levels(game, cam, port));}});
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -633,6 +650,11 @@ public class Level3 implements Screen, InputProcessor {
             menu2.setVisible(true);
             restart2.setVisible(true);
             next.setVisible(true);}
+
+        else if (birds.isEmpty()) {
+            lostscreen.setVisible(true);
+            meun3.setVisible(true);
+            restart3.setVisible(true);}
 
         dbgrndr.render(wld, gamecam.combined);
 
