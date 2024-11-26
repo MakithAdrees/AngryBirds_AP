@@ -48,6 +48,10 @@ abstract public class Pig {
 
     }
 
+    public void handleBirdBlockCollision(Bird bird, Block block) {
+        float damage = 100;
+        block.takeDamage(damage);}
+
     public void takeDamage(float damage) {
         currentHp -= damage;
         if (currentHp <= 0) {
@@ -75,6 +79,10 @@ abstract public class Pig {
                 else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
                     handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
                 }
+                else if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
+                    handleBirdBlockCollision((Bird)bodyA.getUserData(), (Block)bodyB.getUserData());
+                }else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
+                    handleBirdBlockCollision((Bird)bodyB.getUserData(), (Block)bodyA.getUserData());}
             }
 
             @Override

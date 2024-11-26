@@ -47,9 +47,9 @@ abstract public class Block {
         if (currentHp <= 0) {
             isDestroyed = true;
             needsDestruction = true;
-            collapsedamage();}
-        if (currentHp < maxHp/2){
-            this.Block_Texture = new Texture("cracked_" + this.Block_Texture.toString());}}
+            collapsedamage();}}
+//        if (currentHp < maxHp/2){
+//            this.Block_Texture = new Texture("cracked_" + this.Block_Texture.toString());}}
 
     private void collapsedamage() {
         float collapseDamage = 100 ;

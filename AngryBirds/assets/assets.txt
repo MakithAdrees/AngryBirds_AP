@@ -2,7 +2,9 @@ Blue.png
 Bomb.png
 Chuck.png
 MoustachePig_Healthy.png
+MoustachePig_hurt.png
 NormalPig_Healthy.png
+NormalPig_hurt.png
 Red.png
 Terrance.png
 angrybirdsbg.jpg
@@ -16,6 +18,9 @@ button_round_depth_flat.png
 button_round_depth_gloss.png
 check_square_color_cross.png
 continue.png
+cracked_glass_horizontal_stick.png
+cracked_stone_horizontal_stick.png
+cracked_wood_vertical_stick.png
 createlevel.png
 faq.png
 font/font2.fnt
@@ -24,8 +29,9 @@ font/w_1.png
 gameplay_background.jpg
 gameplaymusic.mp3
 glass_horizontal_stick.png
-glass_horizontal_stick_cracked.png
 icon.png
+king_pig.png
+king_pig_hurt.png
 level1.png
 level1screen.png
 level2.png
@@ -50,8 +56,9 @@ replay.png
 save.png
 signup.png
 slingshot.png
+soldier_pig.png
+soldier_pig_hurt.png
 stone_horizontal_stick.png
-stone_horizontal_stick_cracked.png
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt
@@ -62,4 +69,3 @@ ui/uiskin.png
 victor2.png
 victory.png
 wood_vertical_stick.png
-wood_vertical_stick_cracked.png
