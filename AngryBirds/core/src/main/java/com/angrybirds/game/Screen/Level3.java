@@ -1,8 +1,5 @@
 package com.angrybirds.game.Screen;
-import com.angrybirds.game.Birds.Bird;
-import com.angrybirds.game.Birds.Red;
-import com.angrybirds.game.Birds.Chuck;
-import com.angrybirds.game.Birds.Bomb;
+import com.angrybirds.game.Birds.*;
 //import com.angrybirds.game.Extras.Catapult;
 import com.angrybirds.game.Blocks.Block;
 import com.angrybirds.game.Blocks.Glass;
@@ -11,6 +8,7 @@ import com.angrybirds.game.Blocks.Stone;
 
 import com.angrybirds.game.Extras.Catapult;
 import com.angrybirds.game.Main;
+import com.angrybirds.game.Pigs.KingPig;
 import com.angrybirds.game.Pigs.MoustachePig;
 import com.angrybirds.game.Pigs.NormalPigs;
 import com.angrybirds.game.Pigs.Pig;
@@ -50,9 +48,9 @@ public class Level3 implements Screen, InputProcessor {
     final Stage stage;
     final Music theme;
     private Red Red;
-    private Chuck Chuck;
-    private Bomb Bomb;
-    private NormalPigs minion;
+    private Blues Blue;
+    private Terrance Terrance;
+    private KingPig king;
     private MoustachePig foreman;
     private Glass glass;
     private Wood wood1, wood2, wood3, wood4;
@@ -79,7 +77,7 @@ public class Level3 implements Screen, InputProcessor {
     private Vector2 currentMousePosition = new Vector2();
     private Vector2 slingshotPosition = new Vector2(250, 290);
 
-    private Texture glass_texture, wood_texture, stone_texture, minion_tex, foreman_tex;
+    private Texture glass_texture, wood_texture, stone_texture, king_tex, foreman_tex;
     private ShapeRenderer shapeRenderer;
 
 
@@ -101,13 +99,13 @@ public class Level3 implements Screen, InputProcessor {
 
 
         Red = new Red(wld, new Vector2(200, 150));
-        Chuck = new Chuck(wld, new Vector2(140, 150));
-        Bomb = new Bomb(wld, new Vector2(70, 150));
+        Blue = new Blues(wld, new Vector2(140, 150));
+        Terrance = new Terrance(wld, new Vector2(70, 150));
 
-        minion_tex = game.assetManager.get("NormalPig_Healthy.png", Texture.class);
+        king_tex = game.assetManager.get("king_pig.png", Texture.class);
         foreman_tex = game.assetManager.get("MoustachePig_Healthy.png", Texture.class);
-        minion = new NormalPigs(wld, new Vector2(1355, 165), minion_tex);
-        foreman = new MoustachePig(wld, new Vector2(1355, 432), foreman_tex);
+        king = new KingPig(wld, new Vector2(1375, 432), king_tex);
+        foreman = new MoustachePig(wld, new Vector2(1375, 165), foreman_tex);
         wood_texture = game.assetManager.get("wood_vertical_stick.png", Texture.class);
         stone_texture = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
         glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
@@ -119,14 +117,14 @@ public class Level3 implements Screen, InputProcessor {
 
 
         birds.add(Red);
-        birds.add(Chuck);
-        birds.add(Bomb);
+        birds.add(Blue);
+        birds.add(Terrance);
 
         blocks_list.add(glass);
         blocks_list.add(wood1);
         blocks_list.add(wood2);
 
-        pig_list.add(minion);
+        pig_list.add(king);
         pig_list.add(foreman);
 
 
@@ -403,7 +401,7 @@ public class Level3 implements Screen, InputProcessor {
 
 
     public void handleBirdBlockCollision(Bird bird, Block block) {
-        float damage = 120;
+        float damage = bird.damage;
         block.takeDamage(damage);
 //        if (bird.brdBody.getLinearVelocity().y < 0 ) {
         Vector2 bird_vel = bird.brdBody.getLinearVelocity();
@@ -550,14 +548,34 @@ public class Level3 implements Screen, InputProcessor {
 
         for (Bird bird : birds) {
             if (!isDragging || bird != selectedBird) {
-                game.batch.draw(bird.birdModel, bird.brdBody.getPosition().x - 35, bird.brdBody.getPosition().y - 35,
-                        catapult.getWidth() - 10, catapult.getHeight() - 120);
+                if (bird ==Terrance){
+                    game.batch.draw(bird.birdModel, bird.brdBody.getPosition().x - 45, bird.brdBody.getPosition().y - 45,
+                            catapult.getWidth() , catapult.getHeight() - 90);
+                } else if (bird == Blue) {
+                    game.batch.draw(bird.birdModel, bird.brdBody.getPosition().x - 35, bird.brdBody.getPosition().y - 25,
+                            catapult.getWidth() - 25, catapult.getHeight() - 150);
+
+                } else{
+                    game.batch.draw(bird.birdModel, bird.brdBody.getPosition().x - 35, bird.brdBody.getPosition().y - 35,
+                            catapult.getWidth() - 10, catapult.getHeight() - 120);
+                }
+
             }
         }
 
         if (isDragging && selectedBird != null) {
-            game.batch.draw(selectedBird.birdModel, currentMousePosition.x - 35, currentMousePosition.y - 35,
-                    catapult.getWidth() - 10, catapult.getHeight() - 120);
+            if (selectedBird ==Terrance){
+                game.batch.draw(selectedBird.birdModel, selectedBird.brdBody.getPosition().x - 45, selectedBird.brdBody.getPosition().y - 45,
+                        catapult.getWidth() , catapult.getHeight() - 90);
+            }
+            else if (selectedBird == Blue) {
+                game.batch.draw(selectedBird.birdModel, selectedBird.brdBody.getPosition().x - 35, selectedBird.brdBody.getPosition().y - 25,
+                        catapult.getWidth() - 25, catapult.getHeight() - 150);
+            }
+            else {
+                game.batch.draw(selectedBird.birdModel, currentMousePosition.x - 35, currentMousePosition.y - 35,
+                        catapult.getWidth() - 10, catapult.getHeight() - 120);
+            }
         }
 
         game.batch.end();

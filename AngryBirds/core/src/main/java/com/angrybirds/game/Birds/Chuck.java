@@ -8,7 +8,7 @@ public class Chuck extends Bird implements SpecialAbility {
     private Music BirdSound;
 
     public Chuck(World wrld, Vector2 pos){
-        super(wrld, pos, new Texture("Chuck.png"),10, "Red");
+        super(wrld, pos, new Texture("Chuck.png"),10, "Chuck", 23);
 
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("ChuckSound.mp3"));
 

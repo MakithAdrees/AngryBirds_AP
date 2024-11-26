@@ -7,8 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Terrance extends Bird implements SpecialAbility {
 
     public Terrance(World wrld, Vector2 pos){
-        super(wrld, pos, new Texture("Terrance.png"),10, "Red");
-
+        super(wrld, pos, new Texture("Terrance.png"),10, "Terrance", 35);
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("TerranceSound.mp3"));
     }
     @Override

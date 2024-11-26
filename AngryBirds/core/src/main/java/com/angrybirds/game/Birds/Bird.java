@@ -24,14 +24,26 @@ abstract public class Bird {
     public Vector2 velocity = new Vector2(0, 0);
     public Vector2 position;
     public float launchTime = 0;
+    private int radius;
+    public float damage;
 
-    public Bird(World world, Vector2 position, Texture birdModel, int mass, String name) {
+    public Bird(World world, Vector2 position, Texture birdModel, int mass, String name, int radius) {
         this.name = name;
         this.mass = mass;
         this.birdModel = birdModel;
         this.position = position;
+        this.radius = radius;
+        this.damage = calculate_bird_damage();
         createBirdBody(world, position);
     }
+
+    private float calculate_bird_damage() {
+        if (this instanceof Red) return 95;
+        if (this instanceof Chuck) return 100;
+        if (this instanceof Bomb) return 105;
+        if (this instanceof Terrance) return 150;
+        if (this instanceof Blues) return 80;
+        return 0;}
 
     private void createBirdBody(World world, Vector2 position) {
         BodyDef bodyDef = new BodyDef();
@@ -41,7 +53,7 @@ abstract public class Bird {
         brdBody = world.createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(25);
+        shape.setRadius(radius);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

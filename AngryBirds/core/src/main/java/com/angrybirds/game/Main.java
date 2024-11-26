@@ -65,6 +65,8 @@ public class Main extends Game {
         //pigs
         assetManager.load("NormalPig_Healthy.png", Texture.class);
         assetManager.load("MoustachePig_Healthy.png", Texture.class);
+        assetManager.load("king_pig.png", Texture.class);
+        assetManager.load("soldier_pig.png", Texture.class);
 
         //blocks
         assetManager.load("glass_horizontal_stick.png", Texture.class);
@@ -73,6 +75,7 @@ public class Main extends Game {
         assetManager.load("cracked_wood_vertical_stick.png", Texture.class);
         assetManager.load("stone_horizontal_stick.png", Texture.class);
         assetManager.load("cracked_stone_horizontal_stick.png", Texture.class);
+        assetManager.load("stone_vertical_stick.png", Texture.class);
 
 
         assetManager.finishLoading();

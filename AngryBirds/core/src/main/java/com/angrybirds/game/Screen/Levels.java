@@ -66,7 +66,7 @@ public class Levels implements Screen {
         level3.setPosition(946, (gameport.getWorldHeight() - level3.getHeight())/2);
         level4.setPosition(1314, (gameport.getWorldHeight() - level4.getHeight())/2);
 
-        stage.addActor(level1);
+        stage.addActor(level4);
         if (game.lev1)
             stage.addActor(level2);
         if (game.lev2)

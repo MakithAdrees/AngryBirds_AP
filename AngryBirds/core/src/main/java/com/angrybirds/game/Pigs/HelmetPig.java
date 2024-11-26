@@ -9,13 +9,4 @@ public class HelmetPig extends Pig {
     public HelmetPig(World wrld, Vector2 position, Texture PigModel) {
         super(wrld, position, PigModel, "hellie");
     }
-    @Override
-    public void PigRIP() {
-        System.out.println("Helmet pig has died!");
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }

@@ -61,7 +61,6 @@ public class Level1 implements Screen, InputProcessor {
     private Box2DDebugRenderer dbgrndr;
     private InputMultiplexer inputMultiplexer;
 
-    private TextureRegion wd_rg;
 
     private Body groundBody;
 
@@ -105,15 +104,12 @@ public class Level1 implements Screen, InputProcessor {
         Bomb = new Bomb(wld, new Vector2(70, 150));
 
         minion_tex = game.assetManager.get("NormalPig_Healthy.png", Texture.class);
-        foreman_tex = game.assetManager.get("MoustachePig_Healthy.png", Texture.class);
         minion = new NormalPigs(wld, new Vector2(1355, 165), minion_tex);
-        foreman = new MoustachePig(wld, new Vector2(1355, 432), foreman_tex);
         wood_texture = game.assetManager.get("wood_vertical_stick.png", Texture.class);
         stone_texture = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
         glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
-        wd_rg = new TextureRegion(wood_texture);
 
-        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
+//        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
         wood1 = new Wood(wld,wood_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
         wood2 = new Wood(wld,wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
 
@@ -122,13 +118,11 @@ public class Level1 implements Screen, InputProcessor {
         birds.add(Chuck);
         birds.add(Bomb);
 
-        blocks_list.add(glass);
+//        blocks_list.add(glass);
         blocks_list.add(wood1);
         blocks_list.add(wood2);
 
         pig_list.add(minion);
-        pig_list.add(foreman);
-
 
         for (Bird bird : birds){
             bird.brdBody.setActive(false);
@@ -405,7 +399,7 @@ public class Level1 implements Screen, InputProcessor {
 
 
     public void handleBirdBlockCollision(Bird bird, Block block) {
-        float damage = 120;
+        float damage = bird.damage;
         block.takeDamage(damage);
 //        if (bird.brdBody.getLinearVelocity().y < 0 ) {
             Vector2 bird_vel = bird.brdBody.getLinearVelocity();
@@ -448,9 +442,8 @@ public class Level1 implements Screen, InputProcessor {
             @Override
             public void postSolve(Contact contact, ContactImpulse impulse) {}});}
 
-
     private void handleBirdPigCollision(Pig pig, Bird bird) {
-        float damage = 200;
+        float damage = bird.damage;
         pig.takeDamage(damage);
 //        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f) {
             Vector2 bird_vel = bird.brdBody.getLinearVelocity();
@@ -465,7 +458,7 @@ public class Level1 implements Screen, InputProcessor {
             pig.takeDamage(20);
         }
         else{
-            pig.takeDamage(200);
+            pig.takeDamage(150);
         }
     }
 

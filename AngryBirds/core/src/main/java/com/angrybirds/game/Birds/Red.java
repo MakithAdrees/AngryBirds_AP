@@ -10,8 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Red extends Bird implements SpecialAbility {
 
     public Red(World wrld, Vector2 pos){
-        super(wrld, pos, new Texture("Red.png"),100, "Red");
-//        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("RedSound.mp3"));
+        super(wrld, pos, new Texture("Red.png"),100, "Red", 25);
     }
     @Override
     public void SpecialAbility() {

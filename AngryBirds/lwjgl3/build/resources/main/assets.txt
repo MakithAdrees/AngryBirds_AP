@@ -63,6 +63,7 @@ slingshot.png
 soldier_pig.png
 soldier_pig_hurt.png
 stone_horizontal_stick.png
+stone_vertical_stick.png
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt

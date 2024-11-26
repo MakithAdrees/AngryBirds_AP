@@ -13,7 +13,7 @@ public class Blues extends Bird implements SpecialAbility {
     private Music BirdSound;
 
     public Blues(World wrld, Vector2 pos) {
-        super(wrld, pos, new Texture("Red.png"), 10, "Red");
+        super(wrld, pos, new Texture("Blue.png"), 10, "Blues", 20);
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("RedSound.mp3"));
     }
 

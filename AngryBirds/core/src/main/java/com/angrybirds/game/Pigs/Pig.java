@@ -167,14 +167,11 @@ abstract public class Pig {
     public void update() {
         float fallVelocityThreshold = -0.01f;
 
-        if (pig_bdy.getPosition().y <= 150 &&
-                pig_bdy.getLinearVelocity().y <= fallVelocityThreshold) {
+        if (pig_bdy.getPosition().y <= 150 && pig_bdy.getLinearVelocity().y <= fallVelocityThreshold || pig_bdy.getLinearVelocity().x > 0.9f) {
             isDead = true;
             PigRIP();
         }
     }
-
-
 
     public void dispose() {
         if (PigModel != null) {
