@@ -86,12 +86,14 @@ public class Level1 implements Screen, InputProcessor {
     public Level1(Main game, OrthographicCamera cam, Viewport port) {
         this.game = game;
         this.gamecam = new OrthographicCamera();
+
         gamecam.setToOrtho(false, 1820 / 100f, 920 / 100f);
         this.gameport = new StretchViewport(1820, 980, gamecam);
         this.catapult = new Texture("slingshot.png");
         this.wld = new World(new Vector2(0, GRAVITY), true);
         this.dbgrndr = new Box2DDebugRenderer();
         shapeRenderer = new ShapeRenderer();
+        setupCollisionListener(wld);
 
         bg = game.assetManager.get("gameplay_background.jpg", Texture.class);
         theme = game.assetManager.get("gameplaymusic.mp3", Music.class);
@@ -133,6 +135,7 @@ public class Level1 implements Screen, InputProcessor {
         }
 //        for (Block blk : blocks_list){
 //            blk.boxbody.setActive(false);
+//            blk.boxbody.setGravityScale(0);
 //        }
 //        for (Pig piggie : pig_list){
 //            piggie.pig_bdy.setActive(false);
@@ -392,10 +395,80 @@ public class Level1 implements Screen, InputProcessor {
     }
 
 
+    public void handleBirdBlockCollision(Bird bird, Block block) {
+        float damage = 120;
+        block.takeDamage(damage);
+//        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f ){
+            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+            System.out.println("Before change: " + bird_vel);
+            bird.brdBody.setLinearVelocity(bird_vel.x / 2, bird_vel.y / 2);
+            System.out.println("after change: " + bird.brdBody.getLinearVelocity());
+//        }
+    }
+
+    private void setupCollisionListener(World world) {
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Body bodyA = contact.getFixtureA().getBody();
+                Body bodyB = contact.getFixtureB().getBody();
+
+                if (bodyA.getUserData() instanceof Pig && bodyB.getUserData() instanceof Block) {
+                    handleBlockPigCollision((Pig)bodyA.getUserData(), (Block)bodyB.getUserData());
+
+                } else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Block) {
+                    handleBlockPigCollision((Pig)bodyB.getUserData(), (Block)bodyA.getUserData());
+
+
+                }
+                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
+                    handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
+                }
+                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
+                    handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
+                }
+                else if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
+                    handleBirdBlockCollision((Bird)bodyA.getUserData(), (Block)bodyB.getUserData());
+                }else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
+                    handleBirdBlockCollision((Bird)bodyB.getUserData(), (Block)bodyA.getUserData());}
+            }
+
+            @Override
+            public void endContact(Contact contact) {}
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {}
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {}
+        });
+    }
+
+
+    private void handleBirdPigCollision(Pig pig, Bird bird) {
+        float damage = 200;
+        pig.takeDamage(damage);
+//        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f) {
+            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+            System.out.println("Before change: " + bird_vel);
+            bird.brdBody.setLinearVelocity(bird_vel.x / 2, bird_vel.y / 2);
+            System.out.println("after change: " + bird.brdBody.getLinearVelocity());
+//        }
+    }
+
+    private void handleBlockPigCollision(Pig pig, Block block) {
+        if (block instanceof Glass) {
+            pig.takeDamage(20);
+        }
+        else{
+            pig.takeDamage(200);
+        }
+    }
+
 
     @Override
     public void render(float delta) {
-        wld.step(delta, 6, 2);
+        wld.step(delta, 4, 2);
         wld.setGravity(new Vector2(0, -10));
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -514,21 +587,43 @@ public class Level1 implements Screen, InputProcessor {
             selectedBird.launchTime += tim;
             //projectile motion
             float scale = 3f, gravity = -5f;
-            float velocityX = selectedBird.brdBody.getLinearVelocity().x * 3;
-            float velocityY = selectedBird.brdBody.getLinearVelocity().y * 3;
+            float velocityX = selectedBird.brdBody.getLinearVelocity().x > 0
+                    ? selectedBird.brdBody.getLinearVelocity().x * 4.1f
+                    : 0;;
+            float velocityY = selectedBird.brdBody.getLinearVelocity().y * 4.1f;
 
             float newX = selectedBird.getPosition().x + velocityX * tim;
-            float newY = selectedBird.getPosition().y + velocityY * tim + 0.5f* -50*100*tim*tim;
+            float newY = selectedBird.getPosition().y + velocityY * tim + 0.5f * -50 * 100 * tim * tim;
 
             selectedBird.setPosition(newX, newY);
-            if (newY <= 150) {
+
+            velocityY += -120 * tim;
+            selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
+            if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 20f ){
+                selectedBird.brdBody.setLinearVelocity(0,0);
                 selectedBird.launched = false;
                 selectedBird.brdBody.setActive(false);
-                selectedBird.setPosition(newX, 1.5f);
-                selectedBird = null;}
-            else{
-                velocityY += -700*tim;
-                selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);}}
+                wld.destroyBody(selectedBird.brdBody);
+                birds.remove(selectedBird);
+                selectedBird = null;
+            }
+//            else{
+//                for (Contact contact : wld.getContactList()) {
+//                    if (contact.isTouching()) {
+//                        Body bodyA = contact.getFixtureA().getBody();
+//                        Body bodyB = contact.getFixtureB().getBody();
+//                        // Check if either body is the bird
+//                        if (bodyA == selectedBird.brdBody || bodyB == selectedBird.brdBody) {
+//                            System.out.println("detected");
+//                            Vector2 currentVelocity = selectedBird.brdBody.getLinearVelocity();
+//                            System.out.println("before: " + currentVelocity);
+//                            selectedBird.brdBody.setLinearVelocity(currentVelocity.x / 7, currentVelocity.y / 7);
+//                            System.out.println("After: " + selectedBird.brdBody.getLinearVelocity());
+//                        }
+//                    }
+//                }
+//            }
+        }
 
 
         if (pig_list.isEmpty()){

@@ -37,7 +37,7 @@ abstract public class Block {
         this.currentHp = maxHp;}
 
     private float calculateMaterialHp() {
-        if (this instanceof Wood) return 125;
+        if (this instanceof Wood) return 120;
         if (this instanceof Glass) return 50;
         if (this instanceof Stone) return 200;
         return 0;}
@@ -115,10 +115,7 @@ abstract public class Block {
 //            public void postSolve(Contact contact, ContactImpulse impulse) {}
 //        });
 //    }
-    public void handleBirdBlockCollision(Bird bird, Block block) {
-        float damage = 100;
-        block.takeDamage(damage);
-    }
+
 
 
     private void createBoxBody(World world, Vector2 position, Vector2 dimension) {

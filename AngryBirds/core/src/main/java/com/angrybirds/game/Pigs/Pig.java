@@ -33,7 +33,7 @@ abstract public class Pig {
         this.name = name;
         setPigBody(wrld, position);
         this.maxHp = initializePigHp();
-        setupCollisionListener(wrld);
+//        setupCollisionListener(wrld);
         this.currentHp = maxHp;
 
         this.catapult = new Texture("slingshot.png");
@@ -48,9 +48,6 @@ abstract public class Pig {
 
     }
 
-    public void handleBirdBlockCollision(Bird bird, Block block) {
-        float damage = 100;
-        block.takeDamage(damage);}
 
     public void takeDamage(float damage) {
         currentHp -= damage;
@@ -59,57 +56,76 @@ abstract public class Pig {
             PigRIP();
         }
     }
-    private void setupCollisionListener(World world) {
-        world.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-                Body bodyA = contact.getFixtureA().getBody();
-                Body bodyB = contact.getFixtureB().getBody();
 
-                if (bodyA.getUserData() instanceof Pig && bodyB.getUserData() instanceof Block) {
-                    handleBlockPigCollision((Pig)bodyA.getUserData(), (Block)bodyB.getUserData());
+//    public void handleBirdBlockCollision(Bird bird, Block block) {
+//        float damage = 120;
+//        block.takeDamage(damage);
+////        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f ){
+////            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+////            System.out.println("Before change: " + bird_vel);
+////            bird.brdBody.setLinearVelocity(bird_vel.x / 2, bird_vel.y / 2);
+////            System.out.println("after change: " + bird.brdBody.getLinearVelocity());
+////        }
+//    }
+//
+//    private void setupCollisionListener(World world) {
+//        world.setContactListener(new ContactListener() {
+//            @Override
+//            public void beginContact(Contact contact) {
+//                Body bodyA = contact.getFixtureA().getBody();
+//                Body bodyB = contact.getFixtureB().getBody();
+//
+//                if (bodyA.getUserData() instanceof Pig && bodyB.getUserData() instanceof Block) {
+//                    handleBlockPigCollision((Pig)bodyA.getUserData(), (Block)bodyB.getUserData());
+//
+//                } else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Block) {
+//                    handleBlockPigCollision((Pig)bodyB.getUserData(), (Block)bodyA.getUserData());
+//
+//                }
+//                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
+//                    handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
+//                }
+//                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
+//                    handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
+//                }
+//                else if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
+//                    handleBirdBlockCollision((Bird)bodyA.getUserData(), (Block)bodyB.getUserData());
+//                }else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
+//                    handleBirdBlockCollision((Bird)bodyB.getUserData(), (Block)bodyA.getUserData());}
+//            }
+//
+//            @Override
+//            public void endContact(Contact contact) {}
+//
+//            @Override
+//            public void preSolve(Contact contact, Manifold oldManifold) {}
+//
+//            @Override
+//            public void postSolve(Contact contact, ContactImpulse impulse) {}
+//        });
+//    }
+//
+//
+//    private void handleBirdPigCollision(Pig pig, Bird bird) {
+//        float damage = 200;
+//        pig.takeDamage(damage);
+////        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f) {
+////            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+////            System.out.println("Before change: " + bird_vel);
+////            bird.brdBody.setLinearVelocity(bird_vel.x / 2, bird_vel.y / 2);
+////            System.out.println("after change: " + bird.brdBody.getLinearVelocity());
+////        }
+//    }
+//
+//    private void handleBlockPigCollision(Pig pig, Block block) {
+//        if (block instanceof Glass) {
+//            pig.takeDamage(20);
+//        }
+//        else{
+//            pig.takeDamage(200);
+//        }
+//    }
 
-                } else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Block) {
-                    handleBlockPigCollision((Pig)bodyB.getUserData(), (Block)bodyA.getUserData());
-
-                }
-                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
-                    handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
-                }
-                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
-                    handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
-                }
-                else if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
-                    handleBirdBlockCollision((Bird)bodyA.getUserData(), (Block)bodyB.getUserData());
-                }else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
-                    handleBirdBlockCollision((Bird)bodyB.getUserData(), (Block)bodyA.getUserData());}
-            }
-
-            @Override
-            public void endContact(Contact contact) {}
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {}
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {}
-        });
-    }
-
-
-    private void handleBirdPigCollision(Pig pig, Bird bird) {
-        float damage = 200;
-        pig.takeDamage(damage);
-    }
-
-    private void handleBlockPigCollision(Pig pig, Block block) {
-        if (block instanceof Glass) {
-            pig.takeDamage(60);
-        }
-        else{
-            pig.takeDamage(200);
-        }
-    }
 
     public void PigRIP() {
         System.out.println(name + " Pig is dead!");
