@@ -380,7 +380,7 @@ public class Level1 implements Screen, InputProcessor {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = groundShape;
-        fixtureDef.friction = 5.0f;
+        fixtureDef.friction = 10.0f;
         fixtureDef.restitution = 0.1f;
 
         groundBody.createFixture(fixtureDef);
@@ -398,12 +398,12 @@ public class Level1 implements Screen, InputProcessor {
     public void handleBirdBlockCollision(Bird bird, Block block) {
         float damage = 120;
         block.takeDamage(damage);
-//        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f ){
+//        if (bird.brdBody.getLinearVelocity().y < 0 ) {
             Vector2 bird_vel = bird.brdBody.getLinearVelocity();
             System.out.println("Before change: " + bird_vel);
-            bird.brdBody.setLinearVelocity(bird_vel.x / 2, bird_vel.y / 2);
+            bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
             System.out.println("after change: " + bird.brdBody.getLinearVelocity());
-//        }
+
     }
 
     private void setupCollisionListener(World world) {
@@ -451,7 +451,7 @@ public class Level1 implements Screen, InputProcessor {
 //        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f) {
             Vector2 bird_vel = bird.brdBody.getLinearVelocity();
             System.out.println("Before change: " + bird_vel);
-            bird.brdBody.setLinearVelocity(bird_vel.x / 2, bird_vel.y / 2);
+            bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
             System.out.println("after change: " + bird.brdBody.getLinearVelocity());
 //        }
     }
@@ -465,7 +465,6 @@ public class Level1 implements Screen, InputProcessor {
         }
     }
 
-
     @Override
     public void render(float delta) {
         wld.step(delta, 4, 2);
@@ -477,64 +476,67 @@ public class Level1 implements Screen, InputProcessor {
         game.batch.begin();
         game.batch.draw(bg, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
 
-        Array<Block> b_2_r = new Array<>();
-        Array<Body> body_2_des = new Array<>();
+        Array<Block> blocksToRemove = new Array<>();
+        Array<Body> bodyToDestroy = new Array<>();
 
         for (Block block : blocks_list) {
             block.updateBlockRelationships(blocks_list);
-
-            if (block.needsDestruction) {
-                b_2_r.add(block);
-                body_2_des.add(block.boxbody);
+            if (block.needsDestruction || block.isDestroyed || block.boxbody.getPosition().y < 170) {
+                blocksToRemove.add(block);
+                bodyToDestroy.add(block.boxbody);
+            }
+            else{
+                block.render(game.batch);
+                block.boxbody.setGravityScale(100);
             }
         }
 
-        for (Block blk : blocks_list) {
-            if (!blk.isDestroyed) {
-                blk.render(game.batch);
-                blk.boxbody.setActive(true);
-                blk.boxbody.setGravityScale(130);
-            } else {
-                b_2_r.add(blk);
-                body_2_des.add(blk.boxbody);
+        for (Block block : blocksToRemove) {
+            blocks_list.remove(block);
+        }
+        for (Body body : bodyToDestroy) {
+            if (body.isActive()) {
+                body.setActive(false);
+                wld.destroyBody(body);
             }
-        }
 
-        for (Block blk : b_2_r) {
-            blocks_list.remove(blk);
-        }
-
-        for (Body body : body_2_des) {
-            wld.destroyBody(body);
         }
 
         game.batch.end();
 
         game.batch.begin();
-        Array<Pig> pigs_2_r = new Array<>();
-        Array<Body> pig_body_2_des = new Array<>();
+        Array<Pig> pigsToRemove = new Array<>();
+        Array<Body> pigBodyToDestroy = new Array<>();
 
         for (Pig piggie : pig_list) {
             piggie.update();
             if (piggie.isDead) {
-                pigs_2_r.add(piggie);
-                pig_body_2_des.add(piggie.pig_bdy);
+                pigsToRemove.add(piggie);
+                pigBodyToDestroy.add(piggie.pig_bdy);
             } else {
                 piggie.render(game.batch);
+                piggie.pig_bdy.setActive(true);
+                piggie.pig_bdy.setGravityScale(10);
             }
         }
 
-        for (Pig piggie : pigs_2_r) {
+        for (Pig piggie : pigsToRemove) {
             pig_list.remove(piggie);
         }
-
-        for (Body body : pig_body_2_des) {
-            wld.destroyBody(body);
+        for (Body body : pigBodyToDestroy) {
+            if (body.isActive()) {
+                body.setActive(false);
+                wld.destroyBody(body);
+            }
         }
+
         game.batch.end();
 
         game.batch.begin();
         game.batch.draw(catapult, 200, 130);
+
+        Array<Bird> birdsToRemove = new Array<>();
+        Array<Body> birdBodyToDestroy = new Array<>();
 
         for (Bird bird : birds) {
             if (!isDragging || bird != selectedBird) {
@@ -549,8 +551,8 @@ public class Level1 implements Screen, InputProcessor {
         }
 
         game.batch.end();
-        game.batch.begin();
 
+        game.batch.begin();
 
         if (isDragging && selectedBird != null) {
             shapeRenderer.setProjectionMatrix(gamecam.combined);
@@ -569,65 +571,73 @@ public class Level1 implements Screen, InputProcessor {
                 for (int i = 0; i < trajectoryPoints.size; i++) {
                     Vector2 point = trajectoryPoints.get(i);
                     shapeRenderer.setColor(0.2f, 0.2f, 0.2f, alpha);
-                    if (i < trajectoryPoints.size/4)
-                        shapeRenderer.circle(point.x, point.y, 5);
-                    else if (i < trajectoryPoints.size/4*2)
-                        shapeRenderer.circle(point.x, point.y, 4);
-                    else if (i < trajectoryPoints.size/4*3)
-                        shapeRenderer.circle(point.x, point.y, 3);
-                    else
-                        shapeRenderer.circle(point.x, point.y, 2);
-                    alpha -= alphaStep;}}
-            shapeRenderer.end();}
-
-        if (selectedBird!= null && selectedBird.launched) {
-            float tim = delta;
-//            tim = 0.005f;
-//            System.out.println(tim);
-            selectedBird.launchTime += tim;
-            //projectile motion
-            float scale = 3f, gravity = -5f;
-            float velocityX = selectedBird.brdBody.getLinearVelocity().x > 0
-                    ? selectedBird.brdBody.getLinearVelocity().x * 4.1f
-                    : 0;;
-            float velocityY = selectedBird.brdBody.getLinearVelocity().y * 4.1f;
-
-            float newX = selectedBird.getPosition().x + velocityX * tim;
-            float newY = selectedBird.getPosition().y + velocityY * tim + 0.5f * -50 * 100 * tim * tim;
-
-            selectedBird.setPosition(newX, newY);
-
-            velocityY += -120 * tim;
-            selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
-            if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 20f ){
-                selectedBird.brdBody.setLinearVelocity(0,0);
-                selectedBird.launched = false;
-                selectedBird.brdBody.setActive(false);
-                wld.destroyBody(selectedBird.brdBody);
-                birds.remove(selectedBird);
-                selectedBird = null;
+                    float radius = (i < trajectoryPoints.size / 4) ? 5 : (i < trajectoryPoints.size / 2) ? 4 : (i < trajectoryPoints.size / 4 * 3) ? 3 : 2;
+                    shapeRenderer.circle(point.x, point.y, radius);
+                    alpha -= alphaStep;
+                }
             }
-//            else{
-//                for (Contact contact : wld.getContactList()) {
-//                    if (contact.isTouching()) {
-//                        Body bodyA = contact.getFixtureA().getBody();
-//                        Body bodyB = contact.getFixtureB().getBody();
-//                        // Check if either body is the bird
-//                        if (bodyA == selectedBird.brdBody || bodyB == selectedBird.brdBody) {
-//                            System.out.println("detected");
-//                            Vector2 currentVelocity = selectedBird.brdBody.getLinearVelocity();
-//                            System.out.println("before: " + currentVelocity);
-//                            selectedBird.brdBody.setLinearVelocity(currentVelocity.x / 7, currentVelocity.y / 7);
-//                            System.out.println("After: " + selectedBird.brdBody.getLinearVelocity());
-//                        }
-//                    }
-//                }
-//            }
+            shapeRenderer.end();
         }
 
+        if (selectedBird != null && selectedBird.launched) {
+            Vector2 birdPosition = selectedBird.brdBody.getPosition();
+            if (birdPosition.x < 0 || birdPosition.x > gameport.getWorldWidth() || birdPosition.y < 0 || birdPosition.y > gameport.getWorldHeight()) {
+                birdsToRemove.add(selectedBird);
+                birdBodyToDestroy.add(selectedBird.brdBody);
+                selectedBird = null;
+            } else {
+                float tim = delta;
+                selectedBird.launchTime += tim;
 
-        if (pig_list.isEmpty()){
-            victoryscreen.setVisible(true);}
+                float scale = 3f, gravity = -5f;
+                float velocityX = selectedBird.brdBody.getLinearVelocity().x > 0
+                        ? selectedBird.brdBody.getLinearVelocity().x * 4f
+                        : 0;
+                float velocityY = selectedBird.brdBody.getLinearVelocity().y * 4f;
+
+                float newX = selectedBird.getPosition().x + velocityX * tim;
+                float newY = selectedBird.getPosition().y + velocityY * tim + 0.5f * -50 * 100 * tim * tim;
+
+                selectedBird.setPosition(newX, newY);
+
+                velocityY += -130 * tim;
+                selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
+
+                if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 40f) {
+                    selectedBird.brdBody.setLinearVelocity(0, 0);
+                    selectedBird.launched = false;
+                    selectedBird.brdBody.setActive(false);
+                    wld.destroyBody(selectedBird.brdBody);
+                    birds.remove(selectedBird);
+                    selectedBird = null;
+                } else {
+                    for (Contact contact : wld.getContactList()) {
+                        if (contact.isTouching()) {
+                            Body bodyA = contact.getFixtureA().getBody();
+                            Body bodyB = contact.getFixtureB().getBody();
+                            if (bodyA == selectedBird.brdBody || bodyB == selectedBird.brdBody) {
+                                Vector2 currentVelocity = selectedBird.brdBody.getLinearVelocity();
+                                selectedBird.brdBody.setLinearVelocity(currentVelocity.x / 7, currentVelocity.y / 7);
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (Bird bird : birdsToRemove) {
+                birds.remove(bird);
+            }
+            for (Body body : birdBodyToDestroy) {
+                if (body.isActive()) {
+                    body.setActive(false);
+                    wld.destroyBody(body);
+                }
+            }
+        }
+
+        if (pig_list.isEmpty()) {
+            victoryscreen.setVisible(true);
+        }
 
         dbgrndr.render(wld, gamecam.combined);
 
@@ -636,6 +646,199 @@ public class Level1 implements Screen, InputProcessor {
         stage.act(delta);
         stage.draw();
     }
+
+
+//    @Override
+//    public void render(float delta) {
+//        wld.step(delta, 4, 2);
+//        wld.setGravity(new Vector2(0, -10));
+//        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//
+//        game.batch.setProjectionMatrix(gamecam.combined);
+//        game.batch.begin();
+//        game.batch.draw(bg, 0, 0, gameport.getWorldWidth(), gameport.getWorldHeight());
+//
+//        Array<Block> b_2_r = new Array<>();
+//        Array<Body> body_2_des = new Array<>();
+//
+//        for (Block block : blocks_list) {
+//            block.updateBlockRelationships(blocks_list);
+//
+//            if (block.needsDestruction) {
+//                b_2_r.add(block);
+//                body_2_des.add(block.boxbody);
+//            }
+//        }
+//
+//        for (Block blk : blocks_list) {
+//            if (!blk.isDestroyed) {
+//                blk.render(game.batch);
+//                blk.boxbody.setActive(true);
+//                blk.boxbody.setGravityScale(130);
+//            } else if(blk.boxbody.getPosition().y < 200){
+//                b_2_r.add(blk);
+//                body_2_des.add(blk.boxbody);
+//            }
+//            else {
+//                b_2_r.add(blk);
+//                body_2_des.add(blk.boxbody);
+//            }
+//        }
+//
+//        for (Block blk : b_2_r) {
+//            blocks_list.remove(blk);
+//        }
+//
+//        for (Body body : body_2_des) {
+//            wld.destroyBody(body);
+//        }
+//
+//        game.batch.end();
+//
+//        game.batch.begin();
+//        Array<Pig> pigs_2_r = new Array<>();
+//        Array<Body> pig_body_2_des = new Array<>();
+//
+//        for (Pig piggie : pig_list) {
+//            piggie.update();
+//            if (piggie.isDead) {
+//                pigs_2_r.add(piggie);
+//                pig_body_2_des.add(piggie.pig_bdy);
+//            } else {
+//                piggie.render(game.batch);
+//            }
+//        }
+//
+//        for (Pig piggie : pigs_2_r) {
+//            pig_list.remove(piggie);
+//        }
+//
+//        for (Body body : pig_body_2_des) {
+//            wld.destroyBody(body);
+//        }
+//        game.batch.end();
+//
+//        game.batch.begin();
+//        game.batch.draw(catapult, 200, 130);
+//
+//        Array<Bird> birds_2_r = new Array<>();
+//        Array<Body> birdvdy_2_d = new Array<>();
+//        for (Bird bird : birds) {
+//            if (!isDragging || bird != selectedBird) {
+//                game.batch.draw(bird.birdModel, bird.brdBody.getPosition().x - 35, bird.brdBody.getPosition().y - 35,
+//                        catapult.getWidth() - 10, catapult.getHeight() - 120);
+//            }
+//        }
+//
+//        if (isDragging && selectedBird != null) {
+//            game.batch.draw(selectedBird.birdModel, currentMousePosition.x - 35, currentMousePosition.y - 35,
+//                    catapult.getWidth() - 10, catapult.getHeight() - 120);
+//        }
+//
+//        game.batch.end();
+//        game.batch.begin();
+//
+//
+//
+//        if (isDragging && selectedBird != null) {
+//            shapeRenderer.setProjectionMatrix(gamecam.combined);
+//            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//
+//            shapeRenderer.setColor(0.6f, 0.3f, 0.1f, 1f);
+//            shapeRenderer.rectLine(slingshotPosition.x, slingshotPosition.y, currentMousePosition.x, currentMousePosition.y, 6);
+//            shapeRenderer.rectLine(slingshotPosition.x + 2, slingshotPosition.y, currentMousePosition.x, currentMousePosition.y, 6);
+//
+//            Vector2 launchVector = slingshotPosition.cpy().sub(currentMousePosition).scl(100);
+//            Array<Vector2> trajectoryPoints = Catapult.calculateTrajectory(slingshotPosition, launchVector);
+//
+//            if (trajectoryPoints.size > 0) {
+//                float alpha = 0.8f;
+//                float alphaStep = alpha / trajectoryPoints.size;
+//                for (int i = 0; i < trajectoryPoints.size; i++) {
+//                    Vector2 point = trajectoryPoints.get(i);
+//                    shapeRenderer.setColor(0.2f, 0.2f, 0.2f, alpha);
+//                    if (i < trajectoryPoints.size/4)
+//                        shapeRenderer.circle(point.x, point.y, 5);
+//                    else if (i < trajectoryPoints.size/4*2)
+//                        shapeRenderer.circle(point.x, point.y, 4);
+//                    else if (i < trajectoryPoints.size/4*3)
+//                        shapeRenderer.circle(point.x, point.y, 3);
+//                    else
+//                        shapeRenderer.circle(point.x, point.y, 2);
+//                    alpha -= alphaStep;}}
+//            shapeRenderer.end();}
+//
+//        if (selectedBird!= null && selectedBird.launched) {
+//
+//            Vector2 birdPosition = selectedBird.brdBody.getPosition();
+//            if (birdPosition.x < 0 || birdPosition.x > gameport.getWorldWidth() || birdPosition.y < 0 || birdPosition.y > gameport.getWorldHeight()) {
+//                birds_2_r.add(selectedBird);
+//                birdvdy_2_d.add(selectedBird.brdBody);
+//                selectedBird = null;
+//            } else {
+//                float tim = delta;
+////            tim = 0.005f;
+////            System.out.println(tim);
+//                selectedBird.launchTime += tim;
+//                //projectile motion
+//                float scale = 3f, gravity = -5f;
+//                float velocityX = selectedBird.brdBody.getLinearVelocity().x > 0
+//                        ? selectedBird.brdBody.getLinearVelocity().x * 4f
+//                        : 0;
+//                float velocityY = selectedBird.brdBody.getLinearVelocity().y * 4f;
+//
+//                float newX = selectedBird.getPosition().x + velocityX * tim;
+//                float newY = selectedBird.getPosition().y + velocityY * tim + 0.5f * -50 * 100 * tim * tim;
+//
+//                selectedBird.setPosition(newX, newY);
+//
+//                velocityY += -130 * tim;
+//                selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
+//                if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 40f ){
+//                    selectedBird.brdBody.setLinearVelocity(0,0);
+//                    selectedBird.launched = false;
+//                    selectedBird.brdBody.setActive(false);
+//                    wld.destroyBody(selectedBird.brdBody);
+//                    birds.remove(selectedBird);
+//                    selectedBird = null;
+//                }
+//                else{
+//                    for (Contact contact : wld.getContactList()) {
+//                        if (contact.isTouching()) {
+//                            Body bodyA = contact.getFixtureA().getBody();
+//                            Body bodyB = contact.getFixtureB().getBody();
+//                            // Check if either body is the bird
+//                            if (bodyA == selectedBird.brdBody || bodyB == selectedBird.brdBody) {
+//                                System.out.println("detected");
+//                                Vector2 currentVelocity = selectedBird.brdBody.getLinearVelocity();
+//                                System.out.println("before: " + currentVelocity);
+//                                selectedBird.brdBody.setLinearVelocity(currentVelocity.x / 7, currentVelocity.y / 7);
+//                                System.out.println("After: " + selectedBird.brdBody.getLinearVelocity());
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            for (Bird bird : birds_2_r) {
+//                birds.remove(bird);
+//            }
+//
+//            for (Body body : birdvdy_2_d) {
+//                wld.destroyBody(body);
+//            }
+//        }
+//
+//        if (pig_list.isEmpty()){
+//            victoryscreen.setVisible(true);}
+//
+//        dbgrndr.render(wld, gamecam.combined);
+//
+//        game.batch.end();
+//
+//        stage.act(delta);
+//        stage.draw();
+//    }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {

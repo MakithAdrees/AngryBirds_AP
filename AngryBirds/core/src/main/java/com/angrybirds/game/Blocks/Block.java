@@ -37,8 +37,8 @@ abstract public class Block {
         this.currentHp = maxHp;}
 
     private float calculateMaterialHp() {
-        if (this instanceof Wood) return 120;
-        if (this instanceof Glass) return 50;
+        if (this instanceof Wood) return 150;
+        if (this instanceof Glass) return 90;
         if (this instanceof Stone) return 200;
         return 0;}
 
