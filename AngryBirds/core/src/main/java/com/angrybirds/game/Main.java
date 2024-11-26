@@ -11,8 +11,7 @@ import com.badlogic.gdx.audio.Music;
 public class Main extends Game {
     public SpriteBatch batch;
     public AssetManager assetManager;
-    public boolean musicOn = true;
-
+    public boolean musicOn = true, lev1 = false, lev2 = false, lev3 = false, lev4 = false;
     @Override
     public void create(){
         batch = new SpriteBatch();
@@ -29,8 +28,13 @@ public class Main extends Game {
         assetManager.load("Red.png", Texture.class);
 
         assetManager.load("gameplay_background.jpg", Texture.class);
-        assetManager.load("pausescreen.png", Texture.class);
+        assetManager.load("pausescreen1.png", Texture.class);
+        assetManager.load("pausescreen2.png", Texture.class);
+        assetManager.load("pausescreen3.png", Texture.class);
+        assetManager.load("pausescreen4.png", Texture.class);
+
         assetManager.load("victory.png", Texture.class);
+        assetManager.load("lost.png", Texture.class);
         assetManager.load("optionscreenbg.png", Texture.class);
         assetManager.load("levelmenubg.png", Texture.class);
         assetManager.load("save.png", Texture.class);

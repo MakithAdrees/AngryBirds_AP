@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import static com.angrybirds.game.Birds.Bird.GRAVITY;
 import static java.lang.Math.abs;
 
-public class Level1 implements Screen, InputProcessor {
+public class Level2 implements Screen, InputProcessor {
     final Texture bg;
     final ImageButton pause, resume, restart, menu, save, musicon, musicoff, pausemenu, won, victoryscreen, lostscreen, menu2, restart2, next;
     private Main game;
@@ -84,7 +84,7 @@ public class Level1 implements Screen, InputProcessor {
 
 
 
-    public Level1(Main game, OrthographicCamera cam, Viewport port) {
+    public Level2(Main game, OrthographicCamera cam, Viewport port) {
         this.game = game;
         this.gamecam = new OrthographicCamera();
 
@@ -172,7 +172,7 @@ public class Level1 implements Screen, InputProcessor {
         menu = new ImageButton(u2);
         menu.setPosition((gameport.getWorldWidth()) / 2 - 230, 250);
 
-        Texture b = game.assetManager.get("pausescreen1.png", Texture.class);
+        Texture b = game.assetManager.get("pausescreen2.png", Texture.class);
         TextureRegion b2 = new TextureRegion(b);
         TextureRegionDrawable b3 = new TextureRegionDrawable(b2);
         pausemenu = new ImageButton(b3);
@@ -276,7 +276,7 @@ public class Level1 implements Screen, InputProcessor {
 //                musicoff.setVisible(false);
 //                musicon.setVisible(false);
                 theme.dispose();
-                game.setScreen(new Level1(game, cam, port));}});
+                game.setScreen(new Level2(game, cam, port));}});
 
         menu.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
@@ -341,18 +341,18 @@ public class Level1 implements Screen, InputProcessor {
 
         restart2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.lev1 = true;
+                game.lev2 = true;
                 theme.dispose();
-                game.setScreen(new Level1(game, gamecam, gameport));}});
+                game.setScreen(new Level2(game, gamecam, gameport));}});
         menu2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.lev1 = true;
+                game.lev2 = true;
                 theme.dispose();
                 game.setScreen(new Levels(game, cam, port));}});
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.lev1 = true;
-                game.setScreen(new Level2(game, cam, port));
+                game.lev2 = true;
+                game.setScreen(new Level3(game, cam, port));
             }});
 
         inputMultiplexer = new InputMultiplexer();
@@ -389,10 +389,10 @@ public class Level1 implements Screen, InputProcessor {
         float damage = 120;
         block.takeDamage(damage);
 //        if (bird.brdBody.getLinearVelocity().y < 0 ) {
-            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
-            System.out.println("Before change: " + bird_vel);
-            bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
-            System.out.println("after change: " + bird.brdBody.getLinearVelocity());}
+        Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+        System.out.println("Before change: " + bird_vel);
+        bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
+        System.out.println("after change: " + bird.brdBody.getLinearVelocity());}
 
     private void setupCollisionListener(World world) {
         world.setContactListener(new ContactListener() {
@@ -434,10 +434,10 @@ public class Level1 implements Screen, InputProcessor {
         float damage = 200;
         pig.takeDamage(damage);
 //        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f) {
-            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
-            System.out.println("Before change: " + bird_vel);
-            bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
-            System.out.println("after change: " + bird.brdBody.getLinearVelocity());
+        Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+        System.out.println("Before change: " + bird_vel);
+        bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
+        System.out.println("after change: " + bird.brdBody.getLinearVelocity());
 //        }
     }
 

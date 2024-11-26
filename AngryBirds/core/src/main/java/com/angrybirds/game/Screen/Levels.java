@@ -42,6 +42,7 @@ public class Levels implements Screen {
         mylevel = new ImageButton(my2);
         mylevel.setPosition(30, 30);
         stage.addActor(mylevel);
+        mylevel.setVisible(false);
 
         Texture level11 = game.assetManager.get("level1.png", Texture.class);
         TextureRegion level111 = new TextureRegion(level11);
@@ -66,15 +67,32 @@ public class Levels implements Screen {
         level4.setPosition(1314, (gameport.getWorldHeight() - level4.getHeight())/2);
 
         stage.addActor(level1);
-        stage.addActor(level2);
-        stage.addActor(level3);
-        stage.addActor(level4);
+        if (game.lev1)
+            stage.addActor(level2);
+        if (game.lev2)
+            stage.addActor(level3);
+        if (game.lev3)
+            stage.addActor(level4);
 
         level1.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Level1(game, cam, port));}
-        });
+                game.setScreen(new Level1(game, cam, port));}});
+
+        level2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new Level2(game, cam, port));}});
+
+        level3.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new Level3(game, cam, port));}});
+
+        level4.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new Level4(game, cam, port));}});
 
         Texture bac = game.assetManager.get("back.png", Texture.class);
         TextureRegion b = new TextureRegion(bac);

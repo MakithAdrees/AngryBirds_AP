@@ -44,12 +44,16 @@ libgdx.png
 load.png
 loadingimage.jpg
 login.png
+lost.png
 musicoff.png
 musicon.png
 next.png
 optionscreenbg.png
 pause.png
-pausescreen.png
+pausescreen1.png
+pausescreen2.png
+pausescreen3.png
+pausescreen4.png
 play.png
 quit.png
 replay.png
