@@ -527,7 +527,7 @@ public class Level1 implements Screen, InputProcessor {
                 selectedBird.setPosition(newX, 1.5f);
                 selectedBird = null;}
             else{
-                velocityY += -2000*tim;
+                velocityY += -700*tim;
                 selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);}}
 
 

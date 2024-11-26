@@ -57,15 +57,18 @@ public class Main extends Game {
         assetManager.load("button_rectangle_flat.png", Texture.class);
         assetManager.load("button_rectangle_gloss.png", Texture.class);
         assetManager.load("check_square_color_cross.png", Texture.class);
-        assetManager.load("font/font2.fnt", BitmapFont.class);
-//        assetManager.load("ang.tff", BitmapFont.class);
-        assetManager.load("font/w_0.png", Texture.class);
-        assetManager.load("font/w_1.png", Texture.class);
-        assetManager.load("glass_horizontal_stick.png", Texture.class);
-        assetManager.load("wood_vertical_stick.png", Texture.class);
-        assetManager.load("stone_horizontal_stick.png", Texture.class);
+
+        //pigs
         assetManager.load("NormalPig_Healthy.png", Texture.class);
         assetManager.load("MoustachePig_Healthy.png", Texture.class);
+
+        //blocks
+        assetManager.load("glass_horizontal_stick.png", Texture.class);
+        assetManager.load("glass_horizontal_stick_cracked.png", Texture.class);
+        assetManager.load("wood_vertical_stick.png", Texture.class);
+        assetManager.load("wood_vertical_stick_cracked.png", Texture.class);
+        assetManager.load("stone_horizontal_stick.png", Texture.class);
+        assetManager.load("stone_horizontal_stick_cracked.png", Texture.class);
 
 
         assetManager.finishLoading();

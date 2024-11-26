@@ -15,7 +15,6 @@ abstract public class Block {
     //    protected String Material_Name;
     public float Hp;
     public Texture Block_Texture;
-    private Music Breaking_Sound;
     public Vector2 dimension;
     public Vector2 position;
     public Body boxbody;
@@ -26,38 +25,31 @@ abstract public class Block {
     public ArrayList<Block> blocksAbove = new ArrayList<>();
     public boolean needsDestruction = false;
     public World world;
-    private static final float VERTICAL_OVERLAP_THRESHOLD = 0.1f;
 
 
     public Block(World world, Texture Block_Texture, Vector2 position, Vector2 dimension) {
-//        this.Material_Name = Material_Name;
-//        this.Block_Texture = Block_Texture;
         this.dimension = dimension;
         this.world = world;
         this.Block_Texture = Block_Texture;
         this.position = position;
-//        this.Breaking_Sound = Breaking_Sound
         createBoxBody(world, position, dimension);
         this.maxHp = calculateMaterialHp();
-        this.currentHp = maxHp;
-//        setupCollisionListener(world);
-    }
+        this.currentHp = maxHp;}
 
     private float calculateMaterialHp() {
-        if (this instanceof Wood) return 150;
+        if (this instanceof Wood) return 125;
         if (this instanceof Glass) return 50;
         if (this instanceof Stone) return 200;
-        return 100;
-    }
+        return 0;}
 
     public void takeDamage(float damage) {
         currentHp -= damage;
         if (currentHp <= 0) {
             isDestroyed = true;
             needsDestruction = true;
-            collapsedamage();
-        }
-    }
+            collapsedamage();}
+        if (currentHp < maxHp/2){
+            this.Block_Texture = new Texture("cracked_" + this.Block_Texture.toString());}}
 
     private void collapsedamage() {
         float collapseDamage = 100 ;

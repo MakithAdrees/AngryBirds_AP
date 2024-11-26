@@ -24,6 +24,7 @@ font/w_1.png
 gameplay_background.jpg
 gameplaymusic.mp3
 glass_horizontal_stick.png
+glass_horizontal_stick_cracked.png
 icon.png
 level1.png
 level1screen.png
@@ -50,6 +51,7 @@ save.png
 signup.png
 slingshot.png
 stone_horizontal_stick.png
+stone_horizontal_stick_cracked.png
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt
@@ -60,3 +62,4 @@ ui/uiskin.png
 victor2.png
 victory.png
 wood_vertical_stick.png
+wood_vertical_stick_cracked.png
