@@ -15,6 +15,10 @@ public class Bomb extends Bird implements SpecialAbility {
         super(wrld, pos, new Texture("Bomb.png"),10, "Bomb", 27);
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("BombSound.mp3")
     }
+
+    public Bomb(Vector2 pos){
+        super(pos,10, "Bomb", 27);}
+
     public void SpecialAbility() {
         return;}
 }

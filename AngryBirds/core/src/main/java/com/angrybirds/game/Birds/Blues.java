@@ -17,6 +17,9 @@ public class Blues extends Bird implements SpecialAbility {
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("RedSound.mp3"));
     }
 
+    public Blues(Vector2 pos) {
+        super(pos, 10, "Blues", 20);}
+
     public void SpecialAbility() {
         return;
     }

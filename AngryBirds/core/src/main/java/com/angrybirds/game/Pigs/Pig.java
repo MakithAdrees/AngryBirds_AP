@@ -39,6 +39,13 @@ abstract public class Pig {
         this.catapult = new Texture("slingshot.png");
     }
 
+    public Pig(Vector2 position, String name){
+        this.position = position;
+        this.name = name;
+        this.maxHp = initializePigHp();
+        this.currentHp = maxHp;
+        System.out.println(name + " pig was created!");}
+
     private int initializePigHp() {
         if (this instanceof NormalPigs) return 50;
         else if (this instanceof MoustachePig) return 100;

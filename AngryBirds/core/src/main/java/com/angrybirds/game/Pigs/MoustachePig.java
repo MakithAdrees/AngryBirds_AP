@@ -9,4 +9,7 @@ public class MoustachePig extends Pig {
     public MoustachePig(World wrld, Vector2 position, Texture PigModel) {
         super(wrld, position, PigModel, "Foreman");
     }
+
+    public MoustachePig(Vector2 position){
+        super(position, "Foreman");}
 }

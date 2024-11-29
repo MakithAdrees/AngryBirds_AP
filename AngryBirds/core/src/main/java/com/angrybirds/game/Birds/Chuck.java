@@ -13,6 +13,10 @@ public class Chuck extends Bird implements SpecialAbility {
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("ChuckSound.mp3"));
 
     }
+
+    public Chuck(Vector2 pos){
+        super(pos,10, "Chuck", 23);}
+
     @Override
     public void SpecialAbility() {
         return;}

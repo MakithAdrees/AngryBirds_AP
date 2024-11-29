@@ -998,6 +998,18 @@ public class Level1 implements Screen, InputProcessor {
         return true;
     }
 
+    static public void victory(ArrayList<Bird> birds, ArrayList<Pig> pigs){
+        if (pigs.isEmpty()){
+            System.out.println("Level 1 Cleared");
+            return;}
+            System.out.println("Level 1 Failed, Try again");}
+
+    static public void defeat(ArrayList<Bird> birds, ArrayList<Pig> pigs){
+        if (birds.isEmpty() && !pigs.isEmpty()){
+            System.out.println("Level 1 Failed, Try again");
+            return;}
+        System.out.println("Level 1 Cleared");}
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (isDragging && selectedBird != null) {

@@ -12,6 +12,9 @@ public class Red extends Bird implements SpecialAbility {
     public Red(World wrld, Vector2 pos){
         super(wrld, pos, new Texture("Red.png"),100, "Red", 25);
     }
+
+    public Red(Vector2 pos){
+        super(pos,100, "Red", 25);}
     @Override
     public void SpecialAbility() {
 

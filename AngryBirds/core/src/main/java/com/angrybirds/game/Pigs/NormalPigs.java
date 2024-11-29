@@ -9,4 +9,7 @@ public class NormalPigs extends Pig {
         super(wrld, position, PigModel, "Normie");
     }
 
+    public NormalPigs(Vector2 position){
+        super(position, "Normie");}
+
 }

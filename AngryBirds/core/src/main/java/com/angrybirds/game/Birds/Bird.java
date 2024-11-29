@@ -34,8 +34,15 @@ abstract public class Bird {
         this.position = position;
         this.radius = radius;
         this.damage = calculate_bird_damage();
-        createBirdBody(world, position);
-    }
+        createBirdBody(world, position);}
+
+    public Bird(Vector2 position, int mass, String name, int radius) {
+        this.name = name;
+        this.mass = mass;
+        this.position = position;
+        this.radius = radius;
+        this.damage = calculate_bird_damage();
+        System.out.println(name + "bird was created!");}
 
     private float calculate_bird_damage() {
         if (this instanceof Red) return 95;

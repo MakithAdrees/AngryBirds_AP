@@ -10,6 +10,10 @@ public class Terrance extends Bird implements SpecialAbility {
         super(wrld, pos, new Texture("Terrance.png"),10, "Terrance", 35);
 //        this.BirdSound = Gdx.audio.newMusic(Gdx.files.internal("TerranceSound.mp3"));
     }
+
+    public Terrance(Vector2 pos){
+        super(pos,10, "Terrance", 35);}
+
     @Override
     public void SpecialAbility() {
         return;}

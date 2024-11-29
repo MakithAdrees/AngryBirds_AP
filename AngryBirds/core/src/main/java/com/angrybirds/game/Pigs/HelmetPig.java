@@ -9,4 +9,7 @@ public class HelmetPig extends Pig {
     public HelmetPig(World wrld, Vector2 position, Texture PigModel) {
         super(wrld, position, PigModel, "hellie");
     }
+
+    public HelmetPig(Vector2 position){
+        super(position, "hellie");}
 }

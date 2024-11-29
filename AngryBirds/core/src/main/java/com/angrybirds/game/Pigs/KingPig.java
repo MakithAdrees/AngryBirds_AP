@@ -9,6 +9,10 @@ public class KingPig extends Pig {
     public KingPig(World wrld, Vector2 position, Texture PigModel) {
         super(wrld, position, PigModel, "King");
     }
+
+    public KingPig(Vector2 position){
+        super(position, "King");}
+
     @Override
     public void PigRIP() {
         System.out.println("King pig has died!");

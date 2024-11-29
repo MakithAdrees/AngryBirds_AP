@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestingAngryBirds" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-11-29T15:43:54" hostname="GUDRENROCKSEEKE" time="0.017">
+  <properties/>
+  <testcase name="birdInitialisation" classname="TestingAngryBirds" time="0.009"/>
+  <testcase name="pigInitialisation" classname="TestingAngryBirds" time="0.002"/>
+  <testcase name="winningTest" classname="TestingAngryBirds" time="0.005"/>
+  <testcase name="losingTest" classname="TestingAngryBirds" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
