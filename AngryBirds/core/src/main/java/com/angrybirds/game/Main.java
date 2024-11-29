@@ -39,6 +39,7 @@ public class Main extends Game {
         assetManager.load("levelmenubg.png", Texture.class);
         assetManager.load("save.png", Texture.class);
         assetManager.load("load.png", Texture.class);
+        assetManager.load("load_button.png", Texture.class);
         assetManager.load("play.png", Texture.class);
         assetManager.load("faq.png", Texture.class);
         assetManager.load("level1.png", Texture.class);

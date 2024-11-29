@@ -36,6 +36,15 @@ abstract public class Block {
         this.maxHp = calculateMaterialHp();
         this.currentHp = maxHp;}
 
+    public Block(World world, Texture Block_Texture, Vector2 position, Vector2 dimension, float rotation) {
+        this.dimension = dimension;
+        this.world = world;
+        this.Block_Texture = Block_Texture;
+        this.position = position;
+        createBoxBody(world, position, dimension, rotation);
+        this.maxHp = calculateMaterialHp();
+        this.currentHp = maxHp;}
+
     private float calculateMaterialHp() {
         if (this instanceof Wood) return 125;
         if (this instanceof Glass) return 90;
@@ -127,6 +136,25 @@ abstract public class Block {
         boxbody = world.createBody(bodyDef);
 
 
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(dimension.x / 2, dimension.y/ 2);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.5f;
+        fixtureDef.restitution = 0.2f;
+
+        boxbody.createFixture(fixtureDef);
+        boxbody.setUserData(this);
+        shape.dispose();
+    }
+
+    private void createBoxBody(World world, Vector2 position, Vector2 dimension, float rotation) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(position);
+        bodyDef.angle = rotation;
+        boxbody = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(dimension.x / 2, dimension.y/ 2);
         FixtureDef fixtureDef = new FixtureDef();

@@ -175,7 +175,12 @@ abstract public class Pig {
 
     public void dispose() {
         if (PigModel != null) {
-            PigModel.dispose();
-        }
-    }
+            PigModel.dispose();}}
+
+    public void setCurrentHp(float currentHp) {
+        this.currentHp = currentHp;}
+    public float getCurrentHp() {
+        return currentHp;}
+    public String getName() {
+        return name;}
 }

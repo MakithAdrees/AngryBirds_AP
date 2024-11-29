@@ -29,8 +29,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.InputProcessor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.angrybirds.game.Birds.Bird.GRAVITY;
@@ -301,6 +306,7 @@ public class Level4 implements Screen, InputProcessor {
         save.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
 //                game.setScreen(new Levels(game, cam, port));
+                serialize();
             }});
 
         Texture v = game.assetManager.get("victory.png", Texture.class);
@@ -997,4 +1003,35 @@ public class Level4 implements Screen, InputProcessor {
     @Override
     public void dispose() {
         theme.dispose();}
+
+    public void serialize() {
+        ArrayList<BirdSave> BirdsRemaining = new ArrayList<>();
+        for (Bird bird : birds) {
+            BirdsRemaining.add(new BirdSave(bird.getName(), bird.position));}
+
+        ArrayList<PigSave> PigsRemaining = new ArrayList<>();
+        for (Pig pig : pig_list) {
+            PigsRemaining.add(new PigSave(pig.getName(), pig.position, pig.getCurrentHp()));}
+
+        ArrayList<BlockSave> BlocksRemaining = new ArrayList<>();
+        for (Block block : blocks_list) {
+            BlocksRemaining.add(new BlockSave(block.Block_Texture.toString(), block.getPosition(), block.dimension, block.currentHp));}
+
+        File file = new File("level4.json");
+        if (!file.exists()){
+            try {
+                file.createNewFile();}
+            catch (IOException e) {
+                e.printStackTrace();}}
+        Level1Save save = new Level1Save();
+        save.birds = BirdsRemaining;
+        save.pigs = PigsRemaining;
+        save.blocks = BlocksRemaining;
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("level4.json")) {
+            gson.toJson(save, writer);
+            System.out.println("level 4 saved!");}
+        catch (IOException e) {
+            e.printStackTrace();}}
 }

@@ -86,4 +86,7 @@ abstract public class Bird {
     public void dispose(){
 
     }
+
+    public String getName() {
+        return name;}
 }

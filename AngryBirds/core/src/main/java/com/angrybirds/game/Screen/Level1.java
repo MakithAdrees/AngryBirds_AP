@@ -34,8 +34,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.InputProcessor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.angrybirds.game.Birds.Bird.GRAVITY;
@@ -82,7 +87,6 @@ public class Level1 implements Screen, InputProcessor {
     private ShapeRenderer shapeRenderer;
 
 
-
     public Level1(Main game, OrthographicCamera cam, Viewport port) {
         this.game = game;
         this.gamecam = new OrthographicCamera();
@@ -110,8 +114,8 @@ public class Level1 implements Screen, InputProcessor {
         glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
 
 //        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
-        wood1 = new Wood(wld,wood_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-        wood2 = new Wood(wld,wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
+        wood1 = new Wood(wld, wood_texture, new Vector2(1200, 252), new Vector2(Math.abs(wood_texture.getWidth() - 40), Math.abs(wood_texture.getHeight() + 20)));
+        wood2 = new Wood(wld, wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 40), Math.abs(wood_texture.getHeight() + 20)));
 
 
         birds.add(Red);
@@ -124,7 +128,7 @@ public class Level1 implements Screen, InputProcessor {
 
         pig_list.add(minion);
 
-        for (Bird bird : birds){
+        for (Bird bird : birds) {
             bird.brdBody.setActive(false);
 //            bird.brdBody.setGravityScale(0);
         }
@@ -224,7 +228,10 @@ public class Level1 implements Screen, InputProcessor {
                     if (theme.isPlaying())
                         musicon.setVisible(true);
                     else
-                        musicoff.setVisible(true);}}});
+                        musicoff.setVisible(true);
+                }
+            }
+        });
 
 
         musicon.addListener(new ClickListener() {
@@ -234,7 +241,9 @@ public class Level1 implements Screen, InputProcessor {
                 if (theme.isPlaying()) {
                     theme.pause();
                     musicon.remove();
-                    stage.addActor(musicoff);}}
+                    stage.addActor(musicoff);
+                }
+            }
         });
 
         musicoff.addListener(new ClickListener() {
@@ -244,7 +253,10 @@ public class Level1 implements Screen, InputProcessor {
                 if (!theme.isPlaying()) {
                     theme.play();
                     musicoff.remove();
-                    stage.addActor(musicon);}}});
+                    stage.addActor(musicon);
+                }
+            }
+        });
 
         resume.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
@@ -255,7 +267,9 @@ public class Level1 implements Screen, InputProcessor {
                 save.setVisible(false);
                 menu.setVisible(false);
                 musicoff.setVisible(false);
-                musicon.setVisible(false);}});
+                musicon.setVisible(false);
+            }
+        });
 
         restart.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
@@ -270,17 +284,23 @@ public class Level1 implements Screen, InputProcessor {
 //                musicoff.setVisible(false);
 //                musicon.setVisible(false);
                 theme.dispose();
-                game.setScreen(new Level1(game, cam, port));}});
+                game.setScreen(new Level1(game, cam, port));
+            }
+        });
 
         menu.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
-                game.setScreen(new Levels(game, cam, port));}});
+                game.setScreen(new Levels(game, cam, port));
+            }
+        });
 
         save.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
 //                game.setScreen(new Levels(game, cam, port));
-            }});
+                serialize();
+            }
+        });
 
         Texture v = game.assetManager.get("victory.png", Texture.class);
         TextureRegion v1 = new TextureRegion(v);
@@ -333,22 +353,29 @@ public class Level1 implements Screen, InputProcessor {
 //                    menu2.setVisible(true);
 //                    restart2.setVisible(true);
 //                    next.setVisible(true);}
-            }});
+            }
+        });
 
         restart2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 game.lev1 = true;
                 theme.dispose();
-                game.setScreen(new Level1(game, gamecam, gameport));}});
+                game.setScreen(new Level1(game, gamecam, gameport));
+            }
+        });
         menu2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 game.lev1 = true;
                 theme.dispose();
-                game.setScreen(new Levels(game, cam, port));}});
+                game.setScreen(new Levels(game, cam, port));
+            }
+        });
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 game.lev1 = true;
-                game.setScreen(new Level2(game, cam, port));}});
+                game.setScreen(new Level2(game, cam, port));
+            }
+        });
 
         meun3 = new ImageButton(u2);
         meun3.setPosition((gameport.getWorldWidth()) / 2 + 70, 50);
@@ -362,17 +389,21 @@ public class Level1 implements Screen, InputProcessor {
         restart3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
-                game.setScreen(new Level1(game, gamecam, gameport));}});
+                game.setScreen(new Level1(game, gamecam, gameport));
+            }
+        });
         meun3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
-                game.setScreen(new Levels(game, cam, port));}});
+                game.setScreen(new Levels(game, cam, port));
+            }
+        });
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(this);
-        Gdx.input.setInputProcessor(inputMultiplexer);}
-
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
 
 
     public void createGroundSlab() {
@@ -389,23 +420,26 @@ public class Level1 implements Screen, InputProcessor {
         fixtureDef.restitution = 0.1f;
 
         groundBody.createFixture(fixtureDef);
-        groundShape.dispose();}
+        groundShape.dispose();
+    }
 
 
     @Override
     public void show() {
         theme.setLooping(true);
-        theme.play();}
+        theme.play();
+    }
 
 
     public void handleBirdBlockCollision(Bird bird, Block block) {
         float damage = bird.damage;
         block.takeDamage(damage);
 //        if (bird.brdBody.getLinearVelocity().y < 0 ) {
-            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
-            System.out.println("Before change: " + bird_vel);
-            bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
-            System.out.println("after change: " + bird.brdBody.getLinearVelocity());}
+        Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+        System.out.println("Before change: " + bird_vel);
+        bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
+        System.out.println("after change: " + bird.brdBody.getLinearVelocity());
+    }
 
     private void setupCollisionListener(World world) {
         world.setContactListener(new ContactListener() {
@@ -415,49 +449,52 @@ public class Level1 implements Screen, InputProcessor {
                 Body bodyB = contact.getFixtureB().getBody();
 
                 if (bodyA.getUserData() instanceof Pig && bodyB.getUserData() instanceof Block) {
-                    handleBlockPigCollision((Pig)bodyA.getUserData(), (Block)bodyB.getUserData());
+                    handleBlockPigCollision((Pig) bodyA.getUserData(), (Block) bodyB.getUserData());
 
                 } else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Block) {
-                    handleBlockPigCollision((Pig)bodyB.getUserData(), (Block)bodyA.getUserData());
+                    handleBlockPigCollision((Pig) bodyB.getUserData(), (Block) bodyA.getUserData());
 
 
-                }
-                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
+                } else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
                     handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
-                }
-                else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
+                } else if (bodyB.getUserData() instanceof Pig && bodyA.getUserData() instanceof Bird) {
                     handleBirdPigCollision((Pig) bodyB.getUserData(), (Bird) bodyA.getUserData());
+                } else if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
+                    handleBirdBlockCollision((Bird) bodyA.getUserData(), (Block) bodyB.getUserData());
+                } else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
+                    handleBirdBlockCollision((Bird) bodyB.getUserData(), (Block) bodyA.getUserData());
                 }
-                else if (bodyA.getUserData() instanceof Bird && bodyB.getUserData() instanceof Block) {
-                    handleBirdBlockCollision((Bird)bodyA.getUserData(), (Block)bodyB.getUserData());
-                }else if (bodyB.getUserData() instanceof Bird && bodyA.getUserData() instanceof Block) {
-                    handleBirdBlockCollision((Bird)bodyB.getUserData(), (Block)bodyA.getUserData());}}
+            }
 
             @Override
-            public void endContact(Contact contact) {}
+            public void endContact(Contact contact) {
+            }
 
             @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {}
+            public void preSolve(Contact contact, Manifold oldManifold) {
+            }
 
             @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {}});}
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+            }
+        });
+    }
 
     private void handleBirdPigCollision(Pig pig, Bird bird) {
         float damage = bird.damage;
         pig.takeDamage(damage);
 //        if (bird.brdBody.getLinearVelocity().x > 5f && bird.brdBody.getLinearVelocity().y > 5f) {
-            Vector2 bird_vel = bird.brdBody.getLinearVelocity();
-            System.out.println("Before change: " + bird_vel);
-            bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
-            System.out.println("after change: " + bird.brdBody.getLinearVelocity());
+        Vector2 bird_vel = bird.brdBody.getLinearVelocity();
+        System.out.println("Before change: " + bird_vel);
+        bird.brdBody.setLinearVelocity(bird_vel.x / 4, bird_vel.y / 4);
+        System.out.println("after change: " + bird.brdBody.getLinearVelocity());
 //        }
     }
 
     private void handleBlockPigCollision(Pig pig, Block block) {
         if (block instanceof Glass) {
             pig.takeDamage(20);
-        }
-        else{
+        } else {
             pig.takeDamage(150);
         }
     }
@@ -465,12 +502,13 @@ public class Level1 implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
 
-        if (paused && theme.isPlaying()){
+        if (paused && theme.isPlaying()) {
             musicon.setVisible(true);
-            musicoff.setVisible(false);}
-        else if (paused && !theme.isPlaying()){
+            musicoff.setVisible(false);
+        } else if (paused && !theme.isPlaying()) {
             musicoff.setVisible(true);
-            musicon.setVisible(false);}
+            musicon.setVisible(false);
+        }
 
         wld.step(delta, 4, 2);
         wld.setGravity(new Vector2(0, -10));
@@ -489,8 +527,7 @@ public class Level1 implements Screen, InputProcessor {
             if (block.needsDestruction || block.isDestroyed || block.boxbody.getPosition().y < 170) {
                 blocksToRemove.add(block);
                 bodyToDestroy.add(block.boxbody);
-            }
-            else{
+            } else {
                 block.render(game.batch);
                 block.boxbody.setGravityScale(100);
             }
@@ -644,12 +681,12 @@ public class Level1 implements Screen, InputProcessor {
             victoryscreen.setVisible(true);
             menu2.setVisible(true);
             restart2.setVisible(true);
-            next.setVisible(true);}
-
-        else if (birds.isEmpty()) {
+            next.setVisible(true);
+        } else if (birds.isEmpty()) {
             lostscreen.setVisible(true);
             meun3.setVisible(true);
-            restart3.setVisible(true);}
+            restart3.setVisible(true);
+        }
 
         dbgrndr.render(wld, gamecam.combined);
 
@@ -920,7 +957,8 @@ public class Level1 implements Screen, InputProcessor {
         gameport.update(width, height);
         gamecam.position.set(gameport.getWorldWidth() / 2, gameport.getWorldHeight() / 2, 0);
         gamecam.update();
-        stage.getViewport().update(width, height, true);}
+        stage.getViewport().update(width, height, true);
+    }
 
     @Override
     public boolean keyDown(int i) {
@@ -936,7 +974,6 @@ public class Level1 implements Screen, InputProcessor {
     public boolean keyTyped(char c) {
         return false;
     }
-
 
 
     @Override
@@ -964,5 +1001,38 @@ public class Level1 implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        theme.dispose();}
+        theme.dispose();
+    }
+
+
+    public void serialize() {
+        ArrayList<BirdSave> BirdsRemaining = new ArrayList<>();
+        for (Bird bird : birds) {
+            BirdsRemaining.add(new BirdSave(bird.getName(), bird.position));}
+
+        ArrayList<PigSave> PigsRemaining = new ArrayList<>();
+        for (Pig pig : pig_list) {
+            PigsRemaining.add(new PigSave(pig.getName(), pig.position, pig.getCurrentHp()));}
+
+        ArrayList<BlockSave> BlocksRemaining = new ArrayList<>();
+        for (Block block : blocks_list) {
+            BlocksRemaining.add(new BlockSave(block.Block_Texture.toString(), block.getPosition(), block.dimension, block.currentHp));}
+
+        File file = new File("level1.json");
+        if (!file.exists()){
+            try {
+                file.createNewFile();}
+            catch (IOException e) {
+                e.printStackTrace();}}
+        Level1Save save = new Level1Save();
+        save.birds = BirdsRemaining;
+        save.pigs = PigsRemaining;
+        save.blocks = BlocksRemaining;
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("level1.json")) {
+            gson.toJson(save, writer);
+            System.out.println("level 1 saved!");}
+        catch (IOException e) {
+            e.printStackTrace();}}
 }

@@ -12,4 +12,6 @@ public class Wood extends Block {
 //        this.Hp = Hp;
 
     }
+    public Wood(World world,Texture block_texture, Vector2 position, Vector2 dimension, float rotation) {
+        super(world,block_texture, position, dimension, rotation);}
 }

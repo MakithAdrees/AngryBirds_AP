@@ -1,0 +1,35 @@
+{
+  "pigs": [
+    {
+      "name": "Normie",
+      "position": {
+        "x": 1355.0,
+        "y": 165.0
+      },
+      "currentHp": 50.0
+    }
+  ],
+  "birds": [
+    {
+      "name": "Bomb",
+      "position": {
+        "x": 70.0,
+        "y": 150.0
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1499.4124,
+        "y": 255.16301
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 25.0
+    }
+  ]
+}

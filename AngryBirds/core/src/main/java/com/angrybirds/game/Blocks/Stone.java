@@ -17,4 +17,6 @@ public class Stone extends Block {
 //        this.horizontal_stick = new Texture("stone_horizontal_stick.png");
 //        this.Breaking_Sound = Gdx.audio.newMusic(Gdx.files.internal("block_breaking.mp3"));
     }
+    public Stone(World world, Texture block_texture, Vector2 position, Vector2 dimension, float rotation) {
+        super(world, block_texture, position, dimension, rotation);}
 }
