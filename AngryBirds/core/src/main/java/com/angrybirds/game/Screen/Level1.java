@@ -42,6 +42,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.angrybirds.game.Birds.Bird.GRAVITY;
 import static java.lang.Math.abs;
@@ -58,10 +59,6 @@ public class Level1 implements Screen, InputProcessor {
     private Chuck Chuck;
     private Bomb Bomb;
     private NormalPigs minion;
-    private MoustachePig foreman;
-    private Glass glass;
-    private Wood wood1, wood2, wood3, wood4;
-    private Stone stone;
     private World wld;
     private Box2DDebugRenderer dbgrndr;
     private InputMultiplexer inputMultiplexer;
@@ -87,6 +84,36 @@ public class Level1 implements Screen, InputProcessor {
     private ShapeRenderer shapeRenderer;
 
 
+    private void AddRandomBlock(Vector2 position, Vector2 size, boolean vertical){
+        Random rand = new Random();
+        Texture wood_vertical = game.assetManager.get("wood_vertical_stick.png", Texture.class);
+        Texture wood_hori = game.assetManager.get("wood_horizontal_stick.png", Texture.class);
+        Texture stone_vertical = game.assetManager.get("stone_vertical_stick.png", Texture.class);
+        Texture stone_hori = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
+        Texture glass_vertical = game.assetManager.get("glass_vertical_stick.png", Texture.class);
+        Texture glass_hori = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
+
+        switch(rand.nextInt(3)){
+            case 0:
+                if (vertical)
+                    blocks_list.add(new Wood(wld, wood_vertical, position, size));
+                else
+                    blocks_list.add(new Wood(wld, wood_hori, position, size));
+                break;
+            case 1:
+                if (vertical)
+                    blocks_list.add(new Stone(wld, stone_vertical, position, size));
+                else
+                    blocks_list.add(new Stone(wld, stone_hori, position, size));
+                break;
+            case 2:
+                if (vertical)
+                    blocks_list.add(new Glass(wld, glass_vertical, position, size));
+                else
+                    blocks_list.add(new Glass(wld, glass_hori, position, size));
+                break;}}
+
+
     public Level1(Main game, OrthographicCamera cam, Viewport port) {
         this.game = game;
         this.gamecam = new OrthographicCamera();
@@ -110,21 +137,62 @@ public class Level1 implements Screen, InputProcessor {
         minion_tex = game.assetManager.get("NormalPig_Healthy.png", Texture.class);
         minion = new NormalPigs(wld, new Vector2(1355, 165), minion_tex);
         wood_texture = game.assetManager.get("wood_vertical_stick.png", Texture.class);
-        stone_texture = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
-        glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
-
+        stone_texture = game.assetManager.get("stone_vertical_stick.png", Texture.class);
+        glass_texture = game.assetManager.get("glass_vertical_stick.png", Texture.class);
+        Random rand = new Random();
 //        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
-        wood1 = new Wood(wld, wood_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-        wood2 = new Wood(wld, wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
+        switch(rand.nextInt(3)) {
+            case 0:
+                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 252), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
+                blocks_list.add(wood1);
+                break;
+            case 1:
+                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 252), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
+                blocks_list.add(glass1);
+                break;
+            case 2:
+                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 252), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
+                blocks_list.add(stone1);
+                break;}
 
+        switch(rand.nextInt(3)) {
+            case 0:
+                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 252 + Math.abs(wood_texture.getHeight()/3) + 5), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
+                blocks_list.add(wood1);
+                break;
+            case 1:
+                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 252 + Math.abs(glass_texture.getHeight()/3)+5), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
+                blocks_list.add(glass1);
+                break;
+            case 2:
+                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 252 + Math.abs(stone_texture.getHeight()/3)+5), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
+                blocks_list.add(stone1);
+                break;}
+
+        switch(rand.nextInt(3)) {
+            case 0:
+                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 252 + Math.abs(wood_texture.getHeight()*2/3) + 10), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
+                blocks_list.add(wood1);
+                break;
+            case 1:
+                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 252 + Math.abs(glass_texture.getHeight()*2/3)+10), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
+                blocks_list.add(glass1);
+                break;
+            case 2:
+                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 252 + Math.abs(stone_texture.getHeight()*2/3)+10), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
+                blocks_list.add(stone1);
+                break;}
+        Stone st1 = new Stone(wld, stone_texture, new Vector2(1250, 252), new Vector2(Math.abs(stone_texture.getWidth() - 40), Math.abs(stone_texture.getHeight() + 20)));
+        Stone st2 = new Stone (wld, stone_texture, new Vector2(1500, 252), new Vector2(Math.abs(stone_texture.getWidth() - 40), Math.abs(stone_texture.getHeight() + 20)));
+        blocks_list.add(st1);
+        blocks_list.add(st2);
 
         birds.add(Red);
         birds.add(Chuck);
         birds.add(Bomb);
 
 //        blocks_list.add(glass);
-        blocks_list.add(wood1);
-        blocks_list.add(wood2);
+
 
         pig_list.add(minion);
 
@@ -683,12 +751,14 @@ public class Level1 implements Screen, InputProcessor {
             menu2.setVisible(true);
             restart2.setVisible(true);
             next.setVisible(true);
-            levelwon = true;
-        } else if (birds.isEmpty() && !levelwon) {
+            lostscreen.setVisible(false);
+            meun3.setVisible(false);
+            restart3.setVisible(false);
+            levelwon = true;}
+        else if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);
             meun3.setVisible(true);
-            restart3.setVisible(true);
-        }
+            restart3.setVisible(true);}
 
         dbgrndr.render(wld, gamecam.combined);
 

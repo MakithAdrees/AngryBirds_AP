@@ -29,6 +29,7 @@ font/w_1.png
 gameplay_background.jpg
 gameplaymusic.mp3
 glass_horizontal_stick.png
+glass_vertical_stick.png
 icon.png
 king_pig.png
 king_pig_hurt.png
@@ -74,4 +75,5 @@ ui/uiskin.json
 ui/uiskin.png
 victor2.png
 victory.png
+wood_horizontal_stick.png
 wood_vertical_stick.png

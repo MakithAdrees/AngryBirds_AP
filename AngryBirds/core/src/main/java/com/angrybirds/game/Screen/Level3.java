@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.angrybirds.game.Birds.Bird.GRAVITY;
 import static java.lang.Math.abs;
@@ -57,15 +58,11 @@ public class Level3 implements Screen, InputProcessor {
     private Terrance Terrance;
     private KingPig king;
     private MoustachePig foreman;
-    private Glass glass;
-    private Wood wood1, wood2, wood3, wood4;
-    private Stone stone;
     private World wld;
     private Box2DDebugRenderer dbgrndr;
     private InputMultiplexer inputMultiplexer;
     private boolean levelwon = false;
 
-    private TextureRegion wd_rg;
 
     private Body groundBody;
 
@@ -83,9 +80,38 @@ public class Level3 implements Screen, InputProcessor {
     private Vector2 currentMousePosition = new Vector2();
     private Vector2 slingshotPosition = new Vector2(250, 290);
 
-    private Texture glass_texture, wood_texture, stone_texture, king_tex, foreman_tex;
+    private Texture king_tex, foreman_tex;
     private ShapeRenderer shapeRenderer;
 
+
+    private void AddRandomBlock(Vector2 position, Vector2 size, boolean vertical){
+        Random rand = new Random();
+        Texture wood_vertical = game.assetManager.get("wood_vertical_stick.png", Texture.class);
+        Texture wood_hori = game.assetManager.get("wood_horizontal_stick.png", Texture.class);
+        Texture stone_vertical = game.assetManager.get("stone_vertical_stick.png", Texture.class);
+        Texture stone_hori = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
+        Texture glass_vertical = game.assetManager.get("glass_vertical_stick.png", Texture.class);
+        Texture glass_hori = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
+
+        switch(rand.nextInt(3)){
+            case 0:
+                if (vertical)
+                    blocks_list.add(new Wood(wld, wood_vertical, position, size));
+                else
+                    blocks_list.add(new Wood(wld, wood_hori, position, size));
+                break;
+            case 1:
+                if (vertical)
+                    blocks_list.add(new Stone(wld, stone_vertical, position, size));
+                else
+                    blocks_list.add(new Stone(wld, stone_hori, position, size));
+                break;
+            case 2:
+                if (vertical)
+                    blocks_list.add(new Glass(wld, glass_vertical, position, size));
+                else
+                    blocks_list.add(new Glass(wld, glass_hori, position, size));
+                break;}}
 
 
     public Level3(Main game, OrthographicCamera cam, Viewport port) {
@@ -110,45 +136,32 @@ public class Level3 implements Screen, InputProcessor {
 
         king_tex = game.assetManager.get("king_pig.png", Texture.class);
         foreman_tex = game.assetManager.get("MoustachePig_Healthy.png", Texture.class);
-        king = new KingPig(wld, new Vector2(1375, 432), king_tex);
-        foreman = new MoustachePig(wld, new Vector2(1375, 165), foreman_tex);
-        wood_texture = game.assetManager.get("wood_vertical_stick.png", Texture.class);
-        stone_texture = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
-        glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
-        wd_rg = new TextureRegion(wood_texture);
+        king = new KingPig(wld, new Vector2(1415, 432), king_tex);
+        foreman = new MoustachePig(wld, new Vector2(1415, 165), foreman_tex);
 
-        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
-        wood1 = new Wood(wld,wood_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-        wood2 = new Wood(wld,wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
+        Texture wood_vertical = game.assetManager.get("wood_vertical_stick.png", Texture.class);
+        Texture glass_hori = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
 
+        AddRandomBlock(new Vector2(1400, 390), new Vector2(Math.abs(glass_hori.getWidth()), Math.abs(glass_hori.getHeight() - 50)), false);
+        AddRandomBlock(new Vector2(1300, 252), new Vector2(Math.abs(wood_vertical.getWidth() - 40), Math.abs(wood_vertical.getHeight() + 20)), true);
+        AddRandomBlock(new Vector2(1500, 252), new Vector2(Math.abs(wood_vertical.getWidth() - 40), Math.abs(wood_vertical.getHeight() + 20)), true);
+        AddRandomBlock(new Vector2(1500, 550), new Vector2(Math.abs(wood_vertical.getWidth() - 40), Math.abs(wood_vertical.getHeight() + 20)), true);
+        AddRandomBlock(new Vector2(1300, 550), new Vector2(Math.abs(wood_vertical.getWidth() - 40), Math.abs(wood_vertical.getHeight() + 20)), true);
+        AddRandomBlock(new Vector2(1400, 700), new Vector2(Math.abs(glass_hori.getWidth()), Math.abs(glass_hori.getHeight() - 50)), false);
 
         birds.add(Red);
         birds.add(Blue);
         birds.add(Terrance);
 
-        blocks_list.add(glass);
-        blocks_list.add(wood1);
-        blocks_list.add(wood2);
 
         pig_list.add(king);
         pig_list.add(foreman);
 
 
         for (Bird bird : birds){
-            bird.brdBody.setActive(false);
-//            bird.brdBody.setGravityScale(0);
-        }
-//        for (Block blk : blocks_list){
-//            blk.boxbody.setActive(false);
-//            blk.boxbody.setGravityScale(0);
-//        }
-//        for (Pig piggie : pig_list){
-//            piggie.pig_bdy.setActive(false);
-//        }
-
+            bird.brdBody.setActive(false);}
 
         stage = new Stage(new StretchViewport(1820, 980));
-
         createGroundSlab();
 
 
@@ -677,7 +690,10 @@ public class Level3 implements Screen, InputProcessor {
             menu2.setVisible(true);
             restart2.setVisible(true);
             next.setVisible(true);
-            levelwon = true;}
+            levelwon = true;
+            lostscreen.setVisible(false);
+            meun3.setVisible(false);
+            restart3.setVisible(false);}
 
         else if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);

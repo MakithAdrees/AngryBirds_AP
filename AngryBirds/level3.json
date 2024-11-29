@@ -11,13 +11,6 @@
   ],
   "birds": [
     {
-      "name": "Red",
-      "position": {
-        "x": 200.0,
-        "y": 150.0
-      }
-    },
-    {
       "name": "Blues",
       "position": {
         "x": 140.0,
@@ -34,34 +27,22 @@
   ],
   "blocks": [
     {
-      "texture": "glass_horizontal_stick.png",
-      "position": {
-        "x": 1399.2747,
-        "y": 385.00473
-      },
-      "dimension": {
-        "x": 220.0,
-        "y": 20.0
-      },
-      "currentHp": 90.0
-    },
-    {
       "texture": "wood_vertical_stick.png",
       "position": {
-        "x": 1299.6602,
-        "y": 255.02072
+        "x": 1299.3442,
+        "y": 255.01724
       },
       "dimension": {
         "x": 20.0,
         "y": 240.0
       },
-      "currentHp": 125.0
+      "currentHp": 30.0
     },
     {
       "texture": "wood_vertical_stick.png",
       "position": {
-        "x": 1499.57,
-        "y": 255.01974
+        "x": 1499.0571,
+        "y": 255.01723
       },
       "dimension": {
         "x": 20.0,

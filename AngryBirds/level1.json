@@ -11,13 +11,6 @@
   ],
   "birds": [
     {
-      "name": "Red",
-      "position": {
-        "x": 200.0,
-        "y": 150.0
-      }
-    },
-    {
       "name": "Chuck",
       "position": {
         "x": 140.0,
@@ -34,28 +27,52 @@
   ],
   "blocks": [
     {
-      "texture": "wood_vertical_stick.png",
+      "texture": "stone_vertical_stick.png",
       "position": {
-        "x": 1299.841,
-        "y": 255.02185
+        "x": 1189.9122,
+        "y": 172.02592
       },
       "dimension": {
-        "x": 20.0,
-        "y": 240.0
+        "x": 70.0,
+        "y": 74.0
       },
-      "currentHp": 125.0
+      "currentHp": 105.0
     },
     {
       "texture": "wood_vertical_stick.png",
       "position": {
-        "x": 1499.841,
-        "y": 255.02185
+        "x": 1194.0985,
+        "y": 245.71498
       },
       "dimension": {
-        "x": 20.0,
+        "x": 70.0,
+        "y": 74.0
+      },
+      "currentHp": 25.0
+    },
+    {
+      "texture": "stone_vertical_stick.png",
+      "position": {
+        "x": 1249.3947,
+        "y": 255.01852
+      },
+      "dimension": {
+        "x": 30.0,
         "y": 240.0
       },
-      "currentHp": 125.0
+      "currentHp": 100.0
+    },
+    {
+      "texture": "stone_vertical_stick.png",
+      "position": {
+        "x": 1499.3947,
+        "y": 255.01852
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 200.0
     }
   ]
 }

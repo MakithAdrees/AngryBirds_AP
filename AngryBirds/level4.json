@@ -3,7 +3,7 @@
     {
       "name": "Normie",
       "position": {
-        "x": 1175.0,
+        "x": 1225.0,
         "y": 165.0
       },
       "currentHp": 50.0
@@ -11,20 +11,13 @@
     {
       "name": "hellie",
       "position": {
-        "x": 1375.0,
+        "x": 1425.0,
         "y": 165.0
       },
       "currentHp": 90.0
     }
   ],
   "birds": [
-    {
-      "name": "Red",
-      "position": {
-        "x": 250.0,
-        "y": 150.0
-      }
-    },
     {
       "name": "Chuck",
       "position": {
@@ -49,64 +42,112 @@
   ],
   "blocks": [
     {
-      "texture": "wood_vertical_stick.png",
-      "position": {
-        "x": 1099.5035,
-        "y": 255.01915
-      },
-      "dimension": {
-        "x": 20.0,
-        "y": 240.0
-      },
-      "currentHp": 125.0
-    },
-    {
       "texture": "glass_horizontal_stick.png",
       "position": {
-        "x": 1190.1077,
-        "y": 385.01343
+        "x": 1416.3075,
+        "y": 385.06558
       },
       "dimension": {
         "x": 215.0,
         "y": 20.0
       },
       "currentHp": 90.0
+    },
+    {
+      "texture": "glass_horizontal_stick.png",
+      "position": {
+        "x": 1195.3555,
+        "y": 385.4783
+      },
+      "dimension": {
+        "x": 215.0,
+        "y": 20.0
+      },
+      "currentHp": 90.0
+    },
+    {
+      "texture": "wood_horizontal_stick.png",
+      "position": {
+        "x": 1604.6533,
+        "y": 462.2274
+      },
+      "dimension": {
+        "x": 215.0,
+        "y": 20.0
+      },
+      "currentHp": 125.0
+    },
+    {
+      "texture": "wood_horizontal_stick.png",
+      "position": {
+        "x": 1272.8413,
+        "y": 425.29538
+      },
+      "dimension": {
+        "x": 215.0,
+        "y": 20.0
+      },
+      "currentHp": 125.0
+    },
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1100.266,
+        "y": 255.32494
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 125.0
+    },
+    {
+      "texture": "glass_vertical_stick.png",
+      "position": {
+        "x": 1302.0577,
+        "y": 255.36354
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 90.0
+    },
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1503.0765,
+        "y": 255.33344
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 125.0
+    },
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1438.2166,
+        "y": 427.0296
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 125.0
     },
     {
       "texture": "stone_vertical_stick.png",
       "position": {
-        "x": 1299.7993,
-        "y": 255.01564
+        "x": 1630.16,
+        "y": 360.23547
       },
       "dimension": {
-        "x": 20.0,
+        "x": 30.0,
         "y": 240.0
       },
       "currentHp": 200.0
-    },
-    {
-      "texture": "glass_horizontal_stick.png",
-      "position": {
-        "x": 1408.6782,
-        "y": 385.01456
-      },
-      "dimension": {
-        "x": 215.0,
-        "y": 20.0
-      },
-      "currentHp": 90.0
-    },
-    {
-      "texture": "wood_vertical_stick.png",
-      "position": {
-        "x": 1499.9313,
-        "y": 255.0188
-      },
-      "dimension": {
-        "x": 20.0,
-        "y": 240.0
-      },
-      "currentHp": 125.0
     }
   ]
 }

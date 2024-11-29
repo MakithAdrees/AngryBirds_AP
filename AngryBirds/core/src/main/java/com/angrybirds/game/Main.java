@@ -71,8 +71,10 @@ public class Main extends Game {
 
         //blocks
         assetManager.load("glass_horizontal_stick.png", Texture.class);
+        assetManager.load("glass_vertical_stick.png", Texture.class);
         assetManager.load("cracked_glass_horizontal_stick.png", Texture.class);
         assetManager.load("wood_vertical_stick.png", Texture.class);
+        assetManager.load("wood_horizontal_stick.png", Texture.class);
         assetManager.load("cracked_wood_vertical_stick.png", Texture.class);
         assetManager.load("stone_horizontal_stick.png", Texture.class);
         assetManager.load("cracked_stone_horizontal_stick.png", Texture.class);
