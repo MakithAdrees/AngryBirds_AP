@@ -156,14 +156,18 @@ public class Level4 implements Screen, InputProcessor {
         glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
         stone_texture2 = game.assetManager.get("stone_horizontal_stick.png", Texture.class);
 
-//        glass2 = new Glass(wld, glass_texture, new Vector2(1410, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)));
-//        wood1 = new Wood(wld,wood_texture, new Vector2(1100, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-//        stone = new Stone(wld, stone_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
-//        glass1 = new Glass(wld, glass_texture, new Vector2(1190, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)));
-        AddRandomBlock(new Vector2(1410, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
-        AddRandomBlock(new Vector2(1190, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
-        AddRandomBlock(new Vector2(1410, 700), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
-        AddRandomBlock(new Vector2(1190, 700), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
+//        AddRandomBlock(new Vector2(1410, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
+//        AddRandomBlock(new Vector2(1190, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
+//        AddRandomBlock(new Vector2(1410, 700), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
+//        AddRandomBlock(new Vector2(1190, 700), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)), false);
+        Glass g = new Glass(wld, glass_texture, new Vector2(1410, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)));
+        blocks_list.add(g);
+        Glass g1 = new Glass(wld, glass_texture, new Vector2(1190, 390), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)));
+        blocks_list.add(g1);
+        Glass g2 = new Glass(wld, glass_texture, new Vector2(1410, 700), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)));
+        blocks_list.add(g2);
+        Glass g3 = new Glass(wld, glass_texture, new Vector2(1190, 700), new Vector2(Math.abs(stone_texture2.getWidth() - 5), Math.abs(stone_texture2.getHeight() - 50)));
+        blocks_list.add(g3);
         AddRandomBlock(new Vector2(1100, 252), new Vector2(Math.abs(wood_texture.getWidth() - 40), Math.abs(wood_texture.getHeight() + 20)), true);
         AddRandomBlock(new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 40), Math.abs(wood_texture.getHeight() + 20)), true);
         AddRandomBlock(new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 40), Math.abs(wood_texture.getHeight() + 20)), true);
@@ -523,7 +527,7 @@ public class Level4 implements Screen, InputProcessor {
 
     private void handleBlockPigCollision(Pig pig, Block block) {
         if (block instanceof Glass) {
-            pig.takeDamage(20);
+            pig.takeDamage(1);
         }
         else{
             pig.takeDamage(200);
@@ -685,7 +689,7 @@ public class Level4 implements Screen, InputProcessor {
 
                 selectedBird.setPosition(newX, newY);
 
-                velocityY += -130 * tim;
+                velocityY += -1000 * tim;
                 selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
 
                 if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 40f) {

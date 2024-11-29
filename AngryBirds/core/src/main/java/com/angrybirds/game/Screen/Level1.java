@@ -143,43 +143,43 @@ public class Level1 implements Screen, InputProcessor {
 //        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
         switch(rand.nextInt(3)) {
             case 0:
-                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 252), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
+                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 185), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
                 blocks_list.add(wood1);
                 break;
             case 1:
-                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 252), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
+                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 185), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
                 blocks_list.add(glass1);
                 break;
             case 2:
-                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 252), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
+                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 185), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
                 blocks_list.add(stone1);
                 break;}
 
         switch(rand.nextInt(3)) {
             case 0:
-                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 252 + Math.abs(wood_texture.getHeight()/3) + 5), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
+                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 185 + Math.abs(wood_texture.getHeight()/3) + 5), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
                 blocks_list.add(wood1);
                 break;
             case 1:
-                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 252 + Math.abs(glass_texture.getHeight()/3)+5), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
+                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 185 + Math.abs(glass_texture.getHeight()/3)+5), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
                 blocks_list.add(glass1);
                 break;
             case 2:
-                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 252 + Math.abs(stone_texture.getHeight()/3)+5), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
+                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 185 + Math.abs(stone_texture.getHeight()/3)+5), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
                 blocks_list.add(stone1);
                 break;}
 
         switch(rand.nextInt(3)) {
             case 0:
-                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 252 + Math.abs(wood_texture.getHeight()*2/3) + 10), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
+                Wood wood1 = new Wood(wld, wood_texture, new Vector2(1190, 185 + Math.abs(wood_texture.getHeight()*2/3) + 10), new Vector2(Math.abs(wood_texture.getWidth()), Math.abs(wood_texture.getHeight() - wood_texture.getHeight()*2 / 3)));
                 blocks_list.add(wood1);
                 break;
             case 1:
-                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 252 + Math.abs(glass_texture.getHeight()*2/3)+10), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
+                Glass glass1 = new Glass(wld, glass_texture, new Vector2(1190, 185 + Math.abs(glass_texture.getHeight()*2/3)+10), new Vector2(Math.abs(glass_texture.getWidth()), Math.abs(glass_texture.getHeight() - glass_texture.getHeight()*2 / 3)));
                 blocks_list.add(glass1);
                 break;
             case 2:
-                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 252 + Math.abs(stone_texture.getHeight()*2/3)+10), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
+                Stone stone1 = new Stone(wld, stone_texture, new Vector2(1190, 185 + Math.abs(stone_texture.getHeight()*2/3)+10), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - stone_texture.getHeight()*2 / 3)));
                 blocks_list.add(stone1);
                 break;}
         Stone st1 = new Stone(wld, stone_texture, new Vector2(1250, 252), new Vector2(Math.abs(stone_texture.getWidth() - 40), Math.abs(stone_texture.getHeight() + 20)));
@@ -711,7 +711,7 @@ public class Level1 implements Screen, InputProcessor {
 
                 selectedBird.setPosition(newX, newY);
 
-                velocityY += -130 * tim;
+                velocityY += -1000 * tim;
                 selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
 
                 if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 40f) {
@@ -756,6 +756,7 @@ public class Level1 implements Screen, InputProcessor {
             restart3.setVisible(false);
             levelwon = true;}
         else if (birds.isEmpty() && !levelwon) {
+
             lostscreen.setVisible(true);
             meun3.setVisible(true);
             restart3.setVisible(true);}

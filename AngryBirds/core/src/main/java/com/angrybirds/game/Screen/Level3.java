@@ -142,7 +142,9 @@ public class Level3 implements Screen, InputProcessor {
         Texture wood_vertical = game.assetManager.get("wood_vertical_stick.png", Texture.class);
         Texture glass_hori = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
 
-        AddRandomBlock(new Vector2(1400, 390), new Vector2(Math.abs(glass_hori.getWidth()), Math.abs(glass_hori.getHeight() - 50)), false);
+//        AddRandomBlock(new Vector2(1400, 393), new Vector2(Math.abs(glass_hori.getWidth()), Math.abs(glass_hori.getHeight() - 50)), false);
+        Glass g = new Glass(wld, glass_hori, new Vector2(1400, 393), new Vector2(Math.abs(glass_hori.getWidth()), Math.abs(glass_hori.getHeight() - 50)));
+        blocks_list.add(g);
         AddRandomBlock(new Vector2(1300, 252), new Vector2(Math.abs(wood_vertical.getWidth() - 40), Math.abs(wood_vertical.getHeight() + 20)), true);
         AddRandomBlock(new Vector2(1500, 252), new Vector2(Math.abs(wood_vertical.getWidth() - 40), Math.abs(wood_vertical.getHeight() + 20)), true);
         AddRandomBlock(new Vector2(1500, 550), new Vector2(Math.abs(wood_vertical.getWidth() - 40), Math.abs(wood_vertical.getHeight() + 20)), true);
@@ -480,7 +482,7 @@ public class Level3 implements Screen, InputProcessor {
 
     private void handleBlockPigCollision(Pig pig, Block block) {
         if (block instanceof Glass) {
-            pig.takeDamage(20);
+            pig.takeDamage(1);
         }
         else{
             pig.takeDamage(200);
@@ -650,7 +652,7 @@ public class Level3 implements Screen, InputProcessor {
 
                 selectedBird.setPosition(newX, newY);
 
-                velocityY += -130 * tim;
+                velocityY += -1000 * tim;
                 selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
 
                 if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 40f) {
