@@ -1081,22 +1081,27 @@ public class Level1 implements Screen, InputProcessor {
     public void serialize() {
         ArrayList<BirdSave> BirdsRemaining = new ArrayList<>();
         for (Bird bird : birds) {
-            BirdsRemaining.add(new BirdSave(bird.getName(), bird.position));}
+            BirdsRemaining.add(new BirdSave(bird.getName(), bird.position));
+        }
 
         ArrayList<PigSave> PigsRemaining = new ArrayList<>();
         for (Pig pig : pig_list) {
-            PigsRemaining.add(new PigSave(pig.getName(), pig.position, pig.getCurrentHp()));}
+            PigsRemaining.add(new PigSave(pig.getName(), pig.position, pig.getCurrentHp()));
+        }
 
         ArrayList<BlockSave> BlocksRemaining = new ArrayList<>();
         for (Block block : blocks_list) {
-            BlocksRemaining.add(new BlockSave(block.Block_Texture.toString(), block.getPosition(), block.dimension, block.currentHp));}
+            BlocksRemaining.add(new BlockSave(block.Block_Texture.toString(), block.getPosition(), block.dimension, block.currentHp));
+        }
 
         File file = new File("level1.json");
-        if (!file.exists()){
+        if (!file.exists()) {
             try {
-                file.createNewFile();}
-            catch (IOException e) {
-                e.printStackTrace();}}
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         Level1Save save = new Level1Save();
         save.birds = BirdsRemaining;
         save.pigs = PigsRemaining;
@@ -1105,7 +1110,23 @@ public class Level1 implements Screen, InputProcessor {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter("level1.json")) {
             gson.toJson(save, writer);
-            System.out.println("level 1 saved!");}
-        catch (IOException e) {
-            e.printStackTrace();}}
+            System.out.println("level 1 saved!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File f = new File("cleared.json");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }}
+            UserLevelsCleared clear = new UserLevelsCleared(game.lev1, game.lev2, game.lev3, game.lev4);
+            try (FileWriter writer = new FileWriter("cleared.json")) {
+                gson.toJson(clear, writer);
+                System.out.println("level cleared saved!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }}
 }

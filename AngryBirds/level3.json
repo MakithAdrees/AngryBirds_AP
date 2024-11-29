@@ -1,15 +1,30 @@
 {
   "pigs": [
     {
+      "name": "King",
+      "position": {
+        "x": 1415.0,
+        "y": 432.0
+      },
+      "currentHp": 127.0
+    },
+    {
       "name": "Foreman",
       "position": {
-        "x": 1375.0,
+        "x": 1415.0,
         "y": 165.0
       },
       "currentHp": 100.0
     }
   ],
   "birds": [
+    {
+      "name": "Red",
+      "position": {
+        "x": 200.0,
+        "y": 150.0
+      }
+    },
     {
       "name": "Blues",
       "position": {
@@ -27,28 +42,76 @@
   ],
   "blocks": [
     {
-      "texture": "wood_vertical_stick.png",
+      "texture": "glass_horizontal_stick.png",
       "position": {
-        "x": 1299.3442,
-        "y": 255.01724
+        "x": 1399.3958,
+        "y": 384.24286
       },
       "dimension": {
-        "x": 20.0,
-        "y": 240.0
+        "x": 220.0,
+        "y": 20.0
       },
-      "currentHp": 30.0
+      "currentHp": 90.0
     },
     {
       "texture": "wood_vertical_stick.png",
       "position": {
-        "x": 1499.0571,
-        "y": 255.01723
+        "x": 1300.0585,
+        "y": 255.03116
       },
       "dimension": {
-        "x": 20.0,
+        "x": 30.0,
         "y": 240.0
       },
       "currentHp": 125.0
+    },
+    {
+      "texture": "glass_vertical_stick.png",
+      "position": {
+        "x": 1499.8934,
+        "y": 255.02887
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 90.0
+    },
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1497.2429,
+        "y": 513.7297
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 125.0
+    },
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1294.8137,
+        "y": 513.2873
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 125.0
+    },
+    {
+      "texture": "glass_horizontal_stick.png",
+      "position": {
+        "x": 1395.166,
+        "y": 643.389
+      },
+      "dimension": {
+        "x": 220.0,
+        "y": 20.0
+      },
+      "currentHp": 90.0
     }
   ]
 }

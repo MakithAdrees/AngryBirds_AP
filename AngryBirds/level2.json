@@ -7,14 +7,6 @@
         "y": 165.0
       },
       "currentHp": 50.0
-    },
-    {
-      "name": "hellie",
-      "position": {
-        "x": 1175.0,
-        "y": 165.0
-      },
-      "currentHp": 90.0
     }
   ],
   "birds": [
@@ -35,40 +27,16 @@
   ],
   "blocks": [
     {
-      "texture": "glass_vertical_stick.png",
-      "position": {
-        "x": 1299.0511,
-        "y": 245.01637
-      },
-      "dimension": {
-        "x": 50.0,
-        "y": 220.0
-      },
-      "currentHp": 90.0
-    },
-    {
       "texture": "stone_vertical_stick.png",
       "position": {
-        "x": 1549.0511,
-        "y": 245.01637
+        "x": 1549.3215,
+        "y": 245.02335
       },
       "dimension": {
-        "x": 50.0,
+        "x": 30.0,
         "y": 220.0
       },
       "currentHp": 200.0
-    },
-    {
-      "texture": "wood_vertical_stick.png",
-      "position": {
-        "x": 1051.4122,
-        "y": 245.01637
-      },
-      "dimension": {
-        "x": 50.0,
-        "y": 220.0
-      },
-      "currentHp": 30.0
     }
   ]
 }

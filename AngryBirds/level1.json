@@ -22,8 +22,32 @@
     {
       "texture": "stone_vertical_stick.png",
       "position": {
-        "x": 1499.1345,
-        "y": 255.00824
+        "x": 1200.1179,
+        "y": 172.01796
+      },
+      "dimension": {
+        "x": 70.0,
+        "y": 74.0
+      },
+      "currentHp": 100.0
+    },
+    {
+      "texture": "stone_vertical_stick.png",
+      "position": {
+        "x": 1250.5625,
+        "y": 255.02423
+      },
+      "dimension": {
+        "x": 30.0,
+        "y": 240.0
+      },
+      "currentHp": 100.0
+    },
+    {
+      "texture": "stone_vertical_stick.png",
+      "position": {
+        "x": 1499.147,
+        "y": 255.019
       },
       "dimension": {
         "x": 30.0,

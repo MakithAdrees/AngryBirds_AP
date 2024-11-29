@@ -1,12 +1,18 @@
 package com.angrybirds.game;
 
+import com.angrybirds.game.Screen.Level1Save;
 import com.angrybirds.game.Screen.LoadingScreen;
+import com.angrybirds.game.Screen.UserLevelsCleared;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileReader;
 
 public class Main extends Game {
     public SpriteBatch batch;
@@ -14,6 +20,20 @@ public class Main extends Game {
     public boolean musicOn = true, lev1 = false, lev2 = false, lev3 = false, lev4 = false;
     @Override
     public void create(){
+        File f = new File("cleared.json");
+        if (!f.exists()){
+            try{f.createNewFile();}
+            catch (Exception e){
+                e.printStackTrace();}}
+        Gson gson = new Gson();
+        try(FileReader file = new FileReader("cleared.json")){
+            UserLevelsCleared load = gson.fromJson(file, UserLevelsCleared.class);
+            lev1 = load.Level1;
+            lev2 = load.Level2;
+            lev3 = load.Level3;
+            lev4 = load.Level4;}
+        catch (Exception e){
+            e.printStackTrace();}
         batch = new SpriteBatch();
         assetManager = new AssetManager();
 

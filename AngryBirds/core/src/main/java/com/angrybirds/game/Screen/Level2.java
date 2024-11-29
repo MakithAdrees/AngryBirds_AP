@@ -1084,5 +1084,20 @@ public class Level2 implements Screen, InputProcessor {
             gson.toJson(save, writer);
             System.out.println("level 2 saved!");}
         catch (IOException e) {
-            e.printStackTrace();}}
+            e.printStackTrace();}
+
+        File f = new File("cleared.json");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }}
+            UserLevelsCleared clear = new UserLevelsCleared(game.lev1, game.lev2, game.lev3, game.lev4);
+            try (FileWriter writer = new FileWriter("cleared.json")) {
+                gson.toJson(clear, writer);
+                System.out.println("level cleared saved!");
+            } catch (IOException e) {
+                e.printStackTrace();}
+    }
 }

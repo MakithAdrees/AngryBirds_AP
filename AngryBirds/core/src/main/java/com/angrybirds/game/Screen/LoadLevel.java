@@ -705,7 +705,7 @@ public class LoadLevel implements Screen, InputProcessor {
 
                 selectedBird.setPosition(newX, newY);
 
-                velocityY += -130 * tim;
+                velocityY += -1000 * tim;
                 selectedBird.brdBody.setLinearVelocity(velocityX, velocityY);
 
                 if (selectedBird.brdBody.getLinearVelocity().x <= 0 && selectedBird.brdBody.getLinearVelocity().y >= 0 || selectedBird.brdBody.getLinearVelocity().x < 40f) {
@@ -745,7 +745,10 @@ public class LoadLevel implements Screen, InputProcessor {
             menu2.setVisible(true);
             restart2.setVisible(true);
             next.setVisible(true);
-            levelwon = true;}
+            levelwon = true;
+            lostscreen.setVisible(false);
+            meun3.setVisible(false);
+            restart3.setVisible(false);}
 
         if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);
@@ -1096,5 +1099,20 @@ public class LoadLevel implements Screen, InputProcessor {
             gson.toJson(save, writer);
             System.out.println("level saved!");}
         catch (IOException e) {
-            e.printStackTrace();}}
+            e.printStackTrace();}
+
+        File f = new File("cleared.json");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }}
+            UserLevelsCleared clear = new UserLevelsCleared(game.lev1, game.lev2, game.lev3, game.lev4);
+            try (FileWriter writer = new FileWriter("cleared.json")) {
+                gson.toJson(clear, writer);
+                System.out.println("level cleared saved!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }}
 }
