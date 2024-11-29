@@ -42,6 +42,7 @@ levelmusic.mp3
 levelsmenu.png
 libgdx.png
 load.png
+load_button.png
 loadingimage.jpg
 login.png
 lost.png

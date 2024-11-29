@@ -71,6 +71,7 @@ public class Level4 implements Screen, InputProcessor {
     public Texture catapult;
 
     private boolean paused = false;
+    private boolean levelwon = false;
 
     ArrayList<Bird> birds = new ArrayList<>();
     ArrayList<Block> blocks_list = new ArrayList<>();
@@ -387,7 +388,7 @@ public class Level4 implements Screen, InputProcessor {
         restart3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
-                game.setScreen(new Level1(game, gamecam, gameport));}});
+                game.setScreen(new Level4(game, gamecam, gameport));}});
         meun3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
@@ -682,9 +683,10 @@ public class Level4 implements Screen, InputProcessor {
             victoryscreen.setVisible(true);
             menu2.setVisible(true);
             restart2.setVisible(true);
-            next.setVisible(true);}
+            next.setVisible(true);
+            levelwon = true;}
 
-        else if (birds.isEmpty()) {
+        else if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);
             meun3.setVisible(true);
             restart3.setVisible(true);}

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -20,6 +21,7 @@ public class Levels implements Screen {
     final private Texture bg;
     final private ImageButton  load, loadtable, musicon, musicoff, back, mylevel;
     final private ImageButton level1, level2, level3, level4;
+    final private ImageButton savel1, savel2, savel3, savel4;
     final private Main game;
     final private OrthographicCamera gamecam;
     final private Viewport gameport;
@@ -94,6 +96,14 @@ public class Levels implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(new Level4(game, cam, port));}});
 
+        Texture loadbut = game.assetManager.get("load_button.png", Texture.class);
+        TextureRegion loadbut1 = new TextureRegion(loadbut);
+        TextureRegionDrawable loadbut2 = new TextureRegionDrawable(loadbut1);
+        savel1 = new ImageButton(loadbut2);
+        savel2 = new ImageButton(loadbut2);
+        savel3 = new ImageButton(loadbut2);
+        savel4 = new ImageButton(loadbut2);
+
         Texture bac = game.assetManager.get("back.png", Texture.class);
         TextureRegion b = new TextureRegion(bac);
         TextureRegionDrawable b2 = new TextureRegionDrawable(b);
@@ -157,18 +167,60 @@ public class Levels implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Loading");
-                if (loadtable.isVisible())
+                if (loadtable.isVisible()){
                     loadtable.setVisible(false);
-                else
-                    loadtable.setVisible(true);}});
+                    savel1.setVisible(false);
+                    savel2.setVisible(false);
+                    savel3.setVisible(false);
+                    savel4.setVisible(false);}
+                else{
+                    savel1.setVisible(true);
+                    if (game.lev1)
+                        savel2.setVisible(true);
+                    if (game.lev2)
+                        savel3.setVisible(true);
+                    if (game.lev3)
+                        savel4.setVisible(true);
+                    loadtable.setVisible(true);}}});
 
-        loadtable.addListener(new ClickListener(){
+        savel1.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Level1(game, cam, port));}});
+                game.setScreen(new LoadLevel(game, cam, port, "level1.json"));}});
+        savel2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new LoadLevel(game, cam, port, "level2.json"));}});
+        savel3.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new LoadLevel(game, cam, port, "level3.json"));}});
+        savel4.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new LoadLevel(game, cam, port, "level4.json"));}});
+
+//        loadtable.addListener(new ClickListener(){
+//            @Override
+//            public void clicked(InputEvent event, float x, float y){
+//                game.setScreen(new Level1(game, cam, port));}});
         stage.addActor(load);
         stage.addActor(loadtable);
         loadtable.setVisible(false);
+
+        savel1.setPosition(1000, 630);
+        savel2.setPosition(1000, 460);
+        savel3.setPosition(1000, 290);
+        savel4.setPosition(1000, 120);
+        stage.addActor(savel1);
+        stage.addActor(savel2);
+        stage.addActor(savel3);
+        stage.addActor(savel4);
+        savel1.setVisible(false);
+        savel2.setVisible(false);
+        savel3.setVisible(false);
+        savel4.setVisible(false);
+
     Gdx.input.setInputProcessor(stage);}
 
     @Override

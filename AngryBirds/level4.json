@@ -1,0 +1,112 @@
+{
+  "pigs": [
+    {
+      "name": "Normie",
+      "position": {
+        "x": 1175.0,
+        "y": 165.0
+      },
+      "currentHp": 50.0
+    },
+    {
+      "name": "hellie",
+      "position": {
+        "x": 1375.0,
+        "y": 165.0
+      },
+      "currentHp": 90.0
+    }
+  ],
+  "birds": [
+    {
+      "name": "Red",
+      "position": {
+        "x": 250.0,
+        "y": 150.0
+      }
+    },
+    {
+      "name": "Chuck",
+      "position": {
+        "x": 200.0,
+        "y": 150.0
+      }
+    },
+    {
+      "name": "Bomb",
+      "position": {
+        "x": 140.0,
+        "y": 150.0
+      }
+    },
+    {
+      "name": "Terrance",
+      "position": {
+        "x": 70.0,
+        "y": 150.0
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1099.5035,
+        "y": 255.01915
+      },
+      "dimension": {
+        "x": 20.0,
+        "y": 240.0
+      },
+      "currentHp": 125.0
+    },
+    {
+      "texture": "glass_horizontal_stick.png",
+      "position": {
+        "x": 1190.1077,
+        "y": 385.01343
+      },
+      "dimension": {
+        "x": 215.0,
+        "y": 20.0
+      },
+      "currentHp": 90.0
+    },
+    {
+      "texture": "stone_vertical_stick.png",
+      "position": {
+        "x": 1299.7993,
+        "y": 255.01564
+      },
+      "dimension": {
+        "x": 20.0,
+        "y": 240.0
+      },
+      "currentHp": 200.0
+    },
+    {
+      "texture": "glass_horizontal_stick.png",
+      "position": {
+        "x": 1408.6782,
+        "y": 385.01456
+      },
+      "dimension": {
+        "x": 215.0,
+        "y": 20.0
+      },
+      "currentHp": 90.0
+    },
+    {
+      "texture": "wood_vertical_stick.png",
+      "position": {
+        "x": 1499.9313,
+        "y": 255.0188
+      },
+      "dimension": {
+        "x": 20.0,
+        "y": 240.0
+      },
+      "currentHp": 125.0
+    }
+  ]
+}

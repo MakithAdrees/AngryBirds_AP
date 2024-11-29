@@ -63,6 +63,7 @@ public class Level3 implements Screen, InputProcessor {
     private World wld;
     private Box2DDebugRenderer dbgrndr;
     private InputMultiplexer inputMultiplexer;
+    private boolean levelwon = false;
 
     private TextureRegion wd_rg;
 
@@ -356,7 +357,9 @@ public class Level3 implements Screen, InputProcessor {
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 game.lev3 = true;
-                game.setScreen(new Level4(game, cam, port));}});
+                game.setScreen(new Level4(game, cam, port));
+//                game.setScreen(new LoadLevel(game, cam, port, "level3.json"));
+            }});
 
         meun3 = new ImageButton(u2);
         meun3.setPosition((gameport.getWorldWidth()) / 2 + 70, 50);
@@ -370,7 +373,7 @@ public class Level3 implements Screen, InputProcessor {
         restart3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
-                game.setScreen(new Level1(game, gamecam, gameport));}});
+                game.setScreen(new Level3(game, gamecam, gameport));}});
         meun3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
@@ -673,9 +676,10 @@ public class Level3 implements Screen, InputProcessor {
             victoryscreen.setVisible(true);
             menu2.setVisible(true);
             restart2.setVisible(true);
-            next.setVisible(true);}
+            next.setVisible(true);
+            levelwon = true;}
 
-        else if (birds.isEmpty()) {
+        else if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);
             meun3.setVisible(true);
             restart3.setVisible(true);}

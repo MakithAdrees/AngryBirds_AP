@@ -66,7 +66,7 @@ public class Level1 implements Screen, InputProcessor {
     private Box2DDebugRenderer dbgrndr;
     private InputMultiplexer inputMultiplexer;
 
-
+    private boolean levelwon = false;
     private Body groundBody;
 
     public Texture catapult;
@@ -114,8 +114,8 @@ public class Level1 implements Screen, InputProcessor {
         glass_texture = game.assetManager.get("glass_horizontal_stick.png", Texture.class);
 
 //        glass = new Glass(wld, glass_texture, new Vector2(1400, 390), new Vector2(Math.abs(stone_texture.getWidth()), Math.abs(stone_texture.getHeight() - 50)));
-        wood1 = new Wood(wld, wood_texture, new Vector2(1200, 252), new Vector2(Math.abs(wood_texture.getWidth() - 40), Math.abs(wood_texture.getHeight() + 20)));
-        wood2 = new Wood(wld, wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 40), Math.abs(wood_texture.getHeight() + 20)));
+        wood1 = new Wood(wld, wood_texture, new Vector2(1300, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
+        wood2 = new Wood(wld, wood_texture, new Vector2(1500, 252), new Vector2(Math.abs(wood_texture.getWidth() - 90), Math.abs(wood_texture.getHeight() + 20)));
 
 
         birds.add(Red);
@@ -374,6 +374,7 @@ public class Level1 implements Screen, InputProcessor {
             public void clicked(InputEvent e, float x, float y) {
                 game.lev1 = true;
                 game.setScreen(new Level2(game, cam, port));
+//                game.setScreen(new LoadLevel(game, cam, port, "level1.json"));
             }
         });
 
@@ -682,7 +683,8 @@ public class Level1 implements Screen, InputProcessor {
             menu2.setVisible(true);
             restart2.setVisible(true);
             next.setVisible(true);
-        } else if (birds.isEmpty()) {
+            levelwon = true;
+        } else if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);
             meun3.setVisible(true);
             restart3.setVisible(true);

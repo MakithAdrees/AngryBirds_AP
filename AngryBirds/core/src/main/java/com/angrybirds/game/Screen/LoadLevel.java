@@ -30,13 +30,12 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.InputProcessor;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
 
-
-import java.io.FileReader;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 import static com.angrybirds.game.Birds.Bird.GRAVITY;
@@ -69,7 +68,7 @@ public class LoadLevel implements Screen, InputProcessor {
 
     public Texture catapult;
 
-    private boolean paused = false;
+    private boolean paused = false, levelwon = false;
 
     ArrayList<Bird> birds = new ArrayList<>();
     ArrayList<Block> blocks_list = new ArrayList<>();
@@ -212,8 +211,16 @@ public class LoadLevel implements Screen, InputProcessor {
         TextureRegionDrawable u2 = new TextureRegionDrawable(u1);
         menu = new ImageButton(u2);
         menu.setPosition((gameport.getWorldWidth()) / 2 - 230, 250);
-
-        Texture b = game.assetManager.get("pausescreen2.png", Texture.class);
+        String text;
+        if (filename.contains("level1"))
+            text = "pausescreen1.png";
+        else if (filename.contains("level2"))
+            text = "pausescreen2.png";
+        else if (filename.contains("level3"))
+            text = "pausescreen3.png";
+        else
+            text = "pausescreen4.png";
+        Texture b = game.assetManager.get(text, Texture.class);
         TextureRegion b2 = new TextureRegion(b);
         TextureRegionDrawable b3 = new TextureRegionDrawable(b2);
         pausemenu = new ImageButton(b3);
@@ -317,7 +324,14 @@ public class LoadLevel implements Screen, InputProcessor {
 //                musicoff.setVisible(false);
 //                musicon.setVisible(false);
                 theme.dispose();
-                game.setScreen(new Level2(game, cam, port));}});
+                if (filename.contains("level1"))
+                    game.setScreen(new Level1(game, gamecam, gameport));
+                else if (filename.contains("level2"))
+                    game.setScreen(new Level2(game, gamecam, gameport));
+                else if (filename.contains("level3"))
+                    game.setScreen(new Level3(game, gamecam, gameport));
+                else if (filename.contains("level4"))
+                    game.setScreen(new Level4(game, gamecam, gameport));}});
 
         menu.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
@@ -327,6 +341,7 @@ public class LoadLevel implements Screen, InputProcessor {
         save.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
 //                game.setScreen(new Levels(game, cam, port));
+                serialize();
             }});
 
         Texture v = game.assetManager.get("victory.png", Texture.class);
@@ -382,18 +397,45 @@ public class LoadLevel implements Screen, InputProcessor {
 
         restart2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.lev2 = true;
                 theme.dispose();
-                game.setScreen(new Level2(game, gamecam, gameport));}});
+                if (filename.contains("level1")){
+                    game.lev1 = true;
+                    game.setScreen(new Level1(game, gamecam, gameport));}
+                else if (filename.contains("level2")){
+                    game.lev2 = true;
+                    game.setScreen(new Level2(game, gamecam, gameport));}
+                else if (filename.contains("level3")){
+                    game.lev3 = true;
+                    game.setScreen(new Level3(game, gamecam, gameport));}
+                else if (filename.contains("level4")){
+                    game.lev4 = true;
+                    game.setScreen(new Level4(game, gamecam, gameport));}}});
         menu2.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.lev2 = true;
+                if (filename.contains("level1"))
+                    game.lev1 = true;
+                else if (filename.contains("level2"))
+                    game.lev2 = true;
+                else if (filename.contains("level3"))
+                    game.lev3 = true;
+                else if (filename.contains("level4"))
+                    game.lev4 = true;
                 theme.dispose();
                 game.setScreen(new Levels(game, cam, port));}});
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                game.lev2 = true;
-                game.setScreen(new Level3(game, cam, port));}});
+                if (filename.contains("level1")){
+                    game.lev1 = true;
+                    game.setScreen(new Level2(game, gamecam, gameport));}
+                else if (filename.contains("level2")){
+                    game.lev2 = true;
+                    game.setScreen(new Level3(game, gamecam, gameport));}
+                else if (filename.contains("level3")){
+                    game.lev3 = true;
+                    game.setScreen(new Level4(game, gamecam, gameport));}
+                else if (filename.contains("level4")){
+                    game.lev4 = true;
+                    game.setScreen(new Levels(game, gamecam, gameport));}}});
 
         meun3 = new ImageButton(u2);
         meun3.setPosition((gameport.getWorldWidth()) / 2 + 70, 50);
@@ -702,9 +744,10 @@ public class LoadLevel implements Screen, InputProcessor {
             victoryscreen.setVisible(true);
             menu2.setVisible(true);
             restart2.setVisible(true);
-            next.setVisible(true);}
+            next.setVisible(true);
+            levelwon = true;}
 
-        if (birds.isEmpty()) {
+        if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);
             meun3.setVisible(true);
             restart3.setVisible(true);}
@@ -1023,4 +1066,35 @@ public class LoadLevel implements Screen, InputProcessor {
     @Override
     public void dispose() {
         theme.dispose();}
+
+    public void serialize() {
+        ArrayList<BirdSave> BirdsRemaining = new ArrayList<>();
+        for (Bird bird : birds) {
+            BirdsRemaining.add(new BirdSave(bird.getName(), bird.position));}
+
+        ArrayList<PigSave> PigsRemaining = new ArrayList<>();
+        for (Pig pig : pig_list) {
+            PigsRemaining.add(new PigSave(pig.getName(), pig.position, pig.getCurrentHp()));}
+
+        ArrayList<BlockSave> BlocksRemaining = new ArrayList<>();
+        for (Block block : blocks_list) {
+            BlocksRemaining.add(new BlockSave(block.Block_Texture.toString(), block.getPosition(), block.dimension, block.currentHp));}
+
+        File file = new File(filename);
+        if (!file.exists()){
+            try {
+                file.createNewFile();}
+            catch (IOException e) {
+                e.printStackTrace();}}
+        Level1Save save = new Level1Save();
+        save.birds = BirdsRemaining;
+        save.pigs = PigsRemaining;
+        save.blocks = BlocksRemaining;
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(filename)) {
+            gson.toJson(save, writer);
+            System.out.println("level saved!");}
+        catch (IOException e) {
+            e.printStackTrace();}}
 }

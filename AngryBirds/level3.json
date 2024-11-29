@@ -1,12 +1,12 @@
 {
   "pigs": [
     {
-      "name": "Normie",
+      "name": "Foreman",
       "position": {
-        "x": 1355.0,
+        "x": 1375.0,
         "y": 165.0
       },
-      "currentHp": 50.0
+      "currentHp": 100.0
     }
   ],
   "birds": [
@@ -18,14 +18,14 @@
       }
     },
     {
-      "name": "Chuck",
+      "name": "Blues",
       "position": {
         "x": 140.0,
         "y": 150.0
       }
     },
     {
-      "name": "Bomb",
+      "name": "Terrance",
       "position": {
         "x": 70.0,
         "y": 150.0
@@ -34,10 +34,22 @@
   ],
   "blocks": [
     {
+      "texture": "glass_horizontal_stick.png",
+      "position": {
+        "x": 1399.2747,
+        "y": 385.00473
+      },
+      "dimension": {
+        "x": 220.0,
+        "y": 20.0
+      },
+      "currentHp": 90.0
+    },
+    {
       "texture": "wood_vertical_stick.png",
       "position": {
-        "x": 1299.841,
-        "y": 255.02185
+        "x": 1299.6602,
+        "y": 255.02072
       },
       "dimension": {
         "x": 20.0,
@@ -48,8 +60,8 @@
     {
       "texture": "wood_vertical_stick.png",
       "position": {
-        "x": 1499.841,
-        "y": 255.02185
+        "x": 1499.57,
+        "y": 255.01974
       },
       "dimension": {
         "x": 20.0,

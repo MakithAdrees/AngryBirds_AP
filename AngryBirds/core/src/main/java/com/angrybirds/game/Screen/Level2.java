@@ -54,7 +54,7 @@ public class Level2 implements Screen, InputProcessor {
     private Bomb Bomb;
     private NormalPigs minion;
     private HelmetPig soldier;
-
+    private boolean levelwon = false;
     private Glass glass;
     private Wood wood1, wood2, wood3, wood4;
     private Stone stone;
@@ -363,7 +363,9 @@ public class Level2 implements Screen, InputProcessor {
         next.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 game.lev2 = true;
-                game.setScreen(new Level3(game, cam, port));}});
+                game.setScreen(new Level3(game, cam, port));
+//                game.setScreen(new LoadLevel(game, cam, port, "level2.json"));
+            }});
 
         meun3 = new ImageButton(u2);
         meun3.setPosition((gameport.getWorldWidth()) / 2 + 70, 50);
@@ -377,7 +379,7 @@ public class Level2 implements Screen, InputProcessor {
         restart3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
-                game.setScreen(new Level1(game, gamecam, gameport));}});
+                game.setScreen(new Level2(game, gamecam, gameport));}});
         meun3.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 theme.dispose();
@@ -672,9 +674,10 @@ public class Level2 implements Screen, InputProcessor {
             victoryscreen.setVisible(true);
             menu2.setVisible(true);
             restart2.setVisible(true);
-            next.setVisible(true);}
+            next.setVisible(true);
+            levelwon = true;}
 
-        if (birds.isEmpty()) {
+        if (birds.isEmpty() && !levelwon) {
             lostscreen.setVisible(true);
             meun3.setVisible(true);
             restart3.setVisible(true);}
